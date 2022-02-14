@@ -1,8 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { env } = require('process');
 
 module.exports = {
-  mode: 'development',
+  mode: env.NODE_ENV,
   entry: path.resolve(__dirname, 'client/index.js'),
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -16,7 +17,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/, // <--------- might be syntax that includes both .js and .jsx 
+        test: /\.jsx?/, 
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -25,9 +26,25 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        use: ['file-loader'],
+      },
     ],
   },
   resolve: {
     extensions: ['', '.jsx', '.js'],
   },
+  devServer: {
+    static: {
+      publicPath: path.join(__dirname, 'build')
+    },
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
+  }
 };
