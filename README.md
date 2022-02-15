@@ -1,32 +1,32 @@
 # pgScale
 
-## Table of Contents
+# Table of Contents
 
 > - [Description]()  
 > - [Features]()  
 > - [How to Use]()  
 > - [Technologies]()  
->   - [Dependencies]()  
+> - [Dependencies]()  
 > - [Collaborators]()  
 > - [License]()  
 
-## Description
+# Description
 
 Dynamic forecasting of PostgreSQL database performance. Problem. Solution. Why we built it.
 
-## Features
+# Features
 
 So many great features to come!
 
-## How to Use
+# How to Use
 
 A hosted version is available [at this link](#).
 
 If you prefer to run it locally, you can also fork and clone the repository and run the production version locally using `node server/server.js` at the root directory.
 
-A step-by-step tutorial is also available [here]().
+A step-by-step tutorial is also available [here](/TUTORIAL.md).
 
-## Technologies
+# Technologies
 
 - Node
 - React
@@ -34,7 +34,7 @@ A step-by-step tutorial is also available [here]().
 - PostgreSQL
 - etc...
 
-### Dependencies
+# Dependencies
 
 - [express]()  
 - [pg]()  
@@ -42,7 +42,7 @@ A step-by-step tutorial is also available [here]().
 - [react-dom]()  
 - [cookie-parser]()  
 
-## Collaborators
+# Collaborators
 
 - [Chloe Angel]()  
 - [Sankari Ayyaluru]()  
@@ -50,6 +50,6 @@ A step-by-step tutorial is also available [here]().
 - [Nick Ozawa]()  
 - [Aram Paparian]()    
 
-## License
+# License
 
 This project is available under the MIT License.
