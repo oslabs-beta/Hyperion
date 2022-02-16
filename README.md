@@ -1,4 +1,4 @@
-# pgScale
+# Hyperion
 
 # Table of Contents
 
@@ -40,7 +40,7 @@ A step-by-step tutorial is also available [here](/TUTORIAL.md).
 - [pg]()  
 - [react]()  
 - [react-dom]()  
-- [cookie-parser]()  
+- [cookie-parser]()
 
 # Collaborators
 
