@@ -2,11 +2,10 @@
 import * as types from '../constants/actionTypes';
 
 //-------------------------ADD DATABASE ---------------------------
-export const addDatabase = (uri, host, port, database, user, password, sslmode, name, connect, savepw) => ({
+export const addDb = (name, uri, host, port, database, user, password, sslmode, connect, savepw) => ({
 type: types.ADD_DB,
-payload: [ uri, host, port, database, user, password, sslmode, name, connect, savepw]
+payload: { name, uri, host, port, database, user, password, sslmode, connect, savepw}
 })
-
 // ----------------------------------------------------------------
 
 
@@ -15,8 +14,6 @@ export const deleteDatabase = (databaseId) => ({
 type: types.DELETE_DB,
 payload: databaseId
 })
-    
-
 // -----------------------------------------------------------------
 
 
@@ -24,5 +21,4 @@ payload: databaseId
 export const connectDatabase = () => {
     
 }
-
 // -----------------------------------------------------------------
