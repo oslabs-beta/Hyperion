@@ -31,9 +31,15 @@
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+<<<<<<< HEAD
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-devtools-extension": "^2.13.9"
+=======
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.1",
     "styled-components": "^5.3.3"
+>>>>>>> dev
   },
   "devDependencies": {
     "@babel/core": "^7.17.2",
