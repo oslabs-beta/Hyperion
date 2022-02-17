@@ -1,4 +1,3 @@
-const { RowDescriptionMessage } = require('pg-protocol/dist/messages');
 const aws = require('../models/dbModel.js');
 
 const dbController = {};
