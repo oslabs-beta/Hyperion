@@ -1,8 +1,8 @@
 {
-  "name": "pgscale",
+  "name": "hyperion",
   "version": "1.0.0",
   "description": "Dynamic forecasting of PostgreSQL database performance",
-  "main": "index.js",
+  "main": "client/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oslabs-beta/pgScale.git"
+    "url": "git+https://github.com/oslabs-beta/hyperion.git"
   },
   "author": "Chloe Angel, Sankari Ayyaluru, Celene Chang, Nick Ozawa, Aram Paparian",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/pgScale/issues"
+    "url": "https://github.com/oslabs-beta/hyperion/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/pgScale#readme",
+  "homepage": "https://github.com/oslabs-beta/hyperion#readme",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
