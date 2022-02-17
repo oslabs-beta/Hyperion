@@ -1,8 +1,23 @@
-body {
-    background: blue
+html, body {
+  height: 100%; 
+  width: 100%;
+  min-width: 600px;
+  overflow-y: hidden; /* Prevents the bounce when scrolling off page. This might cause problems if we have overflow-y: scroll in other elements */
+  color: rgb(41, 41, 41);
 }
 
-div {
-  color: yellow;
-  text-align: center;
+body {
+  margin: 0px; 
+  
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: rgb(246, 248, 251);
+}
+
+#app {
+  /* max-width: 1200px;  Aesthetically may need to add a max width and center the app horizontally with dark edges */
+  /* min-width: 600px; May need to set a minimum width to prevent window resizing to be too small */
+  
+  height: 100%;
+  left: 50%;
 }
