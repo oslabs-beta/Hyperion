@@ -46,6 +46,7 @@ const StyledCard = styled.div`
   flex-direction: column; 
   border: 1.5px solid black;
   row-gap: 10px;
+  margin-bottom: 1em;
   padding: 1em 2em;
   border-radius: 10px;
   background-color: rgb(250, 250, 250);

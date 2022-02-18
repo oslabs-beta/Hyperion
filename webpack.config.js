@@ -40,6 +40,7 @@ module.exports = {
     extensions: ['', '.jsx', '.js'],
   },
   devServer: {
+    historyApiFallback: true, 
     static: {
       publicPath: path.join(__dirname, 'build')
     },

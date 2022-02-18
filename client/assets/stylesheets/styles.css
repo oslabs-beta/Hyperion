@@ -15,9 +15,8 @@ body {
 }
 
 #app {
-  /* max-width: 1200px;  Aesthetically may need to add a max width and center the app horizontally with dark edges */
-  /* min-width: 600px; May need to set a minimum width to prevent window resizing to be too small */
-  
+  max-width: 1200px;  /*Aesthetically may need to add a max width and center the app horizontally with dark edges */
+
   height: 100%;
   left: 50%;
 }

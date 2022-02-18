@@ -6,7 +6,7 @@ import { FormControl, InputLabel } from '@mui/material';
 import { Input } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 
-const NewDatabaseWindow = (props) => {
+const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
   // might need to bring this state up
   const [isConnectingByUri, setIsConnectingByUri] = useState(true); 
 
@@ -45,7 +45,7 @@ const NewDatabaseWindow = (props) => {
           <FormControl>
             <InputLabel htmlFor='database'>Database</InputLabel>
             <Input id='database' type='text' />
-            <FormHelperText id="my-helper-text">Name of database</FormHelperText>
+            <FormHelperText id="database-helper-text">Name of database</FormHelperText>
           </FormControl>
           <FormControl>
             <InputLabel htmlFor='username'>Username</InputLabel>
@@ -61,9 +61,8 @@ const NewDatabaseWindow = (props) => {
           </FormControl>
         </form>
       }
-      <Button size='small' variant='contained'>Submit</Button>
+      <Button type='submit' size='small' variant='contained'>Submit</Button>
     </StyledWindow>
-    
   )
 }
 

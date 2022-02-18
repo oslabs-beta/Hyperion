@@ -1,10 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import VerticalNavbar from '../components/VerticalNavbar';
 import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
+import { addDb } from "../reducers/dbReducer";
+import { connect } from "react-redux";
 
-const Databases = (props) => {
+
+
+// ---------------- dispatch ------------ // 
+const mapStateToProps = (state) =>({
+  databaseList: state.db.databaseList,
+});
+
+
+// const mapDispatchToProps = (dispatch) => ({
+//   add: (paramsFromComponent) => {
+//     const thunkFn = addDb(); // thunkfunc takes in dispatch, getState
+//     dispatch(thunkFn(dispatch, getState?, ourArguments)); // does dispatch invoke thunkFUnc? how do we pass in arguments 
+//   }
+// });
+
+const mapDispatchToProps = (dispatch) => ({
+  addDb: () => {
+    fetch('/api/db/new', )// ifll in rest 
+      .then(res => res.json())
+      .then(data => {
+        // data.isConnected=true; 
+        dispatch({ action: 'EXAMPLE', payload: data })
+      })
+  }
+})
+
+// -------- main component ---------- //
+const Databases = (props) => {  
+
+
   return (
     <StyledContainer>
       <VerticalNavbar />
@@ -12,15 +43,19 @@ const Databases = (props) => {
         <h4>My Databases</h4>
         {/* example */}
         <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
-
-
+        {/* {databaseList.map(database => {
+          return <DatabaseCard id={database.id} database={database.database} port={database.port} user={database.user} ssl={database.ssl} />
+        })} */}
+        <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+        <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
       </div>
-      <NewDatabaseWindow />
+      <NewDatabaseWindow addDbFunc={props.addDb}/>
     </StyledContainer>
   )
 }
 
 
+// ----------- styled component ---------- // 
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: row; 
@@ -32,8 +67,10 @@ const StyledContainer = styled.div`
     background-color: rgb(220, 220 ,220); 
     width: 100%;
     padding: 1em 2em;
+    overflow-y: scroll;
   }
 
 `;
 
+connect(mapStateToProps, mapDispatchToProps)(Databases);
 export default Databases

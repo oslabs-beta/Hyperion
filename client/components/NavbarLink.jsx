@@ -11,12 +11,10 @@ const NavbarLink = (props) => {
     style
   } = props; 
 
-
   return (
     <LinkContainer style={style}>
-      {icon}  
-      {displayText}
-      {/* <Link to={linkPath}>{displayText}</Link>  ADD LATER */}
+      {icon}
+      <Link className='link' to={linkPath}>{displayText}</Link> 
     </LinkContainer>
   )
 }
@@ -32,6 +30,11 @@ const LinkContainer = styled.div`
   padding: 1em 2em;
   &:hover {
     background-color: rgb(119, 87, 193);
+  }
+
+  .link {
+    text-decoration: none; 
+    color: inherit; 
   }
 `;
 
