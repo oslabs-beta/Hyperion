@@ -3,11 +3,8 @@ import { addDatabse } from '../actions/actions.js';
 
 
 const initialState = { 
-userId: null, 
-lastDbId: null,
-databaseList: [{name:. connection: }]
-schemaList: [], 
-queryList: [],
+databaseInfo: {},
+
 };
 
 const dbReducer = (state = initialState, action) => {
@@ -15,8 +12,9 @@ const dbReducer = (state = initialState, action) => {
     const copyState = {...state};
     switch (action.type) {
         case types.ADD_DB:
-        const newDatabaseList = state.databaseList.slice()
-        if (!state.databaseList.includes(action.payload)) newDatabaseList.push(action.payload);
+        const newDatabaseInfo = state.databaseInfo
+        if (!state.databaseInfo.)
+
         return {
             ...copyState,
             databaseList: newDatabaseList,
@@ -35,6 +33,7 @@ const dbReducer = (state = initialState, action) => {
             databaseList: newDatabaseList,
         };
         case types.CONNECT_DB: 
+        if (action.payload.connect === false)
         return {
             ...copyState,
         };
@@ -65,3 +64,13 @@ export const fetchDbs = () => {
 
 
 export default dbReducer;
+
+/*//  const copyState = {...state};
+switch (action.type) {
+    case types.ADD_DB:
+    const newDatabaseList = state.databaseList.slice()
+    if (!state.databaseList.includes(action.payload)) newDatabaseList.push(action.payload);
+    return {
+        ...copyState,
+        databaseList: newDatabaseList,
+    } /*/
