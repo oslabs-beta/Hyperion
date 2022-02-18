@@ -22,14 +22,23 @@ const mapStateToProps = (state) =>({
 // });
 
 const mapDispatchToProps = (dispatch) => ({
-  addDb: () => {
-    fetch('/api/db/new', )// ifll in rest 
+  // incomplete 
+  addDb: (formObject) => {
+    fetch('/api/db/new', )
       .then(res => res.json())
       .then(data => {
         // data.isConnected=true; 
-        dispatch({ action: 'EXAMPLE', payload: data })
+        dispatch({ action: 'EXAMPLE', payload: formObject })
+      })
+  }, 
+  deleteDb: (id) => {
+    fetch(`/api/db/delete/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        dispatch({ action: 'DELETE_DB', payload: data })
       })
   }
+
 })
 
 // -------- main component ---------- //
@@ -42,7 +51,7 @@ const Databases = (props) => {
       <div className='database-group'>
         <h4>My Databases</h4>
         {/* example */}
-        <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+        <DatabaseCard  database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
         {/* {databaseList.map(database => {
           return <DatabaseCard id={database.id} database={database.database} port={database.port} user={database.user} ssl={database.ssl} />
         })} */}

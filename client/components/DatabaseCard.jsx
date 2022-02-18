@@ -5,6 +5,8 @@ import { Button } from '@mui/material';
 
 const DatabaseCard = (props) => {
   const {
+    id, 
+    deleteDbFunc
     database, 
     port, 
     user, 
@@ -75,6 +77,8 @@ const StyledCard = styled.div`
 
 
 DatabaseCard.propTypes = {
+  id: PropTypes.number.isRequired,
+  deleteDbFunc: PropTypes.
   database: PropTypes.string.isRequired,
   port: PropTypes.number.isRequired, 
   user: PropTypes.string.isRequired, 
