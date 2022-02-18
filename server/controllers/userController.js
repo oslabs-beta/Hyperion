@@ -107,13 +107,30 @@ userController.login = (req, res, next) => {
 
 userController.logout = (req, res, next) => {
   // this will overwrite prev ssid and end curr session 
-  res.cookie('ssid', uuid.v4(), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+  res.cookie('ssid', '', { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
   return next();
 }
 
 // checking session cookie, making sure its a valid session and assoc w/ user if it is 
 //global middleware, import into server js 
 userController.authenticate = (req, res, next) => {
+
+  res.locals.userAuth = {
+    authenticated: false,
+    userId: null,
+    username: null
+  };
+
+  //check if session id corresponds with the user id 
+  // Step 1: check the ssid cookie and get its value
+  if(!req.cookies.ssid) return next();
+  
+  // Step 2: query database on sessions and join with users to get the userid and username
+  // const ssidQuery =
+  // Step 2.1: if the result is not empty then update the res.locals.userAuth object
+
+  // Step 3 return next();
+
   next();
 }
 
