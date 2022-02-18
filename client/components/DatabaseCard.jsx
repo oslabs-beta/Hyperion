@@ -48,8 +48,6 @@ const DatabaseCard = (props) => {
         }
         <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Delete</Button>
       </div>
-
-
     </StyledCard>
   )
 }

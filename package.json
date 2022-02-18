@@ -33,7 +33,11 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
+<<<<<<< HEAD
     "redux-devtools-extension": "^2.13.9",
+=======
+    "redux-devtools-extension": "^2.13.9"
+>>>>>>> 9aa93c011fec584047f82fa7b6d08c2cb54a5a4c
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.1",
     "styled-components": "^5.3.3"
