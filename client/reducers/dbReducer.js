@@ -5,7 +5,7 @@ import { addDatabse } from '../actions/actions.js';
 const initialState = { 
 userId: null, 
 lastDbId: null,
-databaseList: [],
+databaseList: [{name:. connection: }]
 schemaList: [], 
 queryList: [],
 };
@@ -15,18 +15,24 @@ const dbReducer = (state = initialState, action) => {
     const copyState = {...state};
     switch (action.type) {
         case types.ADD_DB:
-        // const newDatabaseList = state.databaseList.slice()
-        //if (!state.databaseList.includes(action.payload)) newDatabaseList.push(action.payload);
+        const newDatabaseList = state.databaseList.slice()
+        if (!state.databaseList.includes(action.payload)) newDatabaseList.push(action.payload);
         return {
             ...copyState,
-            databaseList: action.payload
-            //databaseList: newDatabaseList,
+            databaseList: newDatabaseList,
         }
 
-        case types.DELETE_DB: 
+        case types.DELETE_DB:
+        const newDatabaseList = state.databaseList.slice()
+        for (let el of newDatabaseList) {
+            if (el.dbId === action.payload) { 
+                //splice(start, deleteCount)
+                newDatabaseList.splice(newDatabaseList.indexOf(el), 1)
+            }
+        }
         return {
             ...copyState,
-
+            databaseList: newDatabaseList,
         };
         case types.CONNECT_DB: 
         return {
@@ -47,10 +53,15 @@ export const fetchDbs = () => {
         headers: {'Content-Type': 'application/json'},
       })
         .then((data) => data.json())
-        dispatch({type: types.ADD_DB, payload: db})  
-          }
-        
-    } 
+        .then(db => { 
+            db.isConnected = true
+            dispatch ({
+                type: types.ADD_DB, 
+                payload: db
+            })
+        })
+            
+    }} 
 
 
 export default dbReducer;
