@@ -7,19 +7,11 @@ import { addDb } from "../reducers/dbReducer";
 import { connect } from "react-redux";
 
 
-
 // ---------------- dispatch ------------ // 
 const mapStateToProps = (state) =>({
   databaseList: state.db.databaseList,
 });
 
-
-// const mapDispatchToProps = (dispatch) => ({
-//   add: (paramsFromComponent) => {
-//     const thunkFn = addDb(); // thunkfunc takes in dispatch, getState
-//     dispatch(thunkFn(dispatch, getState?, ourArguments)); // does dispatch invoke thunkFUnc? how do we pass in arguments 
-//   }
-// });
 
 const mapDispatchToProps = (dispatch) => ({
   // incomplete 
@@ -30,12 +22,28 @@ const mapDispatchToProps = (dispatch) => ({
         // data.isConnected=true; 
         dispatch({ action: 'EXAMPLE', payload: formObject })
       })
+      .catch(error => {
+
+      })
   }, 
   deleteDb: (id) => {
     fetch(`/api/db/delete/${id}`)
       .then(res => res.json())
       .then(data => {
         dispatch({ action: 'DELETE_DB', payload: data })
+      })
+      .catch(error => {
+
+      })
+  },
+  connectDb: (id) => {
+    fetch(`/api/db/delete/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        dispatch({ action: 'DELETE_DB', payload: data })
+      })
+      .catch(error => {
+
       })
   }
 
@@ -51,9 +59,19 @@ const Databases = (props) => {
       <div className='database-group'>
         <h4>My Databases</h4>
         {/* example */}
-        <DatabaseCard  database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+        <DatabaseCard id={1} isConnected={true} connectDbFunc={props.connectDb} deleteDbFunc={props.deleteDb} database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
         {/* {databaseList.map(database => {
-          return <DatabaseCard id={database.id} database={database.database} port={database.port} user={database.user} ssl={database.ssl} />
+          return <DatabaseCard 
+            id={database.id} 
+            isConnected={database.isConnected}
+            connectDbFunc={props.connectDb}
+            deleteDbFunc={props.deleteDb}
+            database={database.database} 
+            port={database.port}
+            user={database.user} 
+            ssl={database.ssl} 
+            latency={database.latency}
+            />
         })} */}
         <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
         <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>

@@ -15,9 +15,16 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
   const handleSubmit = (e) => {
     // prevents automatic reload on submit 
     e.preventDefault();
-    const formData = {
+
+    let formData = {}
+    if (isConnectingByUri) {
+      formData = {
+        isConnectingByUri: isConnectingByUri, 
+        uri: e.target.uri.value
+      }
+    }
+    else formData = {
       isConnectingByUri: isConnectingByUri,
-      uri: e.target.uri.value,
       host: e.target.host.value,
       port: e.target.port.value,
       database: e.target.database.value,
@@ -25,6 +32,7 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
       password: e.target.password.value, 
       ssl: e.target.ssl.value
     }
+
     const isValidated = validate(formData);
     if (isValidated === true) {
       return addDbFunc(formData);
@@ -65,39 +73,39 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
           <>
             <FormControl>
               <InputLabel htmlFor='uri'>URI</InputLabel>
-              <Input id='uri' type='text' />
+              <Input id='uri' name='uri' type='text' />
             </FormControl>
           </>
           : 
           <>
             <FormControl>
               <InputLabel htmlFor='host'>Host</InputLabel>
-              <Input id='host' type='text' />
+              <Input id='host' name='host' type='text' />
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='port'>Port</InputLabel>
-              <Input id='port' type='number' />
+              <Input id='port' name='port' type='number' />
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='database'>Database</InputLabel>
-              <Input id='database' type='text' />
+              <Input id='database' name='database' type='text' />
               <FormHelperText id="database-helper-text">Name of database</FormHelperText>
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='username'>Username</InputLabel>
-              <Input id='username' type='text' />
+              <Input id='username' name='username' type='text' />
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='password'>Password</InputLabel>
-              <Input id='password' type='password' />
+              <Input id='password' name='password' type='password' />
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='ssl'>SSL Mode</InputLabel>
-              <Input id='ssl' type='text' />
+              <Input id='ssl' name='ssl' type='text' />
             </FormControl>
           </>
         }
-      <Button type='submit' size='small' variant='contained'>Submit</Button>
+        <Button type='submit' size='small' variant='contained'>Add</Button>
       </form>
       {isValidInput ? null : <ErrorMessage>Missing database detail(s)</ErrorMessage>}
     </StyledWindow>
