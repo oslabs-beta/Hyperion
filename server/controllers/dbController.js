@@ -1,4 +1,3 @@
-const { RowDescriptionMessage } = require('pg-protocol/dist/messages');
 const aws = require('../models/dbModel.js');
 
 const dbController = {};
@@ -84,7 +83,10 @@ dbController.delete = (req, res, next) =>{
       console.log(`The deleted item is (${r.rows[0]._id}, ${r.rows[0].name})`);
       return next ();
     })
-    .catch(e => next(e));
+    .catch(e => {
+      console.log(e);
+      return next(e);
+    } );
 }
 
 module.exports = dbController;
