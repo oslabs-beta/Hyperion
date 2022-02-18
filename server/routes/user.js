@@ -8,11 +8,11 @@ userRouter.post('/signup', userController.signUp, (req, res) => {
 });
 
 userRouter.post('/login', userController.login, (req, res) => {
-  return res.status(200).send('this is the login function');
+  return res.status(200).send('User successfully logged in');
 });
 
 userRouter.post('/logout', userController.logout, (req, res) => {
- return res.status(200).send('this is the logout function');
+ return res.status(200).send('User has successfully logged out');
 });
 
 
