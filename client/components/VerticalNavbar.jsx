@@ -23,10 +23,10 @@ const VerticalNavbar = (props) => {
       <div className='header-logo'>Hyperion</div>
       <div className='navbar-app-links'>
         <NavbarLink icon={ICONS.dashboard} displayText='Dashboard' linkPath='/dashboard'/> 
-        <NavbarLink icon={ICONS.database} displayText='Databases' linkPath='/databases'/> 
-        <NavbarLink icon={ICONS.schema} displayText='Schema' linkPath='/schema'/> 
+        <NavbarLink icon={ICONS.database} displayText='Databases' linkPath='/database'/> 
+        <NavbarLink icon={ICONS.schema} displayText='Schema' linkPath='/schemas'/> 
         <NavbarLink icon={ICONS.queries} displayText='Queries' linkPath='/queries'/> 
-        <NavbarLink icon={ICONS.tests} displayText='Run Tests' linkPath='/test'/> 
+        <NavbarLink icon={ICONS.tests} displayText='Run Tests' linkPath='/tests'/> 
       </div>
 
       {/* TODO make these into working links  */}

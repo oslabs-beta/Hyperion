@@ -5,10 +5,15 @@ import { Button } from '@mui/material';
 
 const DatabaseCard = (props) => {
   const {
+    id, 
+    deleteDbFunc,
+    connectDbFunc,
+    isConnected,
     database, 
     port, 
     user, 
-    ssl
+    ssl,
+    latency
   } = props;
 
   return (
@@ -30,13 +35,19 @@ const DatabaseCard = (props) => {
           <h5>SSL:</h5>
           {ssl}
         </div>
+        <div className='info-group-item'>
+          <h5>Latency:</h5>
+          {latency}
+        </div>
       </div>
       <div className='button-group'>
-        <Button variant='contained' size='small' color='success'>Connect</Button>
-        <Button variant='outlined' size='small' color='error'>Delete</Button>
+        {isConnected ? 
+          <Button variant='text' size='small' disabled color='success'>Connected</Button>
+          :
+          <Button onClick={() => {connectDbFunc(id)}} variant='contained' size='small' color='success'>Connect</Button>
+        }
+        <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Delete</Button>
       </div>
-
-
     </StyledCard>
   )
 }
@@ -46,6 +57,7 @@ const StyledCard = styled.div`
   flex-direction: column; 
   border: 1.5px solid black;
   row-gap: 10px;
+  margin-bottom: 1em;
   padding: 1em 2em;
   border-radius: 10px;
   background-color: rgb(250, 250, 250);
@@ -73,13 +85,16 @@ const StyledCard = styled.div`
 
 
 
-DatabaseCard.propTypes = {
-  database: PropTypes.string.isRequired,
-  port: PropTypes.number.isRequired, 
-  user: PropTypes.string.isRequired, 
-  ssl: PropTypes.string,
-  latency: PropTypes.number,
-}
+// DatabaseCard.propTypes = {
+//   id: PropTypes.number.isRequired,
+//   connectDbFunc: PropTypes.func.isRequired,
+//   deleteDbFunc: PropTypes.func.isRequired,
+//   database: PropTypes.string.isRequired,
+//   port: PropTypes.number.isRequired, 
+//   user: PropTypes.string.isRequired, 
+//   ssl: PropTypes.string,
+//   latency: PropTypes.number,
+// }
 
 
 export default DatabaseCard

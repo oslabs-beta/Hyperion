@@ -7,7 +7,7 @@ export const ADD_SCHEMA = 'ADD_SCHEMA'
 export const DELETE_SCHEMA = 'DELETE_SCHEMA'
 
 export const ADD_QUERY = 'ADD_QUERY'
-export const DELETE_SCHEMA = 'DELETE_QUERY'
+export const DELETE_QUERY = 'DELETE_QUERY'
 
 
 export const ADD_USER = 'ADD_USER';
