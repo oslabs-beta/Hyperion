@@ -1,6 +1,6 @@
 const express = require('express');
-const db = require('./db');
-const userRouter = require('./user');
+const db = require('./api/dbRouter');
+const userRouter = require('./userRouter');
 const api = express.Router();
 
 

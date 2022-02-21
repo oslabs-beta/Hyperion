@@ -1,5 +1,7 @@
 # Hyperion
 
+**Note:** An overview of our security policies is available [here](/SECURITY.md). *Please read this document before using our app. Using our app constitues acknowledgment of the disclaimers presented in that document at the time of sign-up.*
+
 # Table of Contents
 
 > - [Description]()  

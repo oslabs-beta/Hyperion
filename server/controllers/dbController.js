@@ -57,8 +57,6 @@ dbController.validateInput = (req, res, next) => {
   next();
 };
 
-
-
 dbController.addNew = (req, res, next) => {
 
   const queryString = 'INSERT INTO databases (name, uri) VALUES ($1, $2) RETURNING _id;';

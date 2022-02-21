@@ -1,11 +1,43 @@
 const aws = require('../models/dbModel.js');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
+const sgMail = require('@sendgrid/mail');
   //uuid generates randoms tring to help generate a session cookie 
 
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = 12;
 
 const userController = {};
+
+userController.createSession = (req, res, next) => {
+
+
+
+
+};
+
+userController.send2FACode = (req, res, next) => {
+
+  const authCode = 'BDT7GA';
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: 'alexis.angel99@gmail.com', // Change to your recipient
+    from: 'support@hyperionapp.com', // Change to your verified sender
+    subject: 'Hyperion App 2FA Code',
+    html: `Code: <strong>${authCode}</strong>`
+  }
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+};
+
+userController.verify2FACode = (req, res, next) => {
+
+};
 
 userController.signUp = (req, res, next) => {
 
@@ -111,6 +143,10 @@ userController.logout = (req, res, next) => {
   return next();
 }
 
+userController.logoutAllSessions = (req, res, next) => {
+
+};
+
 // checking session cookie, making sure its a valid session and assoc w/ user if it is 
 //global middleware, import into server js 
 userController.authenticate = (req, res, next) => {
@@ -133,5 +169,11 @@ userController.authenticate = (req, res, next) => {
 
   next();
 }
+
+userController.authorize = (req, res, next) => {
+
+};
+
+userController.send2FACode();
 
 module.exports = userController;
