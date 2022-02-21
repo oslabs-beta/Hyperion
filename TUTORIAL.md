@@ -1,4 +1,4 @@
-# pgScale Tutorial
+# Hyperion Tutorial
 
 # Table of Contents
 
