@@ -13,7 +13,7 @@ const dbReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.ADD_DB:
         const newDatabaseInfo = state.databaseInfo
-        if (!state.databaseInfo.)
+        //if (!state.databaseInfo.)
 
         return {
             ...copyState,
