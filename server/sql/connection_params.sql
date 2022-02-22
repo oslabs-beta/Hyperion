@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS connection_params (
   db_name           VARCHAR(500) NOT NULL,
   db_user           VARCHAR(255) NOT NULL,
   pwd               VARCHAR(255) NOT NULL,
-  ssl_mode          VARCHAR(255) NOT NULL REFERENCES ssl_modes(ssl_mode)
+  ssl_mode          INTEGER      NOT NULL REFERENCES ssl_modes(_id)
 );

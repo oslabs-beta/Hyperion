@@ -73,7 +73,7 @@ dbController.addNew = (req, res, next) => {
   
 };
 
-dbController.delete = (req, res, next) =>{
+dbController.delete = (req, res, next) => {
   const queryString = 'DELETE FROM databases WHERE _id = $1 RETURNING _id, name;';
   const deletedId = req.params.id;
   aws.query(queryString, [deletedId])
@@ -86,5 +86,18 @@ dbController.delete = (req, res, next) =>{
       return next(e);
     } );
 }
+
+//establish connection and verify credentials are valid 
+dbController.connectNow = (req, res, next) => {
+
+};
+
+dbController.getLatency = (req, res, next) => {
+
+};
+
+dbController.runQuery = (req, res, next) => {
+
+};
 
 module.exports = dbController;

@@ -2,7 +2,7 @@ const aws = require('../models/dbModel.js');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const sgMail = require('@sendgrid/mail');
-  //uuid generates randoms tring to help generate a session cookie 
+//uuid generates randoms tring to help generate a session cookie 
 
 const SALT_ROUNDS = 12;
 
@@ -20,7 +20,7 @@ userController.send2FACode = (req, res, next) => {
   const authCode = 'BDT7GA';
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
-    to: 'alexis.angel99@gmail.com', // Change to your recipient
+    to: '<EMAIL>', // Change to your recipient
     from: 'support@hyperionapp.com', // Change to your verified sender
     subject: 'Hyperion App 2FA Code',
     html: `Code: <strong>${authCode}</strong>`
@@ -173,7 +173,5 @@ userController.authenticate = (req, res, next) => {
 userController.authorize = (req, res, next) => {
 
 };
-
-userController.send2FACode();
 
 module.exports = userController;
