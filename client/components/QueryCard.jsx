@@ -14,15 +14,15 @@ const QueryCard = (props) => {
 
 return (
     <StyledCard>
-    <div className='info-group'>
-    <div className='info-group-item'>
+      <div className='info-group'>
+        <div className='info-group-item'>
           <h5>SQL Query:</h5>
           {sqlQuery}
         </div>
-    </div>
-    <div className='button-group'>
-    <Button onClick={() => {deleteQueryFunc(id)}} variant='outlined' size='small' color='error'>Delete</Button>
-    </div>  
+      </div>
+      <div className='button-group'>
+        <Button onClick={() => {deleteQueryFunc(id)}} variant='outlined' size='small' color='error'>Delete</Button>
+      </div>  
     </StyledCard>
 )
 }

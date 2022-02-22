@@ -12,6 +12,10 @@ const mapStateToProps = (state) =>({
   databaseList: state.db.databaseList,
 });
 
+// import store 
+// store.dispatch();
+// const dispatch = useDispatch();
+//
 
 const mapDispatchToProps = (dispatch) => ({
   // incomplete 
@@ -46,13 +50,10 @@ const mapDispatchToProps = (dispatch) => ({
 
       })
   }
-
 })
 
 // -------- main component ---------- //
 const Databases = (props) => {  
-
-
   return (
     <StyledContainer>
       <VerticalNavbar />

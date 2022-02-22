@@ -3,45 +3,55 @@ import { addDatabse } from '../actions/actions.js';
 
 
 const initialState = { 
-databaseInfo: {},
-
+    databaseInfo: {}, 
+    /*
+    {
+        id: {
+            id: Number, 
+            port: Number,
+            database: String (database name referred to by postgres),
+            name: String (database name provided by user),
+            sslMode: String 
+            user: String,
+            isConnected: Boolean, 
+            queries: {
+                queryId (Number) : query (String)
+            }
+        }, 
+        ... 
+    }
+    */
 };
 
 const dbReducer = (state = initialState, action) => {
    
-    const copyState = {...state};
     switch (action.type) {
         case types.ADD_DB:
-        const newDatabaseInfo = state.databaseInfo
-        //if (!state.databaseInfo.)
-
-        return {
-            ...copyState,
-            databaseList: newDatabaseList,
-        }
-
-        case types.DELETE_DB:
-        const newDatabaseList = state.databaseList.slice()
-        for (let el of newDatabaseList) {
-            if (el.dbId === action.payload) { 
-                //splice(start, deleteCount)
-                newDatabaseList.splice(newDatabaseList.indexOf(el), 1)
-            }
-        }
-        return {
-            ...copyState,
-            databaseList: newDatabaseList,
-        };
+            const databaseInfo = JSON.parse(JSON.stringify(state.databaseInfo));
+            databaseInfo[action.payload.id] = { ...action.payload, isConnected: false, queries: {} };
+            return {
+                ...state,
+                databaseInfo: databaseInfo
+            };
+        case types.DELETE_DB: 
+            const databaseInfo = JSON.parse(JSON.stringify(state.databaseInfo)); 
+            delete databaseInfo[action.payload];
+           return {
+               ...state,
+               databaseInfo: databaseInfo
+           }
         case types.CONNECT_DB: 
-        if (action.payload.connect === false)
-        return {
-            ...copyState,
-        };
-        default: {
+            const databaseInfo = JSON.parse(JSON.stringify(state.databaseInfo));
+            databaseInfo[action.payload].isConnected = true;
+            return {
+                ...state,
+                databseInfo: databaseInfo
+            }
+        default: 
             return state; 
-        }
     };
 };
+
 
 //Thunk Function
 
