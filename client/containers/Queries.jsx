@@ -1,5 +1,6 @@
 import React from 'react'
 import VerticalNavbar from '../components/VerticalNavbar';
+import NewQueryWindow from '../components/NewQueryWindow';
 import styled from 'styled-components';
 
 const Queries = () => {
@@ -8,6 +9,7 @@ const Queries = () => {
       <VerticalNavbar />
       <div className='query-group'>
       </div>
+      <NewQueryWindow/>
       </StyledContainer>
   )
 }
