@@ -1,6 +1,7 @@
 import React from 'react'
 import VerticalNavbar from '../components/VerticalNavbar';
 import NewQueryWindow from '../components/NewQueryWindow';
+import QueryCard from '../components/QueryCard';
 import styled from 'styled-components';
 
 const Queries = () => {
@@ -8,6 +9,7 @@ const Queries = () => {
     <StyledContainer>
       <VerticalNavbar />
       <div className='query-group'>
+      <QueryCard sqlQuery = 'SELECT * FROM table_name'> </QueryCard>
       </div>
       <NewQueryWindow/>
       </StyledContainer>
