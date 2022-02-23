@@ -15,12 +15,6 @@ export const addDb = (id, name, port, database, user, sslMode) => ({
     }
 })
 
-// thunk function <-- where wed pass the info in 
-// wait for thunk to finish 
-// then call dispatch with action creator 
-// dispatch(addDb(params))
-// ----------------------------------------------------------------
-
 
 //-------------------------DELETE DATABASE ------------------------
 export const deleteDatabase = (id) => ({
@@ -36,3 +30,7 @@ export const connectDatabase = (id) => ({
     payload: id
 })
 // -----------------------------------------------------------------
+
+
+
+

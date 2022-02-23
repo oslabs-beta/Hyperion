@@ -52,35 +52,4 @@ const dbReducer = (state = initialState, action) => {
     };
 };
 
-
-//Thunk Function
-
-export const addDb = () => {
-    return (dispatch, getState) => {
-      fetch('api/db/new', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-      })
-        .then((data) => data.json())
-        .then(db => { 
-            db.isConnected = true
-            dispatch ({
-                type: types.ADD_DB, 
-                payload: db
-            })
-        })
-    }
-} 
-
-
 export default dbReducer;
-
-/*//  const copyState = {...state};
-switch (action.type) {
-    case types.ADD_DB:
-    const newDatabaseList = state.databaseList.slice()
-    if (!state.databaseList.includes(action.payload)) newDatabaseList.push(action.payload);
-    return {
-        ...copyState,
-        databaseList: newDatabaseList,
-    } /*/
