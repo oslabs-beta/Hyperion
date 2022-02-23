@@ -13,6 +13,7 @@ const App = (props) => {
       <Routes>
         {/* change this to dashboard later  */}
         <Route path='/' element={<Databases/>} /> 
+        <Route path='/dashboard' element={<Dashboard/>} /> 
         <Route path='/database' element={<Databases/>} />
         <Route path='/schemas' element={<Schemas/>} />
         <Route path='/queries' element={<Queries/>} />

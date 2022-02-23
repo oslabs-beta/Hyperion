@@ -54,7 +54,7 @@ const StyledContainer = styled.div`
   justify-content: space-around; 
   flex-direction: column; 
   border-right: 1.5px solid grey; 
-  overflow-y: scroll;
+  // overflow-y: scroll;
 
   // padding: 1em 2em;
 

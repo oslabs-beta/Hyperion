@@ -3,81 +3,75 @@ import VerticalNavbar from '../components/VerticalNavbar';
 import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
-import { addDb } from "../reducers/dbReducer";
+import Layout from './Layout';
 import { connect } from "react-redux";
-
+import * as thunk from '../middleware/dbThunk';
 
 // ---------------- dispatch ------------ // 
 const mapStateToProps = (state) =>({
   databaseList: state.db.databaseList
 });
 
-
 const mapDispatchToProps = (dispatch) => ({
-  // incomplete 
-  addDb: (formObject) => {
-    fetch('/api/db/new', )
-      .then(res => res.json())
-      .then(data => {
-        // data.isConnected=true; 
-        dispatch({ action: 'EXAMPLE', payload: formObject })
-      })
-      .catch(error => {
-
-      })
-  }, 
-  deleteDb: (id) => {
-    fetch(`/api/db/delete/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        dispatch({ action: 'DELETE_DB', payload: data })
-      })
-      .catch(error => {
-
-      })
-  },
-  connectDb: (id) => {
-    fetch(`/api/db/delete/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        dispatch({ action: 'DELETE_DB', payload: data })
-      })
-      .catch(error => {
-
-      })
-  }
-
+  addDb: (formData) => { dispatch(thunk.addDb(formData)) },
+  deleteDb: (id) => { dispatch(thunk.deleteDb(id)) }
 })
 
 // -------- main component ---------- //
 const Databases = (props) => {  
-
-
   return (
-    <StyledContainer>
-      <VerticalNavbar />
-      <div className='database-group'>
+    <Layout>
+        <DatabaseGroup>
+      {/* <div className='database-group' >  */}
         <h4>My Databases</h4>
         {/* example */}
-        <DatabaseCard id={1} isConnected={true} connectDbFunc={props.connectDb} deleteDbFunc={props.deleteDb} database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
-        {/* {databaseList.map(database => {
-          return <DatabaseCard 
-            id={database.id} 
-            isConnected={database.isConnected}
-            connectDbFunc={props.connectDb}
-            deleteDbFunc={props.deleteDb}
-            database={database.database} 
-            port={database.port}
-            user={database.user} 
-            ssl={database.ssl} 
-            latency={database.latency}
-            />
-        })} */}
-        <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
-        <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
-      </div>
+          <DatabaseCard id={1} isConnected={true} connectDbFunc={props.connectDb} deleteDbFunc={props.deleteDb} database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+          {/* {databaseList.map(database => {
+            return <DatabaseCard 
+              id={database.id} 
+              isConnected={database.isConnected}
+              connectDbFunc={props.connectDb}
+              deleteDbFunc={props.deleteDb}
+              database={database.database} 
+              port={database.port}
+              user={database.user} 
+              ssl={database.ssl} 
+              latency={database.latency}
+              />
+          })} */}
+          <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+          <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+        </DatabaseGroup>
+      {/* </div> */}
       <NewDatabaseWindow addDbFunc={props.addDb}/>
-    </StyledContainer>
+    </Layout>
+
+    // <StyledContainer>
+    //   <VerticalNavbar />
+    //     <DatabaseGroup>
+    //   {/* <div className='database-group' >  */}
+    //     <h4>My Databases</h4>
+    //     {/* example */}
+    //       <DatabaseCard id={1} isConnected={true} connectDbFunc={props.connectDb} deleteDbFunc={props.deleteDb} database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+    //       {/* {databaseList.map(database => {
+    //         return <DatabaseCard 
+    //           id={database.id} 
+    //           isConnected={database.isConnected}
+    //           connectDbFunc={props.connectDb}
+    //           deleteDbFunc={props.deleteDb}
+    //           database={database.database} 
+    //           port={database.port}
+    //           user={database.user} 
+    //           ssl={database.ssl} 
+    //           latency={database.latency}
+    //           />
+    //       })} */}
+    //       <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+    //       <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+    //     </DatabaseGroup>
+    //   {/* </div> */}
+    //   <NewDatabaseWindow addDbFunc={props.addDb}/>
+    // </StyledContainer>
   )
 }
 
@@ -97,6 +91,13 @@ const StyledContainer = styled.div`
     overflow-y: scroll;
   }
 
+`;
+
+const DatabaseGroup = styled.div`
+  background-color: rgb(220, 220 ,220); 
+  width: 100%;
+  padding: 1em 2em;
+  overflow-y: scroll;
 `;
 
 connect(mapStateToProps, mapDispatchToProps)(Databases);

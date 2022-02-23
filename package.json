@@ -30,6 +30,7 @@
     "crypto-random-string": "^4.0.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "node-polyfill-webpack-plugin": "^1.1.4",
     "pg": "^8.7.3",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
@@ -39,6 +40,7 @@
     "react-router-dom": "^6.2.1",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2"
   },

@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const apiRouter = require('./routes/api');
+const apiRouter = require('./routes/apiRouter');
 
 const PORT = process.env.PORT;
 
@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
   return res.sendFile(path.join(__dirname, '../build/index.html'));
 })
 
-app.use('/api', apiRouter);
+// app.use('/api', apiRouter);
 
 // 404 Error handler
 app.use('/', (req, res) => {

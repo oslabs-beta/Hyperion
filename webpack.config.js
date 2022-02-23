@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
 const { env } = require('process');
 
 module.exports = {
@@ -13,6 +15,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'views', 'index.html'),
     }),
+    new NodePolyfillPlugin()
   ],
   module: {
     rules: [

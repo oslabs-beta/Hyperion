@@ -84,7 +84,6 @@ const StyledCard = styled.div`
 `;
 
 
-
 // DatabaseCard.propTypes = {
 //   id: PropTypes.number.isRequired,
 //   connectDbFunc: PropTypes.func.isRequired,

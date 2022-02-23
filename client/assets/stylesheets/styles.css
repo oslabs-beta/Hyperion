@@ -16,6 +16,6 @@ body {
 
 #app {
   max-width: 1200px;  /*Aesthetically may need to add a max width and center the app horizontally with dark edges */
-  height: 100%;
+  height: 100vh;
   left: 50%;
 }
