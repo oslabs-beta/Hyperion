@@ -2,73 +2,104 @@ require('dotenv').config();
 const { Pool } = require('pg');
 const fs = require('fs');
 
-// create a new pool here using the connection string above
-const pool = new Pool({
-  ssl: {
+const defaultPool = new Pool({
+  ssl: { // use certifcate auth provided by AWS
     rejectUnauthorized: true,
-    //default this is false. verifies that ca is valid 
-    ca: fs.readFileSync('./global-bundle.pem').toString(),
-    //certifcate auth: reading the aws file to help encrypt the connection. Can encrypt w/o ca, but ca proviides additional security 
+    ca: fs.readFileSync('./us-east-1-bundle.pem').toString()
   }
 });
 
+const db = {};
 
-
-const runQueryAnalyze = async (innerQuery, params) => {
-  // note: we don't try/catch this because if connecting throws an exception
-  // we don't need to dispose of the client (it will be undefined)
-  let timeStart, timeConnect, timeQueryStart, timeQueryEnd;
-  let res;
-
-  timeStart = Date.now();
+db.runQuery = async (queryText, params, pool = defaultPool) => {
   const client = await pool.connect();
-  timeConnect = Date.now();
-  const connectionTime = timeConnect - timeStart;
+
   try {
-    const queryText = `
-    SELECT clock_timestamp()::text as beforebegin;
-    BEGIN;
-    SELECT clock_timestamp()::text as beforequery; 
-    ${innerQuery}
-    SELECT clock_timestamp()::text as afterquery;
-    ROLLBACK;
-    SELECT clock_timestamp()::text as afterrollback;`;
-    timeQueryStart = Date.now();
-    res = await client.query(queryText, params);
-    timeQueryEnd = Date.now();
+    let res = await client.query(queryText, params);
+    return res;
   } catch (e) {
-    await client.query('ROLLBACK');
-    throw new Error(e);
+    throw e;
   } finally {
     client.release();
-    const beforeBegin = res[0].rows[0].beforebegin.slice(20, 26);
-    const beforeQuery = res[2].rows[0].beforequery.slice(20, 26);
-    const afterQuery = res[4].rows[0].afterquery.slice(20, 26);
-    const afterRollback = res[6].rows[0].afterrollback.slice(20, 26);
-    const queryTime = ((afterQuery - beforeQuery) / 1000).toFixed(2);
-    const totalTime = ((afterRollback - beforeBegin) / 1000).toFixed(2);
-    const otherTime = (totalTime - queryTime).toFixed(2);
-    console.log(queryTime, totalTime, otherTime);
-    console.log('=== QUERY STATS ===')
-    console.log(`Pool setup time: ${connectionTime}ms`);
-    const totalQueryRuntime = timeQueryEnd - timeQueryStart;
-    const latency = totalQueryRuntime - totalTime;
-    console.log(`Total query runtime (incl. latency): ${totalQueryRuntime}ms`);
-    console.log(`Query time: ${queryTime}ms`);
-    console.log(`Other transaction time: ${otherTime}ms`);
-    console.log(`Total query processing time: ${totalTime}ms`);
-    console.log(`Latency ${latency}ms`)
-    return res;
   }
 };
 
-runQueryAnalyze('select username from users order by username asc limit 2;')
-  .then(r => console.log('success'));
+db.runQueryAnalyze = async (queryText, params, pool = defaultPool) => {
+  const client = await pool.connect();
+
+  try {
+    const getClockTime = 'SELECT clock_timestamp()::text;';
+    let timing = {};
+    if (queryText[queryText.length - 1] !== ';') queryText = queryText + ';';
+
+    /* === QUERY START === */
+    const init = Date.now();
+    let res = await client.query(`${getClockTime} ${queryText} ${getClockTime}`, params);
+    const end = Date.now();
+    /* === QUERY END === */
+
+    /* String manipulation */
+    timing.totalTime = Number.parseInt(end - init);
+    const queryStart = Number.parseFloat(res[0].rows[0].clock_timestamp.slice(17).slice(0, -3));
+    const queryEnd = Number.parseFloat(res[2].rows[0].clock_timestamp.slice(17).slice(0, -3));
+    if (queryStart > queryEnd) throw new Error('Timing issue, please try again');
+    timing.queryTime = Number.parseFloat(((queryEnd - queryStart) * 1000).toFixed(2));
+
+    // return object
+    return timing;
+  } catch (e) {
+    throw e;
+  } finally {
+    client.release();
+  }
+};
+
+db.runExplainAnalyze = async (queryText, params, pool = defaultPool) => {
+  const client = await pool.connect();
+
+  try {
+    const getClockTime = 'SELECT clock_timestamp()::text;';
+    let timing = {};
+    if (queryText[queryText.length - 1] !== ';') queryText = queryText + ';';
+
+    /* === QUERY START === */
+    const init = Date.now();
+    let res = await client.query(`${getClockTime} EXPLAIN ANALYZE ${queryText} ${getClockTime}`, params);
+    const end = Date.now();
+    /* === QUERY END === */
+
+    /* String manipulation */
+    timing.totalTime = Number.parseInt(end - init);
+    const queryPlan = res[1].rows.slice(-2);
+    timing.planningTime = parseFloat(parseFloat(queryPlan[0]['QUERY PLAN'].slice(15, -3)).toFixed(2));
+    timing.executionTime = parseFloat(parseFloat(queryPlan[1]['QUERY PLAN'].slice(16, -3)).toFixed(2));
+    timing.queryTime = parseFloat((timing.planningTime + timing.executionTime).toFixed(2));
+
+    // return object
+    return timing;
+  } catch (e) {
+    throw e;
+  } finally {
+    client.release();
+  }
+};
 
 
+/* === SAMPLE CODE START === */
+
+// db.runQuery('select count(*) from users;')
+//   .then(r => console.log('success'))
+//   .catch(e => console.log('error caught')); 
+
+// db.runExplainAnalyze('select count(*) from users;')
+//   .then(r => console.log(r))
+//   .catch(e => console.log('error caught'));
+
+// db.runQueryAnalyze('select count(*) from users;')
+//   .then(r => console.log(r))
+//   .catch(e => console.log('error caught')); 
+  
+/* === SAMPLE CODE END === */
 
 
-// We export an object that contains a property called query,
-// which is a function that returns the invocation of pool.query() after logging the query
-// This will be required in the controllers to be the access point to the database
-module.exports = runQueryAnalyze;
+module.exports = db;

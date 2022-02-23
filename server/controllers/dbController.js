@@ -9,6 +9,7 @@ dbController.validateInput = (req, res, next) => {
   */
 
   if (typeof req.body.dbInfo.name !== 'string' || typeof req.body.connectionDetails.uri !== 'string') {
+    // if(typeof req.body.dbInfo.dbname !== 'string' || typeof req.body.uris.uri !== 'string')
     err = {
       log: 'Name or URI is not a valid string',
       status: 400,
@@ -22,6 +23,7 @@ dbController.validateInput = (req, res, next) => {
   */
 
   if (!req.body.dbInfo.name || !req.body.connectionDetails.uri) {
+    //if(!req.body.dbInfo.dbname || !req.body.uris.uri)
     err = {
       log: 'Could not find name and URI',
       status: 400,
@@ -36,6 +38,7 @@ dbController.validateInput = (req, res, next) => {
  
   const testExpression = /^postgres(ql)?:\/\//;
   const testString = req.body.connectionDetails.uri.trim();
+  //const testString = req.body.uris.uri.trim()
 
   if(!testString.match(testExpression)){
     err = {
@@ -60,7 +63,8 @@ dbController.validateInput = (req, res, next) => {
 dbController.addNew = (req, res, next) => {
 
   const queryString = 'INSERT INTO databases (name, uri) VALUES ($1, $2) RETURNING _id;';
-  
+  //const queryString = Inner Join??
+  //aws.query(queryString, [req.body.dbInfo.dbname, req.body.uris.uri])
   aws.query(queryString, [req.body.dbInfo.name, req.body.connectionDetails.uri])
     .then(r => {
       console.log(`The new id is ${r.rows[0]._id}`);

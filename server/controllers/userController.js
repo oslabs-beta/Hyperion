@@ -11,8 +11,6 @@ const userController = {};
 userController.createSession = (req, res, next) => {
 
 
-
-
 };
 
 userController.send2FACode = (req, res, next) => {
@@ -144,7 +142,8 @@ userController.logout = (req, res, next) => {
 }
 
 userController.logoutAllSessions = (req, res, next) => {
-
+  //res.cook('ssid',)
+  return next();
 };
 
 // checking session cookie, making sure its a valid session and assoc w/ user if it is 
@@ -157,12 +156,11 @@ userController.authenticate = (req, res, next) => {
     username: null
   };
 
-  //check if session id corresponds with the user id 
   // Step 1: check the ssid cookie and get its value
   if(!req.cookies.ssid) return next();
-  
+
   // Step 2: query database on sessions and join with users to get the userid and username
-  // const ssidQuery =
+  // const ssidQuery = 
   // Step 2.1: if the result is not empty then update the res.locals.userAuth object
 
   // Step 3 return next();
