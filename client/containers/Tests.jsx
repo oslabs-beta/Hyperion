@@ -1,13 +1,17 @@
 import React from 'react';
-import VerticalNavbar from '../components/VerticalNavbar';
 import styled from 'styled-components';
 import Layout from './Layout';
+import TestConfigWindow from '../components/TestConfigWindow';
+
 
 const Tests = () => {
   return (
     <Layout>
-      <div>Tests</div>
-
+      <h4>Tests</h4>
+      <StyledContainer>
+        
+        <TestConfigWindow />
+      </StyledContainer>
     </Layout>
 
   )

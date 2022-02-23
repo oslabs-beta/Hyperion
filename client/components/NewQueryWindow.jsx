@@ -5,15 +5,15 @@ import Button from '@mui/material/Button';
 
 const NewQueryWindow = () => {
 return (
-<StyledWindow>
-      <h4>Add Query</h4> 
-      <form className='new-query-form'>
-    <FormControl>
-      <TextField multiline rows={12} maxRows={12} />
+  <StyledWindow>
+    <h4>Add Query</h4> 
+    <form className='new-query-form'>
+      <FormControl>
+        <TextField multiline rows={12} maxRows={12} />
       </FormControl>
       <Button type='submit' size='small' variant='contained'>Submit</Button>
-      </form>
-</StyledWindow>
+    </form>
+  </StyledWindow>
 )
 }
 

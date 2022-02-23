@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { flexbox } from '@mui/system';
+import { rows } from 'pg/lib/defaults';
 
 const NavbarLink = (props) => {
   const {
@@ -12,12 +14,22 @@ const NavbarLink = (props) => {
   } = props; 
 
   return (
+    // <LinkContainer>
+    //   <Link className='link' to={linkPath}>
+    //     {icon}
+    //     {displayText}
+    //   </Link> 
+    // </LinkContainer>
+
+
     <LinkContainer style={style}>
       {icon}
       <Link className='link' to={linkPath}>{displayText}</Link> 
     </LinkContainer>
   )
 }
+
+
 
 
 const LinkContainer = styled.div`
