@@ -2,7 +2,7 @@ require('dotenv').config();
 const { Pool } = require('pg');
 const fs = require('fs');
 
-const defaultPool = new Pool({
+const defaultPool = new Pool({ // uses environment variables
   ssl: { // use certifcate auth provided by AWS
     rejectUnauthorized: true,
     ca: fs.readFileSync('./us-east-1-bundle.pem').toString()
@@ -23,7 +23,7 @@ db.runQuery = async (queryText, params, pool = defaultPool) => {
     client.release();
   }
 };
-
+//
 db.runQueryAnalyze = async (queryText, params, pool = defaultPool) => {
   const client = await pool.connect();
 
@@ -54,6 +54,7 @@ db.runQueryAnalyze = async (queryText, params, pool = defaultPool) => {
   }
 };
 
+//has overhead and doesnt include io costs. 
 db.runExplainAnalyze = async (queryText, params, pool = defaultPool) => {
   const client = await pool.connect();
 

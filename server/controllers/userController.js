@@ -1,7 +1,6 @@
-const aws = require('../models/dbModel.js');
+const db = require('../models/dbModel.js');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
-const sgMail = require('@sendgrid/mail');
 //uuid generates randoms tring to help generate a session cookie 
 
 const SALT_ROUNDS = 12;
@@ -10,31 +9,14 @@ const userController = {};
 
 userController.createSession = (req, res, next) => {
 
-
 };
 
 userController.send2FACode = (req, res, next) => {
-
-  const authCode = 'BDT7GA';
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  const msg = {
-    to: '<EMAIL>', // Change to your recipient
-    from: 'support@hyperionapp.com', // Change to your verified sender
-    subject: 'Hyperion App 2FA Code',
-    html: `Code: <strong>${authCode}</strong>`
-  }
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log('Email sent');
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+  // TBD
 };
 
 userController.verify2FACode = (req, res, next) => {
-
+  // TBD
 };
 
 userController.signUp = (req, res, next) => {
@@ -58,7 +40,7 @@ userController.signUp = (req, res, next) => {
   const queryString =  `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING _id, username;`;
   bcrypt.hash(req.body.userInfo.password, SALT_ROUNDS)
     .then(hash => {
-      return aws.query(queryString, [req.body.userInfo.username, hash]) // returns a promise
+      return db.runQuery(queryString, [req.body.userInfo.username, hash]) // returns a promise
     })
     .then(r => {
       /* New user successfully created */
@@ -108,7 +90,7 @@ userController.login = (req, res, next) => {
     status: 401,
     message: {err: 'Incorrect username and/or password'}
   };
-  aws.query(queryString, [req.body.userInfo.username])
+  db.runQuery(queryString, [req.body.userInfo.username])
     .then(r => {
       if (!r.rows.length) return next(err);
       res.locals.userId = r.rows[0]._id;
@@ -124,7 +106,7 @@ userController.login = (req, res, next) => {
       // 2 add ssid to database
       const ssidString = `INSERT INTO sessions (user_id, uuid) VALUES ($1, $2) RETURNING uuid;`;
       const queryParams = [res.locals.userId, ssid];
-      return aws.query(ssidString, queryParams);
+      return db.query(ssidString, queryParams);
     })
     .then(r => {
       // 3 add ssid cookie to res

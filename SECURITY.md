@@ -1,8 +1,8 @@
 # Hyperion Security Whitepaper
 
-**Disclaimer:** Although we take security very seriously and implement all of the steps described below to the best of our abilities in order to secure your data, there is still a non-zero possibility that our systems could be compromised now or at any point in the future. We do not provide any guarantees or compensation in the event that our systems were to be compromised or breached in any way. Although our threat model includes many common types of attacks, it does not, for example, include [advanced persistent threats](https://en.wikipedia.org/wiki/Advanced_persistent_threat), against which our systems do not provide adequate security. Our whitepaper below describes some of the most important threat mitigation measures we take to secure our service, but are by no means exhaustive nor do they represent the full extent of our security measures.
+**Disclaimer:** Although we take security very seriously and implement all of the steps described below to the best of our abilities in order to secure your data, there is still a non-zero possibility that our systems could be compromised now or at any point in the future. We do not provide any guarantees or compensation in the event that our systems were to be compromised or breached in any way. Although our threat model includes many common types of attacks, it does not provide adequate security against advanced threats. Our whitepaper below describes some of the most important threat mitigation measures we take to secure our service, but are not exhaustive.
 
-**Please read this before using our app:** We encourage all users to use our app on a sandboxed database instance that does not contain any sensitive data, using temporary non-admin and non-superuser credentials. Even though we take steps to protect any potentially pre-existing data, you should *never* provide credentials for a database that contains sensitive data. By using our app, you acknowledge that there is a non-zero risk that your database could be compromised at any point in the future.
+**Please read this before using our app:** We encourage all users to use our app on a sandboxed database instance that does not contain any sensitive data, using temporary non-superuser credentials. Even though we take steps to protect any potentially pre-existing data, you should avoid providing credentials for a database that contains sensitive data. By using our app, you acknowledge that there is a non-zero risk that your database could be compromised at any point in the future.
 
 **If you find a security vulnerability:** Please report it immediately using the proper channels and by sending our team an email at <*support AT hyperionapp.com*> We will respond with 24 hours.
 
@@ -15,7 +15,7 @@ We hash passwords using bcrypt with a work factor setting of 12. These settings 
 
 Eash session is identified using a unique 128-bit UUID v4 identifier which is generated using a cryptographically secure UUID v4 generation algorithm.
 
-Each session is linked to the IP address that initiated it. Any change in IP address for a given session will trigger an automatic logout. This helps reduce the risk of session hijacking in the event that cookie-stealing malware were present on the client.
+Each session is linked to the IP address that initiated it. Any change in IP address for a given session will trigger an automatic logout. This helps reduce the risk of session hijacking.
 
 ## Enforcing 2FA by default
 
@@ -39,7 +39,7 @@ Data transferred between our application server and our database server is encry
 
 ## Data transferred between our systems and your provided database instance
 
-Data transmitted between our servers and your provided database server are encrypted based on the SSL Mode settings that you choose. We cannot guarantee that the data will be encrypted if you choose the 'Allow' or 'Prefer' setting for SSL Mode, which we strongly dicourage. Instead, we highly recommend that you opt for 'Require', 'Verify-CA', or 'Verify-Full' SSL settings.
+Data transmitted between our servers and your provided database server are encrypted based on the SSL mode that you choose. We cannot guarantee that the data will be encrypted if you choose the 'Allow' or 'Prefer' settings, which we strongly dicourage. Instead, we highly recommend that you opt for 'Require', 'Verify-CA', or 'Verify-Full' as your SSL mode.
 
 # How We Keep our Database Server Safe
 

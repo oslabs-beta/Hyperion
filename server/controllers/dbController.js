@@ -92,16 +92,20 @@ dbController.delete = (req, res, next) => {
 }
 
 //establish connection and verify credentials are valid 
-dbController.connectNow = (req, res, next) => {
+//user db 
+
+dbController.createPool = (req, res, next) => {
 
 };
 
+dbController.connect = (req, res, next) => {
+
+};
+
+//userdb
 dbController.getLatency = (req, res, next) => {
 
 };
 
-dbController.runQuery = (req, res, next) => {
-
-};
 
 module.exports = dbController;
