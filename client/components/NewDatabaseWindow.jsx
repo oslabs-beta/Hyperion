@@ -118,6 +118,7 @@ const StyledWindow = styled.div`
   display: flex;
   flex-direction: column; 
   row-gap: 1.5em;
+  overflow-y: scroll;
   .new-db-form {
     display: flex; 
     flex-direction: column;

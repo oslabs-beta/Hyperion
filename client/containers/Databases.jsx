@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 // ---------------- dispatch ------------ // 
 const mapStateToProps = (state) =>({
-  databaseList: state.db.databaseList,
+  databaseList: state.db.databaseList
 });
 
 
