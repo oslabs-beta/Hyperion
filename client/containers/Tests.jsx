@@ -24,7 +24,7 @@ const Tests = () => {
     <Layout>
       <h4>Tests</h4>
       <StyledContainer>
-        {image}
+        {/* {image} */}
         <LineGraph />
         <TestConfigWindow />
       </StyledContainer>
@@ -36,6 +36,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%; 
+  justify-content: right;
 `;
 
 

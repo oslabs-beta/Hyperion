@@ -19,17 +19,11 @@ for (let i = 0; i < 10; i++) {
 
 
 const LineGraph = (props) => {
-  console.log(data);
-
-  console.log(`this is data.length ${data.length}`)
 
   const xData = [];
   const yData = [];
 
-
   for (let i = 0 ; i < data.length; i++) {
-    console.log(`this is i in the for loop ${i}`)
-    console.log(data[i])
     xData[i] = data[i].x;
     yData[i] = data[i].y;
   }
@@ -38,15 +32,12 @@ const LineGraph = (props) => {
   const yMaxVal = d3.max(yData);  
   // const yMinVal = d3.min(data, (d) => {d.y});
   // const yMaxVal = d3.max(data, (d) => {d.y});
-
-  console.log('y min Val', yMinVal, 'yMaxVal', yMaxVal);
   
   const getX = d3
     .scaleLinear()
     .domain(d3.extent(data, (d) => d.x))
     .range([0, width]);
   
-
   const getY = d3
     .scaleLinear()
     .domain([yMinVal - 1, yMaxVal + 2])
@@ -100,7 +91,7 @@ const LineGraph = (props) => {
           </text>
         {/* // chart title÷÷÷ */}
           <text
-              x={width / 2} y={0 - margin.top / 2} text-anchor="middle" >
+              x={width / 2} y={0 - margin.top / 2} textAnchor ="middle" >
               {"USD to RUB Exchange Rates, 2020"}
           </text>
         {/* // chart subtitle÷÷÷ */}
@@ -112,8 +103,9 @@ const LineGraph = (props) => {
                   {/* // hovering text ÷÷÷ */}
                       <text
                           fill="#666"
-                          x={getX(item.date)}
-                          y={getY(item.price) - 20}
+                          x={getX(item.x)}
+                          y={getY(item.y) - 20}
+    
                           textAnchor="middle"
                       >
                           {/* {index === activeIndex ? item.price : ""} */}
