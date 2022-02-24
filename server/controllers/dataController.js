@@ -9,11 +9,13 @@ const dataController = {};
 dataController.copyData = (req, res, next) => {
   let t1, t2;
   t1 = Date.now();
-  let table_name = `new_test`;
+  let table_name = `test`;
   let column_list = `(email)`;
   let file_path = `./input.csv`;
   let login_info = `--host=${process.env.PGHOST} --dbname=${process.env.PGDATABASE} --user=${process.env.PGUSER}`;
   let command_string = `psql ${login_info} -c "\\copy ${table_name} ${column_list} from ${file_path} CSV HEADER;"`;
+
+  console.log(command_string);
 
   child_process.exec(command_string, (err, stdout, stderr) => {
     if (err) {
@@ -27,12 +29,15 @@ dataController.copyData = (req, res, next) => {
   });
 };
 
-dataController.getMockData = (req, res, next) => {
+dataController.getMockData = (filepath, headers) => {
+  filepath = filepath || 'input.csv';
+  headers = headers || 'email \n';
+
   let t1, t2;
-  let writer = fs.createWriteStream('input.csv');
+  let writer = fs.createWriteStream(filepath);
   t1 = Date.now();
-  writer.write('email \n');
-  for (let i = 0; i < 100; i++) {
+  writer.write(headers);
+  for (let i = 0; i < 5000000; i++) {
     writer.write(faker.internet.email() + '\n');
   }
   t2 = Date.now();
