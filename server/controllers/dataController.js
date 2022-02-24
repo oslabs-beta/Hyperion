@@ -37,7 +37,7 @@ dataController.getMockData = (filepath, headers) => {
   let writer = fs.createWriteStream(filepath);
   t1 = Date.now();
   writer.write(headers);
-  for (let i = 0; i < 5000000; i++) {
+  for (let i = 0; i < 100; i++) {
     writer.write(faker.internet.email() + '\n');
   }
   t2 = Date.now();

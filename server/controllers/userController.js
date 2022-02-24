@@ -11,14 +11,6 @@ userController.createSession = (req, res, next) => {
 
 };
 
-userController.send2FACode = (req, res, next) => {
-  // TBD
-};
-
-userController.verify2FACode = (req, res, next) => {
-  // TBD
-};
-
 userController.signUp = (req, res, next) => {
 
   /* Step 1: Validate input */
@@ -122,11 +114,6 @@ userController.logout = (req, res, next) => {
   res.cookie('ssid', '', { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
   return next();
 }
-
-userController.logoutAllSessions = (req, res, next) => {
-  //res.cook('ssid',)
-  return next();
-};
 
 // checking session cookie, making sure its a valid session and assoc w/ user if it is 
 //global middleware, import into server js 
