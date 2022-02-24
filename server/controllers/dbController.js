@@ -2,65 +2,8 @@ const db = require('../models/dbModel.js');
 
 const dbController = {};
 
-dbController.validateInput = (req, res, next) => {
 
-  /*
-  ** Verify variable types
-  */
-
-  if (typeof req.body.dbInfo.name !== 'string' || typeof req.body.connectionDetails.uri !== 'string') {
-    // if(typeof req.body.dbInfo.dbname !== 'string' || typeof req.body.uris.uri !== 'string')
-    err = {
-      log: 'Name or URI is not a valid string',
-      status: 400,
-      message: { err: 'Please provide a valid name and URI' },
-    };
-    return next(err);
-  }
-
-  /*
-  ** Verify that inputs are provided
-  */
-
-  if (!req.body.dbInfo.name || !req.body.connectionDetails.uri) {
-    //if(!req.body.dbInfo.dbname || !req.body.uris.uri)
-    err = {
-      log: 'Could not find name and URI',
-      status: 400,
-      message: { err: 'Please provide a name and a URI' },
-    };
-    return next(err);
-  }
-
-  /*
-  ** Verify the validity of the URI
-  */
- 
-  const testExpression = /^postgres(ql)?:\/\//;
-  const testString = req.body.connectionDetails.uri.trim();
-  //const testString = req.body.uris.uri.trim()
-
-  if(!testString.match(testExpression)){
-    err = {
-      log: 'Invalid URI',
-      status: 400,
-      message: { err: 'Invalid URI' },
-    };
-    return next(err);
-  }
-
-  /*
-  ** Verify dbInfo exists/correct
-  */
-
-  /*
-  ** Verify connection 
-  */
-
-  next();
-};
-
-dbController.addNew = (req, res, next) => {
+dbController.addNewDb = (req, res, next) => {
 
   const queryString = 'INSERT INTO databases (name, uri) VALUES ($1, $2) RETURNING _id;';
   //const queryString = Inner Join??
@@ -77,7 +20,7 @@ dbController.addNew = (req, res, next) => {
   
 };
 
-dbController.delete = (req, res, next) => {
+dbController.removeDb = (req, res, next) => {
   const queryString = 'DELETE FROM databases WHERE _id = $1 RETURNING _id, name;';
   const deletedId = req.params.id;
   db.query(queryString, [deletedId])

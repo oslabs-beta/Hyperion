@@ -3,9 +3,16 @@ const { Pool } = require('pg');
 const fs = require('fs');
 
 const defaultPool = new Pool({ // uses environment variables
-  ssl: { // use certifcate auth provided by AWS
+  connectionTimeoutMillis: 10000,
+  // defauly connetion doesnt have default
+  query_timeout: 10000,
+  statement_timeout: 10000,
+  // keeps pool open forever once client opens it 
+  idleTimeoutMillis: 0,
+  max: 10,
+  ssl: { // use certifcate auth provided by AWS for North California region (us-west-1)
     rejectUnauthorized: true,
-    ca: fs.readFileSync('./us-east-1-bundle.pem').toString()
+    ca: fs.readFileSync('./us-west-1-bundle.pem').toString()
   }
 });
 
@@ -23,7 +30,7 @@ db.runQuery = async (queryText, params, pool = defaultPool) => {
     client.release();
   }
 };
-//
+
 db.runQueryAnalyze = async (queryText, params, pool = defaultPool) => {
   const client = await pool.connect();
 
@@ -87,10 +94,48 @@ db.runExplainAnalyze = async (queryText, params, pool = defaultPool) => {
 
 
 /* === SAMPLE CODE START === */
+// let t1, t2;
+// t1 = Date.now();
+// defaultPool.query('select 1;')
+//   .then(r => {
+//     t2 = Date.now();
+//     console.log(t2 - t1);
+//   })
+//   .catch(e => console.log('error'));
 
-// db.runQuery('select count(*) from users;')
-//   .then(r => console.log('success'))
-//   .catch(e => console.log('error caught')); 
+// let sent = 0;
+// let received = 0;
+// let errors = 0;
+
+// const func = () => {
+//   sent++;
+//   db.runQuery('select 1;')
+//     .then(r => {
+//       received++;
+//     })
+//     .catch(e => errors++);
+// }
+// const log = () => {
+//   console.log(`Sent: ${sent}`);
+//   console.log(`Received: ${received}`);
+//   console.log(`Errors: ${errors}`);
+//   console.log(`waiting: ${defaultPool.waitingCount}`);
+// }
+// while (true) {
+//   func();
+//   if (sent >= 1000) { 
+//     setTimeout(log, 3000);
+//     setTimeout(log, 10000);
+//     break;
+    
+//   }
+  
+//   }
+
+
+
+
+
 
 // db.runExplainAnalyze('select count(*) from users;')
 //   .then(r => console.log(r))

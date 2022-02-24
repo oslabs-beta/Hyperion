@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS ssl_modes (
+CREATE TABLE IF NOT EXISTS app.ssl_modes (
   _id       SERIAL PRIMARY KEY,
   ssl_mode  VARCHAR(255) UNIQUE NOT NULL
 );
 
-INSERT INTO ssl_modes (ssl_mode) VALUES ('ALLOW');
-INSERT INTO ssl_modes (ssl_mode) VALUES ('PREFER');
-INSERT INTO ssl_modes (ssl_mode) VALUES ('REQUIRE');
-INSERT INTO ssl_modes (ssl_mode) VALUES ('VERIFY-CA');
-INSERT INTO ssl_modes (ssl_mode) VALUES ('VERIFY-FULL');
+INSERT INTO app.ssl_modes (ssl_mode) VALUES ('Allow');
+INSERT INTO app.ssl_modes (ssl_mode) VALUES ('Prefer');
+INSERT INTO app.ssl_modes (ssl_mode) VALUES ('Require');
+INSERT INTO app.ssl_modes (ssl_mode) VALUES ('Verify-CA');
+INSERT INTO app.ssl_modes (ssl_mode) VALUES ('Verify-Full');
