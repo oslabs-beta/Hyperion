@@ -8,7 +8,7 @@ const defaultPool = new Pool({ // uses environment variables
   query_timeout: 10000,
   statement_timeout: 10000,
   // keeps pool open forever once client opens it 
-  idleTimeoutMillis: 0,
+  idleTimeoutMillis: 30000,
   max: 10,
   ssl: { // use certifcate auth provided by AWS for North California region (us-west-1)
     rejectUnauthorized: true,
