@@ -6,6 +6,7 @@ import Dashboard from './containers/Dashboard';
 import Schemas from './containers/Schemas';
 import Tests from './containers/Tests';
 import Queries from './containers/Queries';
+import LineGraph from './components/LineGraph';
 
 const App = (props) => {
 
@@ -18,7 +19,7 @@ const App = (props) => {
     <BrowserRouter>
       <Routes>
         {/* change this to dashboard later  */}
-        <Route path='/' element={<Databases/>} />
+        <Route path='/' element={<Dashboard/>} />
         <Route path='/dashboard' element={<Dashboard/>} /> 
         <Route path='/database' element={<Databases/>} />
         <Route path='/schemas' element={<Schemas/>} />

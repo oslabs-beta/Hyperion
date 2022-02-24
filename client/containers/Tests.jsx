@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Layout from './Layout';
 import TestConfigWindow from '../components/TestConfigWindow';
 import { connect } from "react-redux";
+import LineGraph from '../components/LineGraph';
 
 
 const Tests = () => { 
@@ -14,12 +15,9 @@ const Tests = () => {
     /*
     example data!!!
     */
-    const data = []
-    for (let i = 0; i < 10; i++) {
-      data.push({ x: i, y: i ** 2 })
-    }
 
-    setImage()
+
+    setImage(true)
   }
 
   return (
@@ -27,6 +25,7 @@ const Tests = () => {
       <h4>Tests</h4>
       <StyledContainer>
         {image}
+        <LineGraph />
         <TestConfigWindow />
       </StyledContainer>
     </Layout>
