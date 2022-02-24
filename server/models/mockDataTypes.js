@@ -1,3 +1,5 @@
+const { number } = require("prop-types")
+
 const mockDataTypes = {
   randomName: "RANDOM_NAME",
   randomFirstName: "RANDOM_FIRSTNAME",
