@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
 // import all reducers here
-import dbReducer from './dbReducer';
+import reducer from './reducer';
 // combine reducers
 const reducers = combineReducers({
     // list all reducers here
-    db: dbReducer, 
+    app: reducer, 
 });
 
 // make the combined reducers available for import

@@ -3,7 +3,7 @@ import { addDatabse } from '../actions/actions.js';
 
 
 const initialState = { 
-    databaseInfo: {}, 
+    databaseInfo: {},
     /*
     {
         id: {
@@ -21,9 +21,19 @@ const initialState = {
         ... 
     }
     */
+    queryStore: {},
+    /*
+    {
+        id: {
+            databaseId: Number,
+            query: String, 
+        },
+        id2: {}
+    }
+    */
 };
 
-const dbReducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
    
     const databaseInfo = JSON.parse(JSON.stringify(state.databaseInfo));
     
@@ -54,4 +64,4 @@ const dbReducer = (state = initialState, action) => {
     };
 };
 
-export default dbReducer;
+export default reducer;

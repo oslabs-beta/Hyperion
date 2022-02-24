@@ -3,7 +3,6 @@ import * as actionCreators from '../actions/actions';
 
 
 export const addDb = (formData) => {
-  
   // TODO data validation 
   return (dispatch, getState) => {
     fetch('/api/db/new', {
@@ -26,7 +25,6 @@ export const addDb = (formData) => {
 
 
 export const deleteDb = (id) => {
-
   return (dispatch, getState) => {
     // TODO make sure that user is authenticated to be able to delete database 
     fetch(`/api/db/delete/${id}`, {
@@ -48,9 +46,7 @@ export const deleteDb = (id) => {
 
  
 export const connectDb = (id) => {
-  
   return (dispatch, getState) => {
-
     // TODO data validation to make sure user is authenticated to connect db 
     fetch (`/api/db/connect/${id}`, {
         method: 'POST',
@@ -67,5 +63,4 @@ export const connectDb = (id) => {
       })
   }
 }
-
 

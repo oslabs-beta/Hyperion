@@ -8,7 +8,8 @@ const TestConfigWindow = () => {
   return (
     <>
       <StyledContainer>
-        <FormControl>
+        <div>Test Configuration Window</div>
+        {/* <FormControl>
           <InputLabel htmlFor='host'>Host</InputLabel>
           <Input id='host' name='host' type='text' />
         </FormControl>
@@ -32,7 +33,7 @@ const TestConfigWindow = () => {
         <FormControl>
           <InputLabel htmlFor='ssl'>SSL Mode</InputLabel>
           <Input id='ssl' name='ssl' type='text' />
-        </FormControl>
+        </FormControl> */}
       </StyledContainer>
     </>
 

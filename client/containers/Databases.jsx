@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import VerticalNavbar from '../components/VerticalNavbar';
 import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
@@ -40,7 +39,7 @@ const Databases = (props) => {
 
 // ---------------- dispatch ------------ // 
 const mapStateToProps = (state) =>({
-  databaseList: state.db.databaseList
+  databaseList: state.app.databaseList // need to chang 
 });
 
 const mapDispatchToProps = (dispatch) => ({

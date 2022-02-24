@@ -21,16 +21,12 @@ const NavbarLink = (props) => {
     //   </Link> 
     // </LinkContainer>
 
-
     <LinkContainer style={style}>
       {icon}
       <Link className='link' to={linkPath}>{displayText}</Link> 
     </LinkContainer>
   )
 }
-
-
-
 
 const LinkContainer = styled.div`
   display: flex; 
