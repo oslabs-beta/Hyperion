@@ -15,15 +15,17 @@ dataController.copyData = (req, res, next) => {
   let login_info = `--host=${process.env.PGHOST} --dbname=${process.env.PGDATABASE} --user=${process.env.PGUSER}`;
   let command_string = `psql ${login_info} -c "\\copy ${table_name} ${column_list} from ${file_path} CSV HEADER;"`;
 
-  console.log(command_string);
+  
 
   child_process.exec(command_string, (err, stdout, stderr) => {
     if (err) {
       console.log('there was an error')
+      console.log(`${stdout}`);
       console.log(`${stderr}`);
       return;
     }
     console.log(`${stdout}`);
+    console.log(`${stderr}`);
     t2 = Date.now();
     console.log((t2 - t1) / 1000);
   });
@@ -37,7 +39,7 @@ dataController.getMockData = (filepath, headers) => {
   let writer = fs.createWriteStream(filepath);
   t1 = Date.now();
   writer.write(headers);
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1000; i++) {
     writer.write(faker.internet.email() + '\n');
   }
   t2 = Date.now();

@@ -3,11 +3,11 @@ const dbController = require('../../controllers/dbController')
 
 const db = express.Router();
 
-db.post('/new', dbController.validateInput, dbController.addNew, (req, res) => {
+db.post('/new', dbController.addNewDb, (req, res) => {
   res.status(200).json(res.locals.dbInfo);
 });
 
-db.delete('/delete', dbController.delete, (req, res) => {
+db.delete('/delete', dbController.removeDb, (req, res) => {
   res.status(200).json(res.locals.dbInfo);
 });
 
