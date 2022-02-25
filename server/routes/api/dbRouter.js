@@ -1,26 +1,19 @@
 const express = require('express');
-const dbController = require('../../controllers/dbController')
+const dbController = require('../../controllers/dbController');
+const userController = require('../../controllers/userController');
 
 const db = express.Router();
 
-db.post('/new', dbController.addNewDb, (req, res) => {
+db.post('/new', userController.authorize, dbController.addNewDb, (req, res) => {
   res.status(200).json(res.locals.dbInfo);
 });
 
-db.delete('/delete', dbController.removeDb, (req, res) => {
+db.delete('/delete', userController.authorize, dbController.removeDb, (req, res) => {
   res.status(200).json(res.locals.dbInfo);
 });
 
-db.post('/testconnect', (req, res) => {
-
-});
-
-db.post('/getlatency', (req, res) => {
-
-});
-
-db.post('/runquerytests', (req, res) => {
-
+db.post('/runtests', userController.authorize, dbController.connect, dbController.runQueryTests, (req, res) => {
+  res.status(200).json(res.locals.testResults);
 });
 
 module.exports = db;

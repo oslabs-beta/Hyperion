@@ -17,13 +17,24 @@ dbController.addNewDb = (req, res, next) => {
 };
 
 dbController.removeDb = (req, res, next) => {
-  const uriString = 'DELETE FROM app.uris WHERE database_id = $1';
-  const queryString = 'DELETE FROM app.databases WHERE _id = $1 RETURNING _id';
+  const uriString = 
+  `DELETE FROM app.uris
+  WHERE database_id = $1
+  AND EXISTS (SELECT _id FROM app.databases WHERE _id = $1 AND user_id = $2)
+  `
+  ;
+  const queryString = 
+  `DELETE FROM app.databases 
+  WHERE _id = $1 
+  AND user_id = $2
+  RETURNING _id`;
+
   const deletedId = req.body.dbInfo.id;
-  db.runQuery(uriString, [deletedId])
-    .then(() => db.runQuery(queryString, [deletedId]))
-    .then(() => {
-      res.locals.dbInfo = { id: r.rows[0]._id };
+
+  db.runQuery(uriString, [deletedId, res.locals.userAuth.userId])
+    .then(() => db.runQuery(queryString, [deletedId, res.locals.userAuth.userId]))
+    .then(r => {
+      res.locals.dbInfo = { id: deletedId };
       console.log('Successfully removed DB from list');
       return next();
     })
@@ -33,38 +44,45 @@ dbController.removeDb = (req, res, next) => {
 dbController.connect = (req, res, next) => {
 
   // retrieve the db id from body
-  // req.body.dbInfo.id
+  const dbId = req.body.dbInfo.id;
+  const uid = res.locals.userAuth.userId;
     
   // verify that the db belongs to the user account making the request
-  // res.locals.authInfo.authenticated 
-  // res.locals.authInfo.userId
-
-  // retrieve the connection URI with a join on the user id
-
-  const queryString = 'SELECT _id FROM app.databases INNER JOIN app.uris WHERE _id = db_id';
-  const queryParams = [req.body.dbInfo.connectionString];
-
-  const URI = '';
-
-  // connect to the pool
-  const pool = new Pool({
-    connectionString: URI,
-    connectionTimeoutMillis: 10000,
-    query_timeout: 10000,
-    statement_timeout: 10000,
-    idleTimeoutMillis: 30000,
-    ssl: { rejectUnauthorized: false }
-  });
-  // return a pool object
-  const t1 = Date.now();
-  pool.query('SELECT 1')
-    .then(() => {
-      const t2 = Date.now();
-      console.log(`Connection established in ${t2 - t1}ms`)
-      res.locals.dbInfo.pool = pool;
-      return next();
+  db.runQuery(`SELECT FROM app.databases WHERE _id = $1 AND user_id = $2`, [dbId, uid])
+    .then(r => {
+      if (!r.rows.length) {
+        console.log('Invalid database or credentials')
+        return next('Invalid database or credentials');
+      } 
+      return db.runQuery(`SELECT uri FROM app.uris WHERE database_id = $1`, [dbId]);
     })
-    .catch(e => next(e));
+    .then(r2 => {
+      if (!r2.rows.length) {
+        console.log('No URI found for this database');
+        return next('No URI found for this database');
+      } 
+      const URI = r2.rows[0].uri;
+
+      // connect to the pool
+      const pool = new Pool({
+        connectionString: URI,
+        connectionTimeoutMillis: 10000,
+        query_timeout: 10000,
+        statement_timeout: 10000,
+        idleTimeoutMillis: 30000,
+        ssl: { rejectUnauthorized: false }
+      });
+      // return a pool object
+      const t1 = Date.now();
+      pool.query('SELECT 1')
+        .then(() => {
+          const t2 = Date.now();
+          console.log(`Connection established in ${t2 - t1}ms`)
+          res.locals.dbInfo = { pool };
+          return next();
+        })
+    })
+    .catch(e => next(e)); 
 
 };
 
@@ -73,7 +91,7 @@ dbController.runQueryTests = (req, res, next) => {
   // receives a pool object in res.locals.dbInfo.pool
   // also needs to know the query string
   // also needs to know the query parameters
-
+  next();
 
 };
 
