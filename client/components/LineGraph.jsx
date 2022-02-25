@@ -5,20 +5,20 @@ import PropTypes from 'prop-types';
 /*
 Example Data: [{ x: 1, y: 2}, { x: 2, y: 3 }, { x: 5, y: 5}]
 */
-
-const margin = { top: 40, right: 80, bottom: 60, left: 50 };
-const width = 300 - margin.left - margin.right;
-const height = 280 - margin.top - margin.bottom;
-const color = "Purple";
-
-
-const data = []
+const exampleData = []
 for (let i = 0; i < 10; i++) {
-  data.push({ x: i, y: i ** 5 })
+  exampleData.push({ x: i, y: i ** 5 })
 }
 
-
 const LineGraph = (props) => {
+  const {
+    data = exampleData,
+    margin = { top: 40, right: 80, bottom: 60, left: 50 },
+    width = 400,
+    height = 300, 
+    color = 'Purple'
+  } = props;
+
 
   const xData = [];
   const yData = [];
@@ -32,6 +32,8 @@ const LineGraph = (props) => {
   const yMaxVal = d3.max(yData);  
   // const yMinVal = d3.min(data, (d) => {d.y});
   // const yMaxVal = d3.max(data, (d) => {d.y});
+
+  console.log('yMinVal', yMinVal, 'yMaxVal', yMaxVal)
   
   const getX = d3
     .scaleLinear()
@@ -50,7 +52,7 @@ const LineGraph = (props) => {
 
   const getYAxis = (ref) => {
     const yAxis = d3.axisLeft(getY)
-
+      // .ticks(5)
       // .tickSize(-width)
       // .tickPadding(7);
     d3.select(ref).call(yAxis);
