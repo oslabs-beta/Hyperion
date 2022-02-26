@@ -92,10 +92,6 @@ const LineGraph = (props) => {
               {"USD"}
           </text>
         {/* // chart title÷÷÷ */}
-          <text
-              x={width / 2} y={0 - margin.top / 2} textAnchor ="middle" >
-              {"USD to RUB Exchange Rates, 2020"}
-          </text>
         {/* // chart subtitle÷÷÷ */}
 
 
