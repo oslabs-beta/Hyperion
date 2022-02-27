@@ -2,48 +2,14 @@
 import * as types from '../actions/actionTypes';
 import Database from '../models/database';
 import { Query } from '../models/database';
-// const initialState = { 
-//     databases: {},
-//     /*
-//     {
-//         id: {
-//             id: Number, 
-//             port: Number,
-//             database: String (database name referred to by postgres),
-//             name: String (database name provided by user),
-//             sslMode: String 
-//             user: String,
-//             isConnected: Boolean, 
-//             queries: {
-//                 queryId: {
 
-//                 },
-//                 ...
-//             }, 
-//             tables : {
-//                 tableId: {
-//                     name: String,
-//                     attributes:[] of {
-//                         attribute: String, 
-//                         datatypeId:  
-//                     }
-//                 },
-//                 ...
-//             }
-//         }, 
-//         ... 
+// const createTestDatabases = () => {
+//     const databases : { [id: number] : Database } = {};
+//     for (let i = 0; i < 5; i++) {
+//         databases[i] = new Database(i, Math.floor(Math.random()*1000), 'pgDatabaseName', 'label' + i, 'sslMode', 'user', false);
 //     }
-//     */
-
-// };
-
-const createTestDatabases = () => {
-    const databases : { [id: number] : Database } = {};
-    for (let i = 0; i < 5; i++) {
-        databases[i] = new Database(i, Math.floor(Math.random()*1000), 'pgDatabaseName', 'label' + i, 'sslMode', 'user', false);
-    }
-    return databases
-}
+//     return databases
+// }
 
 // id: Number, port: Number, pgDatabaseName: String, label: String, sslMode: String, user: String, isConnected: Boolean
 const initialState = {

@@ -94,7 +94,6 @@ const LineGraph = (props) => {
         {/* // chart title÷÷÷ */}
         {/* // chart subtitle÷÷÷ */}
 
-
           {data.map((item, index) => {
               return (
                   <g key={index}>

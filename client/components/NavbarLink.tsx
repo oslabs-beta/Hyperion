@@ -6,7 +6,6 @@ import { rows } from 'pg/lib/defaults';
 
 const NavbarLink = (props) => {
   const {
-    isActive, 
     icon,
     displayText,
     linkPath, 
@@ -14,13 +13,6 @@ const NavbarLink = (props) => {
   } = props; 
 
   return (
-    // <LinkContainer>
-    //   <Link className='link' to={linkPath}>
-    //     {icon}
-    //     {displayText}
-    //   </Link> 
-    // </LinkContainer>
-
     <LinkContainer style={style}>
       {icon}
       <Link className='link' to={linkPath}>{displayText}</Link> 

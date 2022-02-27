@@ -5,7 +5,7 @@ import Database from '../models/database';
 
 
 //-------------------------ADD DATABASE ---------------------------
-export const addDb = (database) => ({
+export const addDb = (database ) => ({ // database : Database
     type: types.ADD_DB,
     payload: database
 })
@@ -25,6 +25,7 @@ export const connectDatabase = (id: number) => ({
     payload: id
 })
 // -----------------------------------------------------------------
+
 
 export const addQuery = (databaseId: number, queryId: number,  query: string) => ({
     type: types.ADD_QUERY,

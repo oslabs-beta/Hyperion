@@ -23,6 +23,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.2",
+    "@reduxjs/toolkit": "^1.8.0",
     "@sendgrid/mail": "^7.6.1",
     "@types/styled-components": "^5.1.23",
     "bcrypt": "^5.0.1",
@@ -43,6 +44,8 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "sass": "^1.49.9",
+    "sass-loader": "^12.6.0",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2"
   },
