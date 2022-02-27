@@ -37,10 +37,15 @@ module.exports = {
         test: /\.(png|jp(e*)g|svg|gif)$/,
         use: ['file-loader'],
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   resolve: {
-    extensions: ['', '.jsx', '.js'],
+    extensions: ['', '.jsx', '.js', '.tsx', '.ts'],
   },
   devServer: {
     historyApiFallback: true, 

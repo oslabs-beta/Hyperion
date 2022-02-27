@@ -1,8 +1,8 @@
 
 import * as actionCreators from '../actions/actions';
+import Database from '../models/database';
 
-
-export const addDb = (formData) => {
+export const addDb = (formData: object) => {
   // TODO data validation 
   return (dispatch, getState) => {
     fetch('/api/db/new', {
@@ -12,9 +12,12 @@ export const addDb = (formData) => {
     })
       .then(res => res.json())
       .then(data => {
+
+        // const newDb = new Database();
+        const newDb = ''
         // TODO make sure the data object is the right format 
         if (data.statusCode === 200) {
-          dispatch(actionCreators.addDb()) // pass in new database arguments from data
+          dispatch(actionCreators.addDb(newDb)) // pass in new database arguments from data
         }
       })
       .catch(err => {
@@ -24,8 +27,8 @@ export const addDb = (formData) => {
 }
 
 
-export const deleteDb = (id) => {
-  return (dispatch, getState) => {
+export const deleteDb = (id: number) => {
+  return (dispatch: any) => {
     // TODO make sure that user is authenticated to be able to delete database 
     fetch(`/api/db/delete/${id}`, {
       method: 'DELETE',
@@ -45,8 +48,8 @@ export const deleteDb = (id) => {
 
 
  
-export const connectDb = (id) => {
-  return (dispatch, getState) => {
+export const connectDb = (id: number) => {
+  return (dispatch) => {
     // TODO data validation to make sure user is authenticated to connect db 
     fetch (`/api/db/connect/${id}`, {
         method: 'POST',
@@ -64,3 +67,29 @@ export const connectDb = (id) => {
   }
 }
 
+export const addQuery = (databaseId: number, query: string) => {
+  // return (dispatch: any, getState: any) => {
+  //   fetch('/api/query/new', {
+  //     method: 'POST', 
+  //     headers: { 'Content-Type': 'application/json' }
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       if (data.statusCode === 200) {
+  //         dispatch(actionCreators.addQuery(databaseId, query))
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log('error', err);
+  //     })
+  // }
+
+  console.log('in addQuery Thunk', databaseId, query);
+  return (dispatch: any) => {
+    dispatch(actionCreators.addQuery(databaseId, query));
+  }
+}
+
+export const deleteQuery = () => {
+
+}

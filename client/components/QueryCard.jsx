@@ -4,13 +4,7 @@ import styled from 'styled-components';
 import { Button } from '@mui/material';
 
 
-const QueryCard = (props) => {
-    const {
-      id, 
-      deleteQueryFunc,
-      sqlQuery
-    } = props;
-
+const QueryCard = ({ id, deleteQueryFunc, sqlQuery}) => {
 
 return (
     <StyledCard>

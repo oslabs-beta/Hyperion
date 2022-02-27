@@ -9,13 +9,16 @@ import * as thunk from '../middleware/dbThunk';
 
 // -------- main component ---------- //
 const Databases = (props) => {  
+
   return (
     <Layout>
+      <StyledContainer>
+        
         <DatabaseGroup>
-        <h4>My Databases</h4>
+          <h4>My Databases</h4>
         {/* example */}
           <DatabaseCard id={1} isConnected={true} connectDbFunc={props.connectDb} deleteDbFunc={props.deleteDb} database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
-          {/* {databaseList.map(database => {
+          {/* {props.databases.map(database => {
             return <DatabaseCard 
               id={database.id} 
               isConnected={database.isConnected}
@@ -31,15 +34,23 @@ const Databases = (props) => {
           <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
           <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
         </DatabaseGroup>
-      <NewDatabaseWindow addDbFunc={props.addDb}/>
+        <NewDatabaseWindow addDbFunc={props.addDb}/>
+      </StyledContainer>
     </Layout>
   )
 }
 
 
+const StyledContainer = styled.div`
+  display: flex; 
+  height: 100%; 
+  // flex-wrap: nowrap;
+`;
+
+
 // ---------------- dispatch ------------ // 
 const mapStateToProps = (state) =>({
-  databaseList: state.app.databaseList // need to chang 
+  databases: state.app.databases
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -55,5 +66,4 @@ const DatabaseGroup = styled.div`
   overflow-y: scroll;
 `;
 
-connect(mapStateToProps, mapDispatchToProps)(Databases);
-export default Databases
+export default connect(mapStateToProps, mapDispatchToProps)(Databases);

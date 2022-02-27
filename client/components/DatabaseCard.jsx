@@ -44,9 +44,10 @@ const DatabaseCard = (props) => {
         {isConnected ? 
           <Button variant='text' size='small' disabled color='success'>Connected</Button>
           :
-          <Button onClick={() => {connectDbFunc(id)}} variant='contained' size='small' color='success'>Connect</Button>
+          null
+          // <Button onClick={() => {connectDbFunc(id)}} variant='contained' size='small' color='success'>Connect</Button>
         }
-        <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Delete</Button>
+        <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
       </div>
     </StyledCard>
   )

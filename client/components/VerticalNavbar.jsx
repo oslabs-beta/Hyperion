@@ -24,7 +24,7 @@ const VerticalNavbar = (props) => {
       <div className='navbar-app-links'>
         <NavbarLink icon={ICONS.dashboard} displayText='Dashboard' linkPath='/dashboard'/> 
         <NavbarLink icon={ICONS.database} displayText='Databases' linkPath='/database'/> 
-        <NavbarLink icon={ICONS.schema} displayText='Schema' linkPath='/schemas'/> 
+        <NavbarLink icon={ICONS.schema} displayText='Data Models' linkPath='/data-models'/> 
         <NavbarLink icon={ICONS.queries} displayText='Queries' linkPath='/queries'/> 
         <NavbarLink icon={ICONS.tests} displayText='Run Tests' linkPath='/tests'/> 
       </div>
@@ -54,7 +54,7 @@ const StyledContainer = styled.div`
   justify-content: space-around; 
   flex-direction: column; 
   border-right: 1.5px solid grey; 
-  // overflow-y: scroll;
+  overflow-y: scroll;
 
   // padding: 1em 2em;
 
