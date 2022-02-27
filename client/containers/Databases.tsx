@@ -1,38 +1,35 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
 import Layout from './Layout';
 import { connect } from "react-redux";
 import * as thunk from '../middleware/dbThunk';
+import Database from '../models/database';
 
 
 // -------- main component ---------- //
 const Databases = (props) => {  
-
   return (
     <Layout>
       <StyledContainer>
-        
         <DatabaseGroup>
           <h4>My Databases</h4>
-        {/* example */}
-          <DatabaseCard id={1} isConnected={true} connectDbFunc={props.connectDb} deleteDbFunc={props.deleteDb} database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
-          {/* {props.databases.map(database => {
-            return <DatabaseCard 
-              id={database.id} 
-              isConnected={database.isConnected}
+          {Object.values(props.databases).map((db : Database, i) => {
+            return <DatabaseCard
+              key={i}
+              id={db.id}
+              label={db.label}
+              isConnected={db.isConnected}
               connectDbFunc={props.connectDb}
               deleteDbFunc={props.deleteDb}
-              database={database.database} 
-              port={database.port}
-              user={database.user} 
-              ssl={database.ssl} 
-              latency={database.latency}
-              />
-          })} */}
-          <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
-          <DatabaseCard database='db1.aws.com' port={5432} user='postgres' ssl='Required'></DatabaseCard>
+              database={db.pgDatabaseName} 
+              port={db.port} 
+              user={db.user}  // not sure if needed
+              ssl={db.sslMode}
+              latency = {db.latency}
+            />
+          })}
         </DatabaseGroup>
         <NewDatabaseWindow addDbFunc={props.addDb}/>
       </StyledContainer>
@@ -40,7 +37,7 @@ const Databases = (props) => {
   )
 }
 
-
+// ----------- styling ---------- // 
 const StyledContainer = styled.div`
   display: flex; 
   height: 100%; 
@@ -55,9 +52,10 @@ const mapStateToProps = (state) =>({
 
 const mapDispatchToProps = (dispatch) => ({
   addDb: (formData) => { dispatch(thunk.addDb(formData)) },
-  deleteDb: (id) => { dispatch(thunk.deleteDb(id)) }
+  deleteDb: (id) => { 
+    dispatch(thunk.deleteDb(id)) 
+  }
 })
-
 
 const DatabaseGroup = styled.div`
   background-color: rgb(220, 220 ,220); 

@@ -1,5 +1,5 @@
 // import actionType constants
-import * as types from '../constants/actionTypes';
+import * as types from './actionTypes';
 import Database from '../models/database';
 
 
@@ -31,8 +31,12 @@ export const addQuery = (databaseId: number, queryId: number,  query: string) =>
     payload: {databaseId: databaseId, queryId: queryId, query: query}
 })
 
-export const deleteQuery = (queryId: number) => ({
+export const deleteQuery = (databaseId: number, queryId: number) => ({
     type: types.DELETE_QUERY,
-    payload: queryId
+    payload: {databaseId: databaseId, queryId: queryId}
 })
 
+export const runTest = (queryId: number) => ({
+    type: types.RUN_TEST,
+    payload: queryId
+})

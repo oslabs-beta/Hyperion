@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { isValidElement, useState } from 'react';
 import styled from 'styled-components';
 import { FormControl, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 
-const NewQueryWindow = ({
-  newQueryFunc
-}) => {
+const NewQueryWindow = ({ newQueryFunc }) => {
+
   const handleSubmit = (e) => {
+    
     e.preventDefault();
-    // console.log(e.target.input.value);
+
     const query = e.target.input.value; 
+    e.target.input.value = '';
+    
     const isValidInput = validateInput(query);
+
+    if (!isValidInput) return;
     // TODO clean the input fields 
     if (isValidInput) {
       newQueryFunc(query);
@@ -18,8 +22,10 @@ const NewQueryWindow = ({
   
   }
  
-  // TODO return boolean if input is avalid
+  // TODO validate the query input
+  // ensure 
   const validateInput = (input) => {
+    if (!input) return false;
     return true; 
   }
 

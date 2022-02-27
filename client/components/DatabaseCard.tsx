@@ -7,7 +7,8 @@ const DatabaseCard = (props) => {
   const {
     id, 
     deleteDbFunc,
-    connectDbFunc,
+    label,
+    // connectDbFunc,
     isConnected,
     database, 
     port, 
@@ -19,6 +20,10 @@ const DatabaseCard = (props) => {
   return (
     <StyledCard>
       <div className='info-group'>
+        <div className='info-group-item'>
+          <h5>Label:</h5>
+          {label}
+        </div>
         <div className='info-group-item'>
           <h5>Database:</h5>
           {database}

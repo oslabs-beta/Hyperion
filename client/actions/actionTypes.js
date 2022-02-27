@@ -14,4 +14,4 @@ export const ADD_USER = 'ADD_USER';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export const RUN_TEST = 'RUN_TEST'
+export const RUN_TEST = 'RUN_TEST';

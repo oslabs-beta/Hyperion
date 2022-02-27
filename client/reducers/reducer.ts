@@ -1,8 +1,8 @@
-import * as types from '../constants/actionTypes';
+
+import * as types from '../actions/actionTypes';
 import Database from '../models/database';
 import { Query } from '../models/database';
 // const initialState = { 
-
 //     databases: {},
 //     /*
 //     {
@@ -47,7 +47,7 @@ const createTestDatabases = () => {
 
 // id: Number, port: Number, pgDatabaseName: String, label: String, sslMode: String, user: String, isConnected: Boolean
 const initialState = {
-    databases: createTestDatabases(),
+    databases: {}, // createTestDatabases() will be empty object when linking back and frontend
 }
 
 const reducer = (state = initialState, action: any) => {
@@ -68,25 +68,31 @@ const reducer = (state = initialState, action: any) => {
                 databases: databases
             }
         case types.ADD_QUERY: 
-            // console.log(action.payload);
             const {
                 databaseId, 
                 queryId, 
                 query
             } = action.payload; 
-            const database = databases[action.payload.databaseId];
-            console.log(database);
             databases[databaseId].queries[queryId] = { id: queryId, queryString: query };
-            console.log('databases in addquery reducer', databases)
             return {
                ...state, 
                databases: databases
+            }
+        case types.DELETE_QUERY: 
+            delete databases[action.payload.databaseId].queries[action.payload.queryId];
+            return {
+                ...state, 
+                databases: databases
+            }
+        case types.RUN_TEST:
+            return {
+                ...state, 
+                databases: databases
             }
         // need to remove
         default: 
             return state; 
     };
-    // return state; // remove later
 };
 
 export default reducer;

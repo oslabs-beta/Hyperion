@@ -36,7 +36,6 @@ const VerticalNavbar = (props) => {
         <li>Login</li>
         <li>Sign Up</li>
       </ul>
-      
     </StyledContainer>
   )
 }
@@ -71,7 +70,6 @@ const StyledContainer = styled.div`
   .user-links {
     font-size: 10pt;
   }
-  
 `;
 
 
