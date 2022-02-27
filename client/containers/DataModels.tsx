@@ -1,11 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import VerticalNavbar from '../components/VerticalNavbar';
 import styled from 'styled-components';
 import Layout from './Layout';
 
 const exampleDatabaseList = ['database1', 'database2', 'database3'];
 
-const DataModels = () => {
+const DataModels = (props) => {
   return (
     <Layout>
       <Container>

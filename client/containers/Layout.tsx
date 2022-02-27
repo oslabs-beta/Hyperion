@@ -1,11 +1,11 @@
-import React from 'react';
+import  * as React from 'react';
 import VerticalNavbar from '../components/VerticalNavbar';
 import styled from 'styled-components';
 /**
  * 
  * wrapper component for defining the layout of our container components 
  */
-const Layout = (props) => {
+const Layout = (props: any) => {
   return (
     <StyledLayout className={props.className}>
       <VerticalNavbar />

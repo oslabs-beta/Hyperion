@@ -58,9 +58,9 @@ export default class Database {
         // TODO error handling 
     }
 
-    getQueries = () => { Object.values(this.queries); }
+    getQueries = () => { return Object.values(this.queries); }
     
-    getTables = () => { Object.values(this.tables); }
+    getTables = () => { return Object.values(this.tables); }
 
     deepCopy = () => { return JSON.parse(JSON.stringify(this)); }
 

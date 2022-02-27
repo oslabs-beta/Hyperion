@@ -54,7 +54,6 @@ const reducer = (state = initialState, action: any) => {
    
     const databases = JSON.parse(JSON.stringify(state.databases));
     
-    console.log(' state in reducer', state);
     switch (action.type) {
         case types.ADD_DB:
             databases[action.payload.id] = action.payload;
@@ -63,17 +62,26 @@ const reducer = (state = initialState, action: any) => {
                 databases: databases
             };
         case types.DELETE_DB: 
-           delete databases[action.payload];
-           return {
-               ...state,
-               databases: databases
-           }
+            delete databases[action.payload];
+            return {
+                ...state,
+                databases: databases
+            }
         case types.ADD_QUERY: 
-           databases[action.payload.id] = { id: action.payload.id, queryString: action.payload.query };
-           return {
+            // console.log(action.payload);
+            const {
+                databaseId, 
+                queryId, 
+                query
+            } = action.payload; 
+            const database = databases[action.payload.databaseId];
+            console.log(database);
+            databases[databaseId].queries[queryId] = { id: queryId, queryString: query };
+            console.log('databases in addquery reducer', databases)
+            return {
                ...state, 
                databases: databases
-           }
+            }
         // need to remove
         default: 
             return state; 

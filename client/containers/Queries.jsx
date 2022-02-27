@@ -15,10 +15,9 @@ import { InputLabel, MenuItem, FormControl } from '@mui/material';
 
 const Queries = (props) => {
   
-  const [dbId, setDbId] = useState(null);
+  const databases = Object.values(props.databases);
+  const [dbId, setDbId] = useState(databases.length === 0 ? undefined : databases[0].id );
 
-    // validation 
-  // adding these functions to event handlers on the buttons 
 
   const handleNewQuery = (query) => {
     props.addQuery(dbId, query)
@@ -28,20 +27,26 @@ const Queries = (props) => {
   
   }
 
-  const handleDbChange = (e) => {
-    console.log('e.target.value', e.target.value)
+  const handleDbChange = (e) => {   
+    // console.log('e.target.value', e.target.value)
     if (e.target.value) setDbId(e.target.value);
-    console.log(typeof dbId)
-    console.log('this is props.databases[dbId]', props.databases[dbId]);
     console.log('in handleDbChange. the newdbId is ', dbId)
   }
-
 
 
   return (
     <Layout>
       <QueryGroup>
-        <FormControl>
+        <select value={dbId} onChange={handleDbChange}>
+          { Object.values(props.databases).map((db, i) => {
+            return (
+              <option key={i} value={db.id}>
+                {db.label}
+              </option>
+            )
+          })}
+        </select>
+        {/* <FormControl>
           <CustomSelect
             label='Databases'
             onChange={handleDbChange}
@@ -59,9 +64,9 @@ const Queries = (props) => {
               )
             }) }
           </CustomSelect>
-        </FormControl>
-        { dbId && 
-          props.databases[dbId].getQueries().map((query, i) => {
+        </FormControl> */}
+        { dbId !== undefined && 
+          Object.values(props.databases[dbId].queries).map((query, i) => {
           return <QueryCard
             key={i} 
             deleteQueryFunc={props.deleteQuery}

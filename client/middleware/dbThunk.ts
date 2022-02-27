@@ -83,10 +83,10 @@ export const addQuery = (databaseId: number, query: string) => {
   //       console.log('error', err);
   //     })
   // }
-
+  const queryId = 3; 
   console.log('in addQuery Thunk', databaseId, query);
   return (dispatch: any) => {
-    dispatch(actionCreators.addQuery(databaseId, query));
+    dispatch(actionCreators.addQuery(databaseId, queryId, query));
   }
 }
 

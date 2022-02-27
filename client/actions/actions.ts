@@ -26,9 +26,13 @@ export const connectDatabase = (id: number) => ({
 })
 // -----------------------------------------------------------------
 
-export const addQuery = (databaseId: number, query: string) => ({
+export const addQuery = (databaseId: number, queryId: number,  query: string) => ({
     type: types.ADD_QUERY,
-    payload: {databaseId: databaseId, query: query}
+    payload: {databaseId: databaseId, queryId: queryId, query: query}
 })
 
+export const deleteQuery = (queryId: number) => ({
+    type: types.DELETE_QUERY,
+    payload: queryId
+})
 
