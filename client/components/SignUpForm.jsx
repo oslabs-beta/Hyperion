@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Dialog, DialogActions  } from '@mui/material';
 
 const SignUpForm = () => {
+
     return (
         <SignUpArea> 
             <SignUpBox>

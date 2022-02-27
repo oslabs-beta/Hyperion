@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { TextField, Button } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
+import SignUpForm from '../components/SignUpForm';
 
 // State management 
 
@@ -9,8 +10,15 @@ import Dialog from '@mui/material/Dialog';
 const Login = () => {
 //Need validation here to see if user has entered valid login credentials 
 // If user enters valid login credentials need to navigate to home page? 
+const [open, setOpen] = React.useState(false);
 //function to handle modal open 
+const handleClickOpen = () => {
+  setOpen(true);
+};
 
+const handleClose = () => {
+  setOpen(false);
+};
     return (
     <LoginArea>
     <LoginBox>
@@ -25,12 +33,14 @@ const Login = () => {
     </LoginBox>
     <LoginBox>
     <H3> Don't have an account?  </H3>
-    <Button  variant='outlined' size='small' color= 'secondary' >SIGN UP</Button>
+    <Button onClick={handleClickOpen}  variant='outlined' size='small' color= 'secondary' >SIGN UP</Button>
+    <Dialog fullScreen open={open} onClose={handleClose}>
+      <SignUpForm></SignUpForm>
+    </Dialog>
     </LoginBox>
     </LoginArea>
     )
-//SignUp Box
-// Should render on-click of signup button 
+ 
 }
 
 
@@ -54,6 +64,7 @@ const LoginBox = styled.form`
   border-radius: 5px;
   padding: 15px;
 `;
+
 
 const Label = styled.label`
   display: flex;
