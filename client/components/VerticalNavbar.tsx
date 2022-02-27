@@ -19,9 +19,9 @@ const ICONS = {
 // -------------- main component -------// 
 const VerticalNavbar = (props) => {
   return (
-    <StyledContainer>
-      <div className='header-logo'>Hyperion</div>
-      <div className='navbar-app-links'>
+    <div className='vertical-navbar'>
+      <div className='header'>Hyperion</div>
+      <div className='app-links-group'>
         <NavbarLink icon={ICONS.dashboard} displayText='Dashboard' linkPath='/dashboard'/> 
         <NavbarLink icon={ICONS.database} displayText='Databases' linkPath='/database'/> 
         <NavbarLink icon={ICONS.schema} displayText='Data Models' linkPath='/data-models'/> 
@@ -30,47 +30,16 @@ const VerticalNavbar = (props) => {
       </div>
 
       {/* TODO make these into working links  */}
-      <ul className='user-links'>
+      <ul className='user-links-group'>
         <li>Home</li>
         <li>Settings</li>
         <li>Login</li>
         <li>Sign Up</li>
       </ul>
-    </StyledContainer>
+    </div>
   )
 }
 
-
-
-
-// ------------ component styling ----------// 
-const StyledContainer = styled.div`
-  background-color: rgb(60, 44, 83);
-  color: rgb(240, 242, 243);
-  display: flex; 
-  height: 100%; 
-  align-items: center; 
-  justify-content: space-around; 
-  flex-direction: column; 
-  border-right: 1.5px solid grey; 
-  overflow-y: scroll;
-
-  // padding: 1em 2em;
-
-  .header-logo {
-    font-size: 1.5em; 
-    font-weight: 600;
-  }
-
-  ul {
-    padding: 0;
-    list-style-type: none;
-    
-  }
-  .user-links {
-    font-size: 10pt;
-  }
-`;
 
 
 export default VerticalNavbar

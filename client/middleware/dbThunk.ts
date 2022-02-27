@@ -132,7 +132,7 @@ export const deleteQuery = (databaseId: number, queryId: number) => {
   }
 }
 
-const runTest = (queryId: number, ...others) => {
+export const runTest = (queryId: number, ...others) => {
   // TEST USAGE ONLY 
   return (dispatch: any) => {
     dispatch(actionCreators.runTest(queryId))

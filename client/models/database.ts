@@ -1,7 +1,4 @@
 
-
-
-// class 
 export default class Database {
   // properties 
   id: number;

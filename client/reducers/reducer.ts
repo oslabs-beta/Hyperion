@@ -11,7 +11,6 @@ import { Query } from '../models/database';
 //     return databases
 // }
 
-// id: Number, port: Number, pgDatabaseName: String, label: String, sslMode: String, user: String, isConnected: Boolean
 const initialState = {
     databases: {}, // createTestDatabases() will be empty object when linking back and frontend
 }
