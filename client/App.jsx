@@ -9,7 +9,7 @@ import Queries from './containers/Queries';
 import NotFound from './containers/NotFound';
 const App = (props) => {
 
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   /*
     make a fetch to the server to check if the user cookies are authenticated 
   */

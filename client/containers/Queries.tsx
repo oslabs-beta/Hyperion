@@ -53,6 +53,9 @@ const Queries = (props) => {
           </div>
         </nav>
         <div className='queries-content'>
+          { newWindowVisible === true && 
+            <NewQueryWindow newQueryFunc={handleNewQuery}/>
+          }
           <QueryGroup>
             {/* ------ query cards ------ */}
             { dbId !== undefined && 
@@ -66,11 +69,7 @@ const Queries = (props) => {
               />
             })}
           </QueryGroup>     
-          { newWindowVisible === true && 
-          
-              <NewQueryWindow newQueryFunc={handleNewQuery}/>
-  
-          }
+
         </div>
       </div>
 

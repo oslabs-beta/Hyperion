@@ -1,0 +1,15 @@
+@use '../base/variables';
+
+.content-box {
+  padding: 1em 1em;
+  border-radius: 10px;
+  background-color: variables.$content-background-color;
+}
+
+.database-card {
+  @extend .content-box;
+  .header {
+    display: flex; 
+    justify-content: space-between;
+  }
+}

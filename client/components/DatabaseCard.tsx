@@ -18,7 +18,7 @@ const DatabaseCard = (props) => {
   } = props;
 
   return (
-    <StyledCard>
+    <div className='database-card'>
       <div className='info-group'>
         <div className='info-group-item'>
           <h5>Label:</h5>
@@ -54,7 +54,9 @@ const DatabaseCard = (props) => {
         }
         <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
       </div>
-    </StyledCard>
+    </div>
+    
+
   )
 }
 

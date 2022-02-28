@@ -1,11 +1,9 @@
 @use './app.scss';
-@use './base/variables';
-@use './base/mixins';
-
-
-body {
-  font-weight: map-get($font-weights, $regular);
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
+@use './base/variables.scss';
+@use './base/mixins.scss';
+@use './base/functions.scss';
+@use './modules/cards';
+@use './framework/layouts';
+@use './pages/core';
+@use './pages/queries';
 

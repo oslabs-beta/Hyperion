@@ -1,8 +1,6 @@
 
 @use './base/variables';
 
-
-
 .vertical-navbar {
   background-color:  variables.$primary-purple;
   display: flex; 
@@ -52,7 +50,9 @@
 .queries-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   
+  row-gap: 10px;
   .queries-header {
     display: flex; 
     justify-content: space-between;
@@ -69,9 +69,13 @@
   }
 
   .queries-content {
-    background-color: variables.$content-background-color;
+    display: flex;
+    flex-direction: column;
   }
 }
 
-
-
+.content-box {
+  padding: 1em 1em;
+  border-radius: 10px;
+  background-color: variables.$content-background-color;
+}
