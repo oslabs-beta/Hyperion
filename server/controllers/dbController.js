@@ -91,7 +91,47 @@ dbController.runQueryTests = (req, res, next) => {
   // receives a pool object in res.locals.dbInfo.pool
   // also needs to know the query string
   // also needs to know the query parameters
-  next();
+
+  const pool = res.locals.dbInfo.pool;
+  const { queryString, queryParams } = req.body.query;
+
+  const totalTimeArray = [];
+  const queryTimeArray = [];
+
+  function calculateStats(arr) {
+    const min = Math.min(...arr)
+    const max = Math.max(...arr)
+    const mean = arr.reduce((a,b) => a + b) / arr.length;
+    let median;
+    arr.sort((a,b) => a - b);
+    const middle = Math.floor(arr.length / 2);
+    if (arr.length % 2) {
+      median= arr[middle];
+    } else {
+      median = (arr[middle-1] + arr[middle]) / 2;
+    }
+    return [min, mean, median, max];
+  }
+
+  function runTests(i = 10) {
+    if (i <= 0) {
+      console.log(totalTimeArray)
+      console.log(queryTimeArray)
+      console.log(calculateStats(totalTimeArray));
+      console.log(calculateStats(queryTimeArray));
+      return next();
+    } 
+    db.runExplainAnalyze(queryString, queryParams, pool)
+    .then(r => {
+      totalTimeArray.push(r.totalTime);
+      queryTimeArray.push(r.queryTime);
+      return runTests(i - 1);
+    })
+    .catch(e => next(e))
+  }
+
+  runTests();
+  
 
 };
 

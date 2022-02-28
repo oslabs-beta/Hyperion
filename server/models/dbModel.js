@@ -66,19 +66,18 @@ db.runExplainAnalyze = async (queryText, params, pool = defaultPool) => {
   const client = await pool.connect();
 
   try {
-    const getClockTime = 'SELECT clock_timestamp()::text;';
     let timing = {};
     if (queryText[queryText.length - 1] !== ';') queryText = queryText + ';';
 
     /* === QUERY START === */
     const init = Date.now();
-    let res = await client.query(`${getClockTime} EXPLAIN ANALYZE ${queryText} ${getClockTime}`, params);
+    let res = await client.query(`EXPLAIN ANALYZE ${queryText}`, params);
     const end = Date.now();
     /* === QUERY END === */
 
     /* String manipulation */
     timing.totalTime = Number.parseInt(end - init);
-    const queryPlan = res[1].rows.slice(-2);
+    const queryPlan = res.rows.slice(-2);
     timing.planningTime = parseFloat(parseFloat(queryPlan[0]['QUERY PLAN'].slice(15, -3)).toFixed(2));
     timing.executionTime = parseFloat(parseFloat(queryPlan[1]['QUERY PLAN'].slice(16, -3)).toFixed(2));
     timing.queryTime = parseFloat((timing.planningTime + timing.executionTime).toFixed(2));
