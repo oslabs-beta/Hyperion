@@ -16,9 +16,12 @@ const handleClickOpen = () => {
   setOpen(true);
 };
 
+
+
 const handleClose = () => {
   setOpen(false);
 };
+
     return (
     <LoginArea>
     <LoginBox>
@@ -35,7 +38,7 @@ const handleClose = () => {
     <H3> Don't have an account?  </H3>
     <Button onClick={handleClickOpen}  variant='outlined' size='small' color= 'secondary' >SIGN UP</Button>
     <Dialog fullScreen open={open} onClose={handleClose}>
-      <SignUpForm></SignUpForm>
+      <SignUpForm handleCloseFunc={() => {setOpen(!open)}}></SignUpForm>
     </Dialog>
     </LoginBox>
     </LoginArea>

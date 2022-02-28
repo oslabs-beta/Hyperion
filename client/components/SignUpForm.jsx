@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { TextField, Button, Dialog, DialogActions  } from '@mui/material';
 
-const SignUpForm = () => {
+const SignUpForm = ({ handleCloseFunc }) => {
 
     return (
         <SignUpArea> 
@@ -23,7 +23,7 @@ const SignUpForm = () => {
             <TextField label="Password"/>
             </Label>
             <ButtonGroup>
-            <Button  variant='outlined' size='small' color= 'secondary' >CANCEL</Button>
+            <Button  variant='outlined' size='small' color= 'secondary' onClick={handleCloseFunc} >CANCEL</Button>
             <Button  variant='outlined' size='small' color= 'secondary' >SIGN UP</Button>
             </ButtonGroup>
             </SignUpBox>

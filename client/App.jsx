@@ -7,7 +7,13 @@ import DataModels from './containers/DataModels';
 import Tests from './containers/Tests';
 import Queries from './containers/Queries';
 import NotFound from './containers/NotFound';
+import Login from './components/Login';
+import SignUpForm from './components/SignUpForm';
+
 const App = (props) => {
+
+  // fetch to get cookies and authenticate  
+    // if theyre authenticated we can update the database initail state
 
 
   /*
@@ -18,6 +24,8 @@ const App = (props) => {
       <Routes>
         {/* change this to dashboard later  */}
         <Route path='/' element={<Dashboard/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/signup' element={<SignUpForm/>} />
         <Route path='dashboard' element={<Dashboard/>} /> 
         <Route path='database' element={<Databases/>} />
         <Route path='data-models' element={<DataModels/>} />
@@ -28,5 +36,7 @@ const App = (props) => {
     </BrowserRouter>
   );
 }
+
+
 
 export default App; 

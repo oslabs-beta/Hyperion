@@ -1,10 +1,12 @@
 @use '../base/variables';
+
 .queries-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   
   row-gap: 10px;
+  
   .queries-header {
     display: flex; 
     justify-content: space-between;
