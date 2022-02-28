@@ -1,0 +1,27 @@
+@use '../base/variables';
+.queries-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  row-gap: 10px;
+  .queries-header {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 1em; 
+    border-radius: 10px;
+    background-color: variables.$content-background-color;
+
+    div {
+      display: flex; 
+      flex-direction: row; 
+      align-items: center;
+    }
+  }
+
+  .queries-content {
+    display: flex;
+    flex-direction: column;
+  }
+}

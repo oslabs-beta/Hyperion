@@ -1,10 +1,5 @@
 @use '../base/variables';
-
-.content-box {
-  padding: 1em 1em;
-  border-radius: 10px;
-  background-color: variables.$content-background-color;
-}
+@use '../framework/layouts';
 
 .database-card {
   @extend .content-box;
