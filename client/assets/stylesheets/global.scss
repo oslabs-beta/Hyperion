@@ -1,0 +1,11 @@
+@use './app.scss';
+@use './base/variables';
+@use './base/mixins';
+
+
+body {
+  font-weight: map-get($font-weights, $regular);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+

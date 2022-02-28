@@ -4,20 +4,20 @@ import QueryCard from '../components/QueryCard';
 import styled from 'styled-components';
 import Layout from './Layout';
 import { addQuery, deleteQuery } from '../middleware/dbThunk';
-import CustomSelect from '@mui/material/Select'
 import { connect } from 'react-redux';
 import { Query } from '../models/database';
-import { InputLabel, MenuItem, FormControl } from '@mui/material';
 import Database from '../models/database';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import ReactCSSTransitionGroup from 'react-transition-group'; // ES6
 
-
+import Button from '@mui/material/Button';
 
 
 const Queries = (props) => {
   
   const databases: Array<Database> = Object.values(props.databases);
   const [dbId, setDbId] = useState(databases.length === 0 ? undefined : databases[0].id );
-
+  const [newWindowVisible, setNewWindowVisible] = useState(false);
 
   const handleNewQuery = (query) => {
     props.addQuery(dbId, query)
@@ -35,34 +35,45 @@ const Queries = (props) => {
 
   return (
     <Layout>
-      <Container>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          {/* -------- select database dropdown ------ */}
-          <select value={dbId} onChange={handleDbChange}>
-            { Object.values(props.databases).map((db : Database, i) => {
-              return (
-                <option key={i} value={db.id}>
-                  {db.label}
-                </option>
-              )
+      <div className='queries-container'>
+        <nav className='queries-header'>
+          <h4>Queries</h4>
+          <div>
+            <select className='app-dropdown' value={dbId} onChange={handleDbChange}>
+              { Object.values(props.databases).map((db : Database, i) => {
+                return (
+                  <option key={i} value={db.id}>
+                    {db.label}
+                  </option>
+                )
+              })}
+            </select> 
+            {/* <Button variant='text' size='small' onClick={() => { setNewWindowVisible(!newWindowVisible) }}>New Query</Button> */}
+            <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
+          </div>
+        </nav>
+        <div className='queries-content'>
+          <QueryGroup>
+            {/* ------ query cards ------ */}
+            { dbId !== undefined && 
+              Object.values(props.databases[dbId].queries).map((query : Query, i) => {
+              return <QueryCard
+                label={'some random label'} // change this to the query label 
+                key={i} 
+                deleteQueryFunc={handleDelete}
+                id={query.id} 
+                sqlQuery={query.queryString}
+              />
             })}
-          </select> 
-          <NewQueryWindow newQueryFunc={handleNewQuery}/>
+          </QueryGroup>     
+          { newWindowVisible === true && 
+          
+              <NewQueryWindow newQueryFunc={handleNewQuery}/>
+  
+          }
         </div>
-        <QueryGroup>
-          {/* ------ query cards ------ */}
-          { dbId !== undefined && 
-            Object.values(props.databases[dbId].queries).map((query : Query, i) => {
-            return <QueryCard
-              label={'some random label'}
-              key={i} 
-              deleteQueryFunc={handleDelete}
-              id={query.id} 
-              sqlQuery={query.queryString}
-            />
-          })}
-        </QueryGroup>
-      </Container>
+      </div>
+
 
 
     </Layout>

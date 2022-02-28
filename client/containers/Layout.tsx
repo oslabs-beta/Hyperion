@@ -9,9 +9,11 @@ const Layout = (props: any) => {
   return (
     <StyledLayout className={props.className}>
       <VerticalNavbar />
-      <Container>
-        {props.children}
-      </Container>
+      <div className='app-container'>
+        <div className='app-content'>
+          {props.children}
+        </div>
+      </div>
     </StyledLayout>
   )
 }
