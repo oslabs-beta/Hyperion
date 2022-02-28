@@ -13,12 +13,18 @@ $primary-purple-light: hex(#8f70b3);
 
 $content-background-color: rgb(240, 242, 243);
 
+$media-breakpoints: (
+  "phone": 300px,
+  "tablet": 500px, 
+  "laptop": 1000px,
+);
+
 $font-weights: (
   "light": 200,
   "regular": 400, 
   "bold": 700, 
   "xbold": 800
-)
+);
 
 // $font: (
 //   "primary": 
