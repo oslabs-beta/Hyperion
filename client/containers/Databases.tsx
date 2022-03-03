@@ -8,7 +8,6 @@ import * as thunk from '../middleware/dbThunk';
 import Database from '../models/database';
 import { RootState } from '../store/store';
 import { useDispatch  } from 'react-redux';
-import { addDb } from '../store/slices/dataSlice';
 
 
 // -------- main component ---------- //

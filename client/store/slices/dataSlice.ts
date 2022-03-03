@@ -1,36 +1,18 @@
 
+import { create } from '@mui/material/styles/createTransitions';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Database from '../../models/database';
 import { NewDatabaseForm } from '../../models/database';
 
-//  ----- interfaces 
-export interface DataState {
-  databases: { [id: number] : Database },
-  status: 'loading'|'failed'|'loaded'
-}
 
-
-interface NewQuery {
-  databaseId: number, 
-  queryId: number, 
-  query: string
-}
-
-interface DeleteQuery {
-  databaseId: number, 
-  queryId: number
-}
 
 
 // initial state ----- 
 const initialState: DataState = {
   databases: {}, 
-  status: 'loaded'
+  status: 'idle',
+  errorMessage: null
 };
-
-
-
-
 
 export const dataSlice = createSlice({
   name: 'data',
@@ -47,13 +29,17 @@ export const dataSlice = createSlice({
     // }
   }, 
   extraReducers: (builder) => {
-    builder.addCase(addDbThunk.fulfilled, (state, action) => {
-      state.status = 'loaded';
+    builder.addCase(addDbThunk.fulfilled, (state, action: PayloadAction<Database>) => {
+      state.status = 'idle';
       state.databases[action.payload.id] = action.payload; 
     }),
     builder.addCase(addDbThunk.pending, (state, action) => { state.status = 'loading' }),
-    builder.addCase(addDbThunk.rejected, (state, action) => { }),
-    builder.addCase()
+    builder.addCase(addDbThunk.rejected, (state, action) => { state.status = 'failed' }),
+    builder.addCase(deleteDb.fulfilled, (state, action: PayloadAction<number>) => { delete state.databases[action.payload] }),
+    builder.addCase(deleteDb.rejected, (state, action) => { 
+      state.status = 'failed';
+      state.errorMessage = 'Could not delete database';
+    })
   }
 })
 
@@ -98,14 +84,61 @@ export const deleteDb = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' }
       });
       const data = await response.json();
+      // expecting data to be a status code
       return data;
     }
     catch (e) {
       console.log(e);
+      return "Failed to delete database"
+      // return e; 
+    }
+  }
+)
+
+export const addQuery = createAsyncThunk(
+  'data/addQuery',
+  async (databaseId: number, query: string) => {
+    try {
+      const response = await fetch('/api/query/new', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ databaseId: databaseId, query: query })
+      });
+      const data = await response.json();
+      return data; 
+    } catch (e) {
       return e; 
     }
   }
 )
+
+
+
+//  ----- interfaces 
+export interface DataState {
+  databases: { [id: number] : Database },
+  status: 'loading'|'failed'|'idle',
+  errorMessage: string
+}
+
+
+interface NewQuery {
+  databaseId: number, 
+  queryId: number, 
+  query: string
+}
+
+interface DeleteQuery {
+  databaseId: number, 
+  queryId: number
+}
+
+
+
+
+
+
+
 
 
 
