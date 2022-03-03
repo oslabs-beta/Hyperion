@@ -18,6 +18,8 @@ const ICONS = {
 
 // -------------- main component -------// 
 const VerticalNavbar = (props) => {
+
+
   return (
     <div className='vertical-navbar'>
       <div className='header'>Hyperion</div>
@@ -31,10 +33,9 @@ const VerticalNavbar = (props) => {
 
       {/* TODO make these into working links  */}
       <ul className='user-links-group'>
-        <li>Home</li>
+        <Link to='/'>Home</Link>
+        <li onClick={}>Logout</li>
         <li>Settings</li>
-        <li>Login</li>
-        <li>Sign Up</li>
       </ul>
     </div>
   )

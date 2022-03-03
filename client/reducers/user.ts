@@ -1,7 +1,11 @@
 import * as types from '../actions/actionTypes';
+import { UserState } from '../models/user';
 
-const initialState = {
-  
+const initialState: UserState  = {
+  auth: {
+    isAuthenticated: false,
+    token: ''
+  }
 }
 
 const userReducer = (state = initialState, action: any ) => {

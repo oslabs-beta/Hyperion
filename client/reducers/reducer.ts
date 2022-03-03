@@ -2,17 +2,10 @@
 import * as types from '../actions/actionTypes';
 import Database from '../models/database';
 import { Query } from '../models/database';
+import { DatabaseReducerState } from '../models/database';
 
-// const createTestDatabases = () => {
-//     const databases : { [id: number] : Database } = {};
-//     for (let i = 0; i < 5; i++) {
-//         databases[i] = new Database(i, Math.floor(Math.random()*1000), 'pgDatabaseName', 'label' + i, 'sslMode', 'user', false);
-//     }
-//     return databases
-// }
-
-const initialState = {
-    databases: {}, // createTestDatabases() will be empty object when linking back and frontend
+const initialState: DatabaseReducerState = {
+    databases : {},
 }
 
 const reducer = (state = initialState, action: any) => {

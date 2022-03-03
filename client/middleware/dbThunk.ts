@@ -66,24 +66,24 @@ export const deleteDb = (id: number) => {
 
 
  
-export const connectDb = (id: number) => {
-  return (dispatch) => {
-    // TODO data validation to make sure user is authenticated to connect db 
-    fetch (`/api/db/connect/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(response => response.json()) 
-      .then(data => { 
-        if (data.statusCode === 200) {
-          dispatch(actionCreators.connectDatabase(id))
-        }
-      })
-      .catch(error =>{
-          console.error('Error:', error)
-      })
-  }
-}
+// export const connectDb = (id: number) => {
+//   return (dispatch) => {
+//     // TODO data validation to make sure user is authenticated to connect db 
+//     fetch (`/api/db/connect/${id}`, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' }
+//       })
+//       .then(response => response.json()) 
+//       .then(data => { 
+//         if (data.statusCode === 200) {
+//           dispatch(actionCreators.connectDatabase(id))
+//         }
+//       })
+//       .catch(error =>{
+//           console.error('Error:', error)
+//       })
+//   }
+// }
 
 export const addQuery = (databaseId: number, query: string) => {
   // return (dispatch: any, getState: any) => {
@@ -136,5 +136,13 @@ export const runTest = (queryId: number, ...others) => {
   // TEST USAGE ONLY 
   return (dispatch: any) => {
     dispatch(actionCreators.runTest(queryId))
+  }
+}
+
+
+// TODO 
+export const initializeUserData = () => {
+  return (dispatch) => {
+    
   }
 }

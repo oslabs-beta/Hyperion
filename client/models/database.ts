@@ -97,3 +97,10 @@ export interface NewDatabaseForm {
   password?: string; 
   ssl?: string; // might change to option of
 }
+
+export interface DatabaseReducerState {
+  [databases: string] : { [ id: number ]: Database}
+};
+
+
+

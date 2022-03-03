@@ -8,6 +8,6 @@ export const DELETE_QUERY = 'DELETE_QUERY';
 export const RUN_TEST = 'RUN_TEST';
 
 // ----------- user  -------- // 
-export const ADD_USER = 'ADD_USER';
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
+export const REGISTER_USER = 'REGISTER_USER';
+export const LOGIN_USER = 'LOGIN';
+export const LOGOUT_USER = 'LOGOUT';

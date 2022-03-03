@@ -9,7 +9,6 @@ import { Query } from '../models/database';
 import Database from '../models/database';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import ReactCSSTransitionGroup from 'react-transition-group'; // ES6
-
 import Button from '@mui/material/Button';
 
 
@@ -31,7 +30,6 @@ const Queries = (props) => {
   const handleDbChange = (e) => {   
     if (e.target.value) setDbId(e.target.value);
   }
-
 
   return (
     <Layout>
@@ -69,12 +67,8 @@ const Queries = (props) => {
               />
             })}
           </QueryGroup>     
-
         </div>
       </div>
-
-
-
     </Layout>
   )
 }
