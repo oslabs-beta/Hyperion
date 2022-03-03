@@ -6,10 +6,13 @@ export const testSlice = createSlice({
   name: 'test',
   initialState, 
   reducers: {
+    // TODO 
+    runTest: (state, action) => {
 
+    }
   }
 })
 
-export const {} = testSlice.actions;
+export const { runTest } = testSlice.actions;
 
 export default testSlice.reducer; 

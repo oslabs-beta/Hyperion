@@ -3,13 +3,19 @@ import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
 import Layout from './Layout';
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import * as thunk from '../middleware/dbThunk';
 import Database from '../models/database';
+import { RootState } from '../store/store';
+import { useDispatch  } from 'react-redux';
+import { addDb } from '../store/slices/dataSlice';
 
 
 // -------- main component ---------- //
 const Databases = (props) => {  
+  const databases = useSelector((state: RootState) => state.data.databases);
+  const dispatch = useDispatch();
+
   return (
     <Layout>
       <div className='app-container'>
