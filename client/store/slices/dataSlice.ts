@@ -28,6 +28,8 @@ const initialState: DataState = {
   status: 'Loaded'
 };
 
+
+// THunk functions 
 export const addDbThunk = createAsyncThunk(
   'data/addDb',
   async (formData: NewDatabaseForm) => {
@@ -68,8 +70,13 @@ export const dataSlice = createSlice({
   }, 
   extraReducers: (builder) => {
     builder.addCase(addDbThunk.fulfilled, (state, action) => {
+      state.status = 'Loaded';
       state.databases[action.payload.id] = action.payload; 
-    })
+    }),
+    builder.addCase(addDbThunk.pending, (state, action) => {
+      state.status = 'Loading'
+    }),
+    builder.addCase(addDbThunk.rejected, (state, action) => { })
   }
 })
 
