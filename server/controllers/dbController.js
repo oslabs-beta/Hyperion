@@ -95,6 +95,11 @@ dbController.runQueryTests = (req, res, next) => {
   const pool = res.locals.dbInfo.pool;
   const { queryString, queryParams } = req.body.query;
 
+  //for security, checks to see if delete or drop are in the querySearch, stops whole execution and doesnt run query 
+  if (queryString.search(/delete/gmi) !== -1 ||
+    queryString.search(/drop/gmi) !== -1) 
+    return next('Unauthorized keyword found');
+
   const totalTimeArray = [];
   const queryTimeArray = [];
 
