@@ -6,7 +6,7 @@ import { NewDatabaseForm } from '../../models/database';
 //  ----- interfaces 
 export interface DataState {
   databases: { [id: number] : Database },
-  status: 'Loading'|'Failed'|'Loaded'
+  status: 'loading'|'failed'|'loaded'
 }
 
 
@@ -25,8 +25,44 @@ interface DeleteQuery {
 // initial state ----- 
 const initialState: DataState = {
   databases: {}, 
-  status: 'Loaded'
+  status: 'loaded'
 };
+
+
+
+
+
+export const dataSlice = createSlice({
+  name: 'data',
+  initialState, 
+  reducers: {
+    // addDb: (state, action: PayloadAction<Database>) => { state.databases[action.payload.id] = action.payload; },
+    // deleteDb: (state, action: PayloadAction<number>) => { delete state.databases[action.payload]; },
+    // addQuery: (state, action: PayloadAction<NewQuery>) => {
+    //   const { databaseId, queryId, query } = action.payload; 
+    //   state.databases[databaseId].queries[queryId] = {id: queryId, queryString: query };
+    // },
+    // deleteQuery: (state, action: PayloadAction<DeleteQuery>) => {
+    //   delete state.databases[action.payload.databaseId].queries[action.payload.queryId];
+    // }
+  }, 
+  extraReducers: (builder) => {
+    builder.addCase(addDbThunk.fulfilled, (state, action) => {
+      state.status = 'loaded';
+      state.databases[action.payload.id] = action.payload; 
+    }),
+    builder.addCase(addDbThunk.pending, (state, action) => { state.status = 'loading' }),
+    builder.addCase(addDbThunk.rejected, (state, action) => { }),
+    builder.addCase()
+  }
+})
+
+
+
+// thunk functions
+export const {  } = dataSlice.actions;
+
+export default dataSlice.reducer; 
 
 
 // THunk functions 
@@ -43,6 +79,7 @@ export const addDbThunk = createAsyncThunk(
     try {
       const response = await fetch('/api/db/new', settings);
       const data = await response.json();
+      // create new database from data
       const db = new Database(1,1,'', '', '','',false, 2);
       return db;  // need to change 
     } catch (e) {
@@ -52,75 +89,27 @@ export const addDbThunk = createAsyncThunk(
   }
 )
 
-
-
-export const dataSlice = createSlice({
-  name: 'data',
-  initialState, 
-  reducers: {
-    addDb: (state, action: PayloadAction<Database>) => { state.databases[action.payload.id] = action.payload; },
-    deleteDb: (state, action: PayloadAction<number>) => { delete state.databases[action.payload]; },
-    addQuery: (state, action: PayloadAction<NewQuery>) => {
-      const { databaseId, queryId, query } = action.payload; 
-      state.databases[databaseId].queries[queryId] = {id: queryId, queryString: query };
-    },
-    deleteQuery: (state, action: PayloadAction<DeleteQuery>) => {
-      delete state.databases[action.payload.databaseId].queries[action.payload.queryId];
+export const deleteDb = createAsyncThunk(
+  'data/deleteDb',
+  async (id: number) => {
+    try {
+      const response = await fetch(`/api/db/delete/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await response.json();
+      return data;
     }
-  }, 
-  extraReducers: (builder) => {
-    builder.addCase(addDbThunk.fulfilled, (state, action) => {
-      state.status = 'Loaded';
-      state.databases[action.payload.id] = action.payload; 
-    }),
-    builder.addCase(addDbThunk.pending, (state, action) => {
-      state.status = 'Loading'
-    }),
-    builder.addCase(addDbThunk.rejected, (state, action) => { })
+    catch (e) {
+      console.log(e);
+      return e; 
+    }
   }
-})
+)
 
 
 
-// thunk functions
-export const { addDb, deleteDb, addQuery, deleteQuery } = dataSlice.actions;
-
-export default dataSlice.reducer; 
 /*
-
-
-export const addDb = (formData: NewDatabaseForm) => {
-  // TODO data validation 
-  // return (dispatch) => {
-  //   fetch('/api/db/new', {
-  //     method: 'POST', 
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify(formData),
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-
-  //       // ADD THIS IN VVVV and remove newdb = ''
-  //       // const newDb = new Database();
-  //       const newDb = '' 
-
-
-  //       // TODO make sure the data object is the right format 
-  //       if (data.statusCode === 200) {
-  //         dispatch(actionCreators.addDb(newDb)) // pass in new database arguments from data
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // }
-
-  /// TEST USAGE ONLY
-  return (dispatch: any) => {
-    const databaseId = Math.floor(Math.random()*1000);
-    const db = new Database(databaseId, 8080, 'example pg database name', `database: ${databaseId}`, 'sslMode', 'user', true);
-    dispatch(actionCreators.addDb(db));
-  }
 
 
 }
