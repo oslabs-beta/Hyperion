@@ -1,4 +1,5 @@
 const db = require('../models/dbModel.js');
+const generateCombinations = require('./generateCombinations');
 const { Pool } = require('pg');
 
 const dbController = {};
@@ -91,47 +92,14 @@ dbController.connect = (req, res, next) => {
 
 };
 
-
-//generates all param combos
-dbController.generateCombinations = (paramsArray) => {
-  // paramsArray = [['Michael', 'Celene'], ['Chloe', 'Sankari', 'Nick]]
-  // result that we want:
-  // [['Michael', 'Chloe'], ['Michael', 'Sankari'], ['Michael, Nick'], ['Celene', 'Chloe'], ['Celene', 'Sankari'], ['Celene', 'Nick']]
-  //could be multiple params, so use recursion 
-  
-  const results = [];
-
-  function helper(i = 0, j = 0, arr) {
-
-    if (arr.length === paramsArray.length) {
-      results.push([...arr]);
-      return;
-    }
-    for (let n = 0; n < paramsArray[i].length; n++) {
-      helper(i + 1, n, [...arr, paramsArray[i][n]]);
-    }
-  }
-
-  helper(0, 0, []);
-
-  return results;
-};
-
 dbController.runQueryTests = (req, res, next) => {
-  // receives a pool object in res.locals.dbInfo.pool
-  // also needs to know the query string
-  // also needs to know the query parameters
-
   const pool = res.locals.dbInfo.pool;
   const { queryString, queryParams, repeat, throttle } = req.body.query;
 
-  if (throttle < 5 || throttle > 100) {
-    return next('Invalid throttle count');
-  }
   const promisesArray = [];
 
   // get all the combinations and run them
-  const combinations = dbController.generateCombinations(queryParams);
+  const combinations = generateCombinations(queryParams);
 
   let lastRequestSent = 0;
 
@@ -163,7 +131,7 @@ dbController.runQueryTests = (req, res, next) => {
     }
     Promise.all(promisesArray)
     .then(arr => {
-      res.locals.testResults = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
+      res.locals.testcombinations = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
       return next();
     })
     .catch(e => {
