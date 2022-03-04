@@ -1,12 +1,13 @@
 import React from 'react';
-import Layout from './Layout';
-import Login from '../components/Login';
+import HorizontalNavBar from '../components/LandingPageComponents/HorizontalNavBar';
+import Team from '../components/LandingPageComponents/Team';
 // import SignUpForm from '../components/SignUpForm';
 
 const Dashboard = () => {
   return (
       <div>
-      <Login> </Login>
+      <HorizontalNavBar></HorizontalNavBar>
+      <Team></Team>
       </div> 
   )
 }

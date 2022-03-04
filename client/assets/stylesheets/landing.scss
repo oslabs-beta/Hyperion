@@ -1,0 +1,101 @@
+@use './base/variables';
+
+.loginButton{
+    margin-right: -750px;
+    width: 90px;
+    height: 40px;
+    background-color: white;
+    font-size: 1.2em;
+    border-radius: 5px;
+    float: right;
+}
+
+.signUpButton{
+    margin-right: -850px;
+    width: 90px;
+    height: 40px;
+    background-color: white;
+    font-size: 1.2em;
+    border-radius: 5px;
+    float: right;
+}
+
+.team-wrapper {
+    @media screen  {
+      h1 {
+        margin: 0.5em auto ;
+      }
+      .team-container {
+        display: flex;
+        flex-direction: row;
+        .teamProfile {
+          h4 {
+            padding-top: 0.5em;
+            font-size: 1.3em;
+          }
+          .team-links {
+            justify-content: space-around ;
+            svg {
+              width: 28px;
+            }
+          }
+        }
+      }
+    }}
+
+    .team-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        align-content: center;
+        margin-bottom: 5%;
+    
+        .teamProfile {
+          color: black;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+    
+          .team-icon {
+            border-radius: 60%;
+            border: 10px solid transparent;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+    
+            .actual-pic {
+              display: none;
+            }
+    
+    
+            img {
+              border-radius: 50%;
+              height: 10em;
+              width: 10em;
+              z-index: 2;
+            }
+    
+            h4 {
+              text-align: center;
+            }
+    
+          }
+    
+          .team-links {
+            padding: 1%;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+            svg:hover {
+              color: black;
+            }
+          }
+        }
+      }
+    
