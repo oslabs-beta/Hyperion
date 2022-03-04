@@ -20,9 +20,9 @@
     font-weight: 600;
   }
 
-  .app-links-group {
+  // .app-links-group {
     
-  }
+  // }
 
   .user-links-group {
     font-size: 10pt;
@@ -39,6 +39,15 @@
   width: 150px;
 }
 
+.top-navbar-custom {
+  background-color:  variables.$primary-purple;
+  color: white;
+  display: flex; 
+  height: 100px;
+  width: 100%;
+  flex-direction: row;
+  // justify-content: space-around;
+  align-items: center;}
 
 
 .app-container {
@@ -56,6 +65,9 @@
 @media only screen and (max-width: 500px) {
   .vertical-navbar {
     display: none;
+  }
+  .top-navbar-custom {
+    display:none;
   }
   
 }

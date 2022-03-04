@@ -1,0 +1,176 @@
+@use './base/variables';
+
+// TOP NAV BAR STYLING 
+
+.loginButton{
+    margin-right: -750px;
+    width: 90px;
+    height: 40px;
+    background-color: white;
+    font-size: 1.2em;
+    border-radius: 5px;
+    float: right;
+}
+
+.signUpButton{
+    margin-right: -850px;
+    width: 90px;
+    height: 40px;
+    background-color: white;
+    font-size: 1.2em;
+    border-radius: 5px;
+    float: right;
+}
+.mr-auto{
+    text-align: center; 
+}
+
+// TEAM STYLING 
+
+.team-wrapper {
+    @media screen  {
+      h1 {
+        margin: 0.5em auto ;
+        margin-bottom: 45px;
+        text-align: center;
+      }
+      .team-container {
+        display: flex;
+        flex-direction: row;
+        .teamProfile {
+          h4 {
+            padding-top: 0.5em;
+            font-size: 1.3em;
+          }
+          .team-links {
+            justify-content: space-around ;
+            svg {
+              width: 28px;
+            }
+          }
+        }
+      }
+    }}
+
+    .team-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        align-content: center;
+        margin-bottom: 5%;
+    
+        .teamProfile {
+          color: black;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+    
+          .team-icon {
+            border-radius: 60%;
+            border: 10px solid transparent;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+    
+            .actual-pic {
+              display: none;
+            }
+    
+    
+            img {
+              border-radius: 50%;
+              height: 10em;
+              width: 10em;
+              z-index: 2;
+            }
+    
+            h4 {
+              text-align: center;
+            }
+    
+          }
+    
+          .team-links {
+            padding: 1%;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+            svg:hover {
+              color: black;
+            }
+          }
+        }
+
+    // INFO SECTION STYLING 
+      }
+      #info {
+        display: flex;
+        align-items: center;
+        color: black;
+        background-color: cadetblue;
+        justify-content: space-around;
+        margin: 10vh;
+        font-size: 24px;
+        right: 0;
+        left: 0;
+        min-height: 300px;
+        height: 62vh;
+
+        @media screen  {
+            margin: 2em;
+            h1 {
+                margin-top: 1em;
+                font-size: 2em;
+              }
+              .description {
+                max-width: 100% ;
+              }  
+
+              .button-wrapper {
+                flex-direction: column;
+                button {
+                  flex-grow: 1;
+                  margin: 0.5em 0 !important;
+                }
+              }
+       }
+
+       h1 {
+        font-size: 70px;
+        letter-spacing: 1px;
+      }
+
+      .description {
+        font-size: 0.7em;
+        max-width: 50%;
+      }
+
+      .button-wrapper {
+        display: flex;
+    
+        button {
+          border-style: none;
+          border-radius: 5px;
+          margin: 20px;
+          width: 120px;
+          height: 40px;
+          color: black;
+          padding: 0 10px;
+          background-color: white;
+          a {
+            font-style: none;
+            color: black;
+            text-decoration: none;
+            padding-left: 10px;
+          }
+
+      }}}
+
+       // FEATURES SECTION STYLING 
+      

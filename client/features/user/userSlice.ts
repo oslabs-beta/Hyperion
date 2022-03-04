@@ -11,7 +11,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState, 
   reducers: {
-    authenticateUser: (state, action: PayloadAction<boolean>) => { state.auth.isAuthenticated = true}
+    authenticateUser: (state, action: PayloadAction<boolean>) => { state.auth.isAuthenticated = true }
   }, 
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Databases from './containers/Databases';
 import Dashboard from './containers/Dashboard';
-import DataModels from './containers/DataModels';
 import Tests from './containers/Tests';
 import Queries from './containers/Queries';
 import NotFound from './containers/NotFound';
@@ -13,9 +12,9 @@ import PrivateRoute from './components/PrivateRoute';
 import { authenticateUser } from './features/user/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from './features/store';
+import LandingPage from './containers/LandingPage';
 
 const App = (props) => {
-
 
   const user = useSelector((state: RootState) => { return state.user })
   // const user = useSelector((state: RootState) => state.user.auth);
@@ -34,12 +33,11 @@ const App = (props) => {
       })
   }, [])
 
-  // export const authenticateUser = async () => {
+// export const authenticateUser = async () => {
 //   try {
 //     const response = await fetch('/api/user/authenticate')
 //       .then(res => res.json());
 //   }
-
 // }
 
   /*
@@ -50,7 +48,7 @@ const App = (props) => {
     <BrowserRouter>
       <Routes>
         {/* change this to dashboard later  */}
-        <Route path='/' element={<Dashboard/>} />
+        <Route path='/' element={<LandingPage/>} />
         <Route path='login' element={<Login/>} />
         <Route path='register' element={<SignUpForm/>} />
         <Route path='about' element={<div>About</div>} />
