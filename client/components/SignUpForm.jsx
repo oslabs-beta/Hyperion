@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TextField, Button, Dialog, DialogActions  } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,7 @@ import ErrorMessage from './ErrorMessage';
 import { registerUser } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
-const SignUpForm = ({ handleCloseFunc }) => {
+const SignUpForm = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,13 +17,21 @@ const SignUpForm = ({ handleCloseFunc }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+
   const handleRegister = () => {
     if (password !== confirmPassword) return;
     if (!username) return setErrorMessage('Username is required');
     if (!email) return setErrorMessage('Email address is required');
     if (!password) return setErrorMessage('Password is required');
-    dispatch(registerUser({ username: username, password: password, email: email}))
+    dispatch(registerUser({ username: username, password: password, email: email}));
+    navigate('/login')
   };
+
+
+  useEffect(() => {
+    setErrorMessage('');
+  }, [username, email, password, confirmPassword])
+
 
   return (
     <div className='login-signup-area'>

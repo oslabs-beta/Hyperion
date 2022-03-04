@@ -6,7 +6,6 @@ import { NewDatabaseForm } from '../../models/database';
 
 
 
-
 // initial state ----- 
 const initialState: DataState = {
   databases: {}, 
@@ -39,6 +38,17 @@ export const {  } = dataSlice.actions;
 
 export default dataSlice.reducer; 
 
+ // TODOO 
+export const fetchExistingData = createAsyncThunk(
+  'data/fetchExisting', 
+  async (userId: number, thunkApi) => {
+    const data = await fetch('/api/user/data', {
+      method: 'GET',
+      body: JSON.stringify({ userId: userId })
+    }).then(res => res.json());
+    
+  }
+)
 
 // THunk functions 
 export const addDbThunk = createAsyncThunk(
