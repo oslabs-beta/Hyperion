@@ -63,10 +63,15 @@ dbController.connect = (req, res, next) => {
       } 
       const URI = r2.rows[0].uri;
 
+      if (req.body.query.maxConnections < 1 || req.body.query.maxConnections > 100) {
+        return next('Invalid number of max connections');
+      }
+
       // connect to the pool
       const pool = new Pool({
         connectionString: URI,
         connectionTimeoutMillis: 10000,
+        max: req.body.query.maxConnections,
         query_timeout: 10000,
         statement_timeout: 10000,
         idleTimeoutMillis: 30000,
@@ -74,7 +79,7 @@ dbController.connect = (req, res, next) => {
       });
       // return a pool object
       const t1 = Date.now();
-      pool.query('SELECT 1')
+      return pool.query('SELECT 1')
         .then(() => {
           const t2 = Date.now();
           console.log(`Connection established in ${t2 - t1}ms`)
@@ -87,58 +92,88 @@ dbController.connect = (req, res, next) => {
 };
 
 
+//generates all param combos
+dbController.generateCombinations = (paramsArray) => {
+  // paramsArray = [['Michael', 'Celene'], ['Chloe', 'Sankari', 'Nick]]
+  // result that we want:
+  // [['Michael', 'Chloe'], ['Michael', 'Sankari'], ['Michael, Nick'], ['Celene', 'Chloe'], ['Celene', 'Sankari'], ['Celene', 'Nick']]
+  //could be multiple params, so use recursion 
+  
+  const results = [];
+
+  function helper(i = 0, j = 0, arr) {
+
+    if (arr.length === paramsArray.length) {
+      results.push([...arr]);
+      return;
+    }
+    for (let n = 0; n < paramsArray[i].length; n++) {
+      helper(i + 1, n, [...arr, paramsArray[i][n]]);
+    }
+  }
+
+  helper(0, 0, []);
+
+  return results;
+};
+
 dbController.runQueryTests = (req, res, next) => {
   // receives a pool object in res.locals.dbInfo.pool
   // also needs to know the query string
   // also needs to know the query parameters
 
   const pool = res.locals.dbInfo.pool;
-  const { queryString, queryParams } = req.body.query;
+  const { queryString, queryParams, repeat, throttle } = req.body.query;
 
-  //for security, checks to see if delete or drop are in the querySearch, stops whole execution and doesnt run query 
-  if (queryString.search(/delete/gmi) !== -1 ||
-    queryString.search(/drop/gmi) !== -1) 
-    return next('Unauthorized keyword found');
+  if (throttle < 5 || throttle > 100) {
+    return next('Invalid throttle count');
+  }
+  const promisesArray = [];
 
-  const totalTimeArray = [];
-  const queryTimeArray = [];
+  // get all the combinations and run them
+  const combinations = dbController.generateCombinations(queryParams);
 
-  function calculateStats(arr) {
-    const min = Math.min(...arr)
-    const max = Math.max(...arr)
-    const mean = arr.reduce((a,b) => a + b) / arr.length;
-    let median;
-    arr.sort((a,b) => a - b);
-    const middle = Math.floor(arr.length / 2);
-    if (arr.length % 2) {
-      median= arr[middle];
+  let lastRequestSent = 0;
+
+  function cb(params, methodFunc) {
+    if (Date.now() - lastRequestSent >= throttle) {
+      promisesArray.push(methodFunc(queryString, params, pool)
+        .then(r => r)
+        .catch(() => null)
+      );
+      lastRequestSent = Date.now();
     } else {
-      median = (arr[middle-1] + arr[middle]) / 2;
+      setTimeout(() => cb(params, methodFunc), throttle);
     }
-    return [min, mean, median, max];
+    
   }
 
-  function runTests(i = 10) {
-    if (i <= 0) {
-      console.log(totalTimeArray)
-      console.log(queryTimeArray)
-      console.log(calculateStats(totalTimeArray));
-      console.log(calculateStats(queryTimeArray));
-      return next();
-    } 
-    db.runExplainAnalyze(queryString, queryParams, pool)
-    .then(r => {
-      totalTimeArray.push(r.totalTime);
-      queryTimeArray.push(r.queryTime);
-      return runTests(i - 1);
-    })
-    .catch(e => next(e))
+  for (let i = 0; i < repeat; i++) {
+    for (const params of combinations) {
+      cb(params, db.runExplainAnalyze);
+      cb(params, db.runQueryAnalyze);
+    }
   }
-
-  runTests();
   
+  function promises() {
+    if (promisesArray.length < combinations.length * repeat * 2) {
+      console.log('sorry we have to wait a little bit longer');
+      setTimeout(() => promises(), throttle);
+      return;
+    }
+    Promise.all(promisesArray)
+    .then(arr => {
+      res.locals.testResults = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
+      return next();
+    })
+    .catch(e => {
+      console.log('error is here');
+      next(e);
+    });
+  }
+
+  promises();
 
 };
-
 
 module.exports = dbController;

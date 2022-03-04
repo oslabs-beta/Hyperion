@@ -110,6 +110,15 @@ userController.logout = (req, res, next) => {
   return next();
 }
 
+
+// userController.token = (req, res, next) =>{
+//   res.locals.userInfo = {
+//     loggedIn: false
+//   }
+//   if()
+//   return next();
+// }
+
 // checking session cookie, making sure its a valid session and assoc w/ user if it is 
 //global middleware, import into server js 
 userController.authenticate = (req, res, next) => {
