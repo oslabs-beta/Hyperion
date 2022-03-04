@@ -34,7 +34,7 @@ const VerticalNavbar = (props) => {
       {/* TODO make these into working links  */}
       <ul className='user-links-group'>
         <Link to='/'>Home</Link>
-        <li onClick={}>Logout</li>
+        <li>Logout</li>
         <li>Settings</li>
       </ul>
     </div>

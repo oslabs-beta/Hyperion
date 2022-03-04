@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  isAuthenticated: false
+const initialState : UserState = {
+  isAuthenticated: true
 };
 
 export const userSlice = createSlice({
@@ -12,6 +12,11 @@ export const userSlice = createSlice({
 
   }
 })
+
+
+interface UserState {
+  isAuthenticated: boolean,
+}
 
 export const {} = userSlice.actions;
 

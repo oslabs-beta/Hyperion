@@ -3,27 +3,37 @@ import NewQueryWindow from '../components/NewQueryWindow';
 import QueryCard from '../components/QueryCard';
 import styled from 'styled-components';
 import Layout from './Layout';
-import { addQuery, deleteQuery } from '../middleware/dbThunk';
-import { connect } from 'react-redux';
-import { Query } from '../models/database';
-import Database from '../models/database';
+import { useSelector, useDispatch } from 'react-redux';
+import Database, { Query } from '../models/database';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import ReactCSSTransitionGroup from 'react-transition-group'; // ES6
 import Button from '@mui/material/Button';
+import { addQuery, deleteQuery } from '../features/data/dataSlice';
+import { RootState } from '../features/store';
+
 
 
 const Queries = (props) => {
-  
-  const databases: Array<Database> = Object.values(props.databases);
+  // TODO  --- on each submission of form, delete allt eh values from the input fields 
+
+  const dbMap = useSelector((state: RootState) => state.data.databases);
+  const databases = Object.values(useSelector((state: RootState) => state.data.databases));
+
+  const dispatch = useDispatch();
+
+  // state --------
   const [dbId, setDbId] = useState(databases.length === 0 ? undefined : databases[0].id );
   const [newWindowVisible, setNewWindowVisible] = useState(false);
 
-  const handleNewQuery = (query) => {
-    props.addQuery(dbId, query)
+  // need error checking 
+  const handleNewQuery = (query: string) => {
+    if (dbId === undefined) return; 
+    addQuery({ databaseId: dbId, query: query})
   }
-  
-  const handleDelete = (queryId) => { 
-    props.deleteQuery(dbId, queryId) 
+
+  // need error checking 
+  const handleDeleteQuery = (queryId: number) => {
+    deleteQuery({ queryId: queryId, databaseId: dbId });
   }
 
   // called when the an option from the database dropdown selector is chosen
@@ -61,7 +71,7 @@ const Queries = (props) => {
               return <QueryCard
                 label={'some random label'} // change this to the query label 
                 key={i} 
-                deleteQueryFunc={handleDelete}
+                deleteQueryFunc={handleDeleteQuery}
                 id={query.id} 
                 sqlQuery={query.queryString}
               />
@@ -74,24 +84,8 @@ const Queries = (props) => {
 }
 
 
-// ---------------- dispatch ------------ // 
-const mapStateToProps = (state) => ({
-  databases: state.app.databases
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  addQuery: (databaseId, query) => { dispatch(addQuery(databaseId, query)) },
-  deleteQuery: (databaseId, queryId) => { dispatch(deleteQuery(databaseId, queryId)) }
-})
-
-
 
 // ----------- styled component ---------- // 
-
-const Container = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
 
 
 const QueryGroup = styled.div`
@@ -106,4 +100,4 @@ const QueryGroup = styled.div`
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Queries);
+export default Queries;

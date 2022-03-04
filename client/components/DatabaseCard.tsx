@@ -8,7 +8,6 @@ const DatabaseCard = (props) => {
     id, 
     deleteDbFunc,
     label,
-    // connectDbFunc,
     isConnected,
     database, 
     port, 

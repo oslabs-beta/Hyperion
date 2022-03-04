@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-// import store from './store';
-import store from './store/store';
+import { store } from './features/store';
 import './assets/stylesheets/global.scss';
 import App from './App.jsx';
 

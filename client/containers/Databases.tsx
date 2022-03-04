@@ -16,19 +16,20 @@ import { addDbThunk, deleteDb } from '../features/data/dataSlice';
 const Databases = (props) => {  
   
   const databases = useSelector((state: RootState) => state.data.databases);
+  
   const dispatch = useDispatch();
 
-  const addDb = (formData: NewDatabaseForm) => {
+  const handleDbAdd = (formData: NewDatabaseForm) => {
     dispatch(addDbThunk(formData));
   }
 
-  const deleteDb = (id: number) => {
+  const handleDbDelete = (id: number) => {
     dispatch(deleteDb(id));
   }
 
   return (
-    <Layout>
-      <div className='app-container'>
+    // <Layout>
+    <>      <div className='app-container'>
         <div className='content-box'>
           <nav className='queries-header'>
             <h4>Databases</h4>
@@ -57,7 +58,7 @@ const Databases = (props) => {
               label={db.label}
               isConnected={db.isConnected}
               connectDbFunc={props.connectDb}
-              deleteDbFunc={deleteDb}
+              deleteDbFunc={handleDbDelete}
               database={db.pgDatabaseName} 
               port={db.port} 
               user={db.user}  // not sure if needed
@@ -66,9 +67,11 @@ const Databases = (props) => {
             />
           })}
         </DatabaseGroup>
-        <NewDatabaseWindow addDbFunc={addDb}/>
+        <NewDatabaseWindow addDbFunc={handleDbAdd}/>
       </StyledContainer>
-    </Layout>
+    {/* </Layout> */}
+    </>
+
   )
 }
 

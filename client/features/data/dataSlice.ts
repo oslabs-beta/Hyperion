@@ -10,6 +10,7 @@ import { NewDatabaseForm } from '../../models/database';
 // initial state ----- 
 const initialState: DataState = {
   databases: {}, 
+  status: {},
 };
 
 export const dataSlice = createSlice({
@@ -22,7 +23,13 @@ export const dataSlice = createSlice({
     }),
     //----------------------------
     builder.addCase(deleteDb.fulfilled, (state, action: PayloadAction<number>) => { delete state.databases[action.payload] }),
-    builder.addCase(addQuery.fulfilled, (state, { query } : NewQuery) => { })
+    builder.addCase(addQuery.fulfilled, (state, action: PayloadAction<NewQuery>) => { 
+      const {databaseId, queryId, query} = action.payload;
+      state.databases[databaseId].queries[queryId] = { id: queryId, queryString: query };
+    }),
+    builder.addCase(deleteQuery.fulfilled, (state, action) => { 
+      delete state.databases[action.payload.databaseId].queries[action.payload.queryId];
+    })
   }
 })
 
@@ -80,31 +87,34 @@ export const deleteDb = createAsyncThunk(
 /// add query 
 export const addQuery = createAsyncThunk(
   'data/addQuery',
-  async (query: NewQuery, thunkApi) => {
+  async (queryInfo: { databaseId: number, query: string }, thunkApi) => {
     try {
       const data = await fetch('/api/query/new', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ databaseId: query.databaseId, query: query.query })
+        body: JSON.stringify({ databaseId: queryInfo.databaseId, query: queryInfo.query })
       }).then(res => res.json());
       if (data.statusCode !== 200) { return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE') }; 
-      return query; 
+      const newQuery: NewQuery = {
+        query: queryInfo.query,
+        databaseId: queryInfo.databaseId,
+        queryId: data.queryId ///// <------------------ needs to be changed 
+      }
+      return newQuery; 
     } catch (e) {
       return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE');
     }
   }
 )
 
-
-
 export const deleteQuery = createAsyncThunk(
   'data/deleteQuery', 
-  async (queryId: number, thunkApi) => {
+  async (queryInfo: {queryId: number, databaseId: number}, thunkApi) => {
     try {
       const data = await fetch('api/db/delete', {
         method: 'DELETE', 
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dbInfo: { id: queryId } })
+        body: JSON.stringify({ dbInfo: { id: queryInfo.queryId } })
       }).then(res => res.json());
       if (data.statusCode !== 200) {
         return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE');
@@ -122,7 +132,7 @@ export const deleteQuery = createAsyncThunk(
 //  ----- interfaces 
 export interface DataState {
   databases: { [id: number] : Database },
-  // errorMessage: string
+  status: {},
 }
 
 
@@ -132,122 +142,3 @@ interface NewQuery {
   query: string
 }
 
-interface DeleteQuery {
-  databaseId: number, 
-  queryId: number
-}
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-}
-
-
-export const deleteDb = (id: number) => {
-  // return (dispatch: any) => {
-  //   // TODO make sure that user is authenticated to be able to delete database 
-  //   fetch(`/api/db/delete/${id}`, {
-  //     method: 'DELETE',
-  //     headers: { 'Content-Type': 'application/json' },
-  //   })
-  //     .then(res => res.json())
-  //     .then (data => {
-  //       if (data.statusCode === 200) {
-  //         dispatch(actionCreators.deleteDatabase(id));
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // }
-
-  /// TEST USAGE ONLY
-  return (dispatch: any) => {    
-    dispatch(actionCreators.deleteDatabase(id));
-  }
-}
-
-
- 
-// export const connectDb = (id: number) => {
-//   return (dispatch) => {
-//     // TODO data validation to make sure user is authenticated to connect db 
-//     fetch (`/api/db/connect/${id}`, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' }
-//       })
-//       .then(response => response.json()) 
-//       .then(data => { 
-//         if (data.statusCode === 200) {
-//           dispatch(actionCreators.connectDatabase(id))
-//         }
-//       })
-//       .catch(error =>{
-//           console.error('Error:', error)
-//       })
-//   }
-// }
-
-export const addQuery = (databaseId: number, query: string) => {
-  // return (dispatch: any, getState: any) => {
-  //   fetch('/api/query/new', {
-  //     method: 'POST', 
-  //     headers: { 'Content-Type': 'application/json' }
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       if (data.statusCode === 200) {
-  //         dispatch(actionCreators.addQuery(databaseId, query))
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log('error', err);
-  //     })
-  // }
-
-  /// TEST USAGE ONLY
-  const queryId = Math.floor(Math.random() * 10000); 
-  console.log('in addQuery Thunk', databaseId, query);
-  return (dispatch: any) => {
-    dispatch(actionCreators.addQuery(databaseId, queryId, query));
-  }
-}
-
-export const deleteQuery = (databaseId: number, queryId: number) => {
-  //return (dispatch: any, getState: any) => {
-  //   fetch(`/api/query/delete/${queryId}`, {
-  //     method: 'POST', 
-  //     headers: { 'Content-Type': 'application/json' }
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       if (data.statusCode === 200) {
-  //         dispatch(actionCreators.deleteQuery(databaseId, query))
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log('error', err);
-  //     })
-  // }
-  return (dispatch: any) => {
-    console.log('in deleteuery thunk: databaseId', databaseId, 'queryId', queryId)
-    dispatch(actionCreators.deleteQuery(databaseId, queryId))
-  }
-}
-
-export const runTest = (queryId: number, ...others) => {
-  // TEST USAGE ONLY 
-  return (dispatch: any) => {
-    dispatch(actionCreators.runTest(queryId))
-  }
-}
-*/

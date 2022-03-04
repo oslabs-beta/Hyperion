@@ -17,7 +17,7 @@ const App = (props) => {
   // fetch to get cookies and authenticate  
     // if theyre authenticated we can update the database initail state
 
-  const isAuthenticated = false; 
+  const isAuthenticated = true;
   /*
     make a fetch to the server to check if the user cookies are authenticated 
   */
