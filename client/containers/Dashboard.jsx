@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from './Layout';
 import Login from '../components/Login';
+import { Outlet } from 'react-router-dom';
 // import SignUpForm from '../components/SignUpForm';
 
 const Dashboard = () => {
@@ -9,6 +10,7 @@ const Dashboard = () => {
       <div>
         Dashboard
       </div> 
+      <Outlet />
     </Layout>
   )
 }

@@ -18,6 +18,7 @@ const App = (props) => {
 
 
   const user = useSelector((state: RootState) => { return state.user })
+  // const user = useSelector((state: RootState) => state.user.auth);
   // fetch to get cookies and authenticate  
     // if theyre authenticated we can update the database initail state
   useEffect(() => {
@@ -29,7 +30,7 @@ const App = (props) => {
         }
       })
       .catch(e => {
-        console.log(e);
+        console.log(e)
       })
   }, [])
 
@@ -53,8 +54,7 @@ const App = (props) => {
         <Route path='login' element={<Login/>} />
         <Route path='register' element={<SignUpForm/>} />
         <Route path='about' element={<div>About</div>} />
-  
-        {/* <Route path='signup' element={<SignUpForm handleCloseFunc={()=>console.log('hi')}/>} /> */}
+        {/* TRY TO MAKE THE PRIVATE ROUTES NESTED WITHIN AN /APP ENDPOINT */}
         <Route element={<PrivateRoute auth={auth}/>}>
           <Route path='dashboard' element={<Dashboard/>}/>
           <Route path='queries' element={<Queries/>}/>
