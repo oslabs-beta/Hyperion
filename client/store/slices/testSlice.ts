@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {};
 
@@ -10,9 +10,13 @@ export const testSlice = createSlice({
     runTest: (state, action) => {
 
     }
+  }, 
+  extraReducers: (builder) => {
+
   }
 })
 
-export const { runTest } = testSlice.actions;
+
+export const {} = testSlice.actions;
 
 export default testSlice.reducer; 

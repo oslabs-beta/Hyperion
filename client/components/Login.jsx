@@ -37,28 +37,6 @@ const Login = () => {
       </form>
     </div>
     )
-
-    // // Sankari Version 
-    // <LoginArea>
-    //   <LoginBox>
-    //     <H3>Login</H3>
-    //     <Label>
-    //     <TextField required id="outlined-required" label="Username"/>
-    //     </Label>
-    //     <Label>
-    //       <TextField id="outlined-password-input" label="Password" type="Password"/>
-    //     </Label>
-    //     <Button  variant='outlined' size='small' color= 'secondary'>LOG IN</Button>
-    //   </LoginBox>
-    //   <LoginBox>
-    //     <H3> Don't have an account?  </H3>
-    //     <Button onClick={handleClickOpen}  variant='outlined' size='small' color= 'secondary' >SIGN UP</Button>
-    //     <Dialog fullScreen open={open} onClose={handleClose}>
-    //       <SignUpForm handleCloseFunc={() => {setOpen(!open)}}></SignUpForm>
-    //     </Dialog>
-    //   </LoginBox>
-    // </LoginArea>
-  // )
  
 }
 

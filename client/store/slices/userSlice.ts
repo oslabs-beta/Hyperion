@@ -7,19 +7,12 @@ const initialState = {
 export const userSlice = createSlice({
   name: 'users',
   initialState, 
-  reducers: {
-    logout: (state) => {
+  reducers: {}, 
+  extraReducers: () => {
 
-    },
-    register: (state) => {
-
-    }, 
-    authenticate: (state) => {
-
-    }
   }
 })
 
-export const {logout, register, authenticate} = userSlice.actions;
+export const {} = userSlice.actions;
 
 export default userSlice.reducer; 
