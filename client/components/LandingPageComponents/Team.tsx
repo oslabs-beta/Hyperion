@@ -9,25 +9,25 @@ const Team = () => {
         name: 'Celene Chang',
         github: 'https://www.github.com/celenecchang',
         linkedIn: 'https://www.linkedin.com/in/celenecchang/',
-        src: './assets/teampictures/Celene-Chang.jpeg',
+        src: './assets/teampictures/Celene-Chang.jpg',
       },
       {
         name: 'Sankari Ayyaluru',
         github: 'http://github.com/SankariAri',
         linkedIn: 'https://www.linkedin.com/in/sankari-ayyaluru/',
-        src: './assets/teampictures/Sankari-Ayyaluru.jpeg',
+        src: './assets/teampictures/Sankari-Ayyaluru.jpg',
       },
       {
         name: 'Nick Ozawa',
         github: 'https://github.com/NAustinO',
         linkedIn: 'https://www.linkedin.com/in/nicholas-ozawa/',
-        src: './assets/teampictures/Nick-Ozawa.jpeg',
+        // src: './assets/teampictures/Nick-Ozawa.jpeg',
       },
       {
         name: 'Chloe Angel',
         github: 'https://github.com/chloeangl',
         linkedIn: 'https://www.linkedin.com/in/chloeangl/',
-        src: './assets/teampictures/Chloe-Angel.jpeg',
+        // src: './assets/teampictures/Chloe-Angel.jpeg',
       },
      
     ];
@@ -64,7 +64,7 @@ const Team = () => {
       return (
         <div className="team-wrapper">
           <h1 id="team">Meet The Team</h1>
-          <div className="team-container">{profiles}</div>git
+          <div className="team-container">{profiles}</div>
         </div>
       );
     };

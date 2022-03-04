@@ -19,11 +19,16 @@
     border-radius: 5px;
     float: right;
 }
+.mr-auto{
+    text-align: center; 
+}
 
 .team-wrapper {
     @media screen  {
       h1 {
         margin: 0.5em auto ;
+        margin-bottom: 45px;
+        text-align: center;
       }
       .team-container {
         display: flex;
@@ -98,4 +103,22 @@
           }
         }
       }
-    
+      #info {
+        display: flex;
+        align-items: center;
+        color: black;
+        background-color: cadetblue;
+        justify-content: space-around;
+        margin: 10vh;
+        font-size: 24px;
+        right: 0;
+        left: 0;
+        min-height: 300px;
+        height: 62vh;
+
+        @media screen  {
+            margin: 2em;
+
+       }
+
+      }
