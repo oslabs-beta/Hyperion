@@ -1,5 +1,7 @@
 @use './base/variables';
 
+// TOP NAV BAR STYLING 
+
 .loginButton{
     margin-right: -750px;
     width: 90px;
@@ -22,6 +24,8 @@
 .mr-auto{
     text-align: center; 
 }
+
+// TEAM STYLING 
 
 .team-wrapper {
     @media screen  {
@@ -102,6 +106,8 @@
             }
           }
         }
+
+    // INFO SECTION STYLING 
       }
       #info {
         display: flex;
@@ -118,7 +124,53 @@
 
         @media screen  {
             margin: 2em;
+            h1 {
+                margin-top: 1em;
+                font-size: 2em;
+              }
+              .description {
+                max-width: 100% ;
+              }  
 
+              .button-wrapper {
+                flex-direction: column;
+                button {
+                  flex-grow: 1;
+                  margin: 0.5em 0 !important;
+                }
+              }
        }
 
+       h1 {
+        font-size: 70px;
+        letter-spacing: 1px;
       }
+
+      .description {
+        font-size: 0.7em;
+        max-width: 50%;
+      }
+
+      .button-wrapper {
+        display: flex;
+    
+        button {
+          border-style: none;
+          border-radius: 5px;
+          margin: 20px;
+          width: 120px;
+          height: 40px;
+          color: black;
+          padding: 0 10px;
+          background-color: white;
+          a {
+            font-style: none;
+            color: black;
+            text-decoration: none;
+            padding-left: 10px;
+          }
+
+      }}}
+
+       // FEATURES SECTION STYLING 
+      

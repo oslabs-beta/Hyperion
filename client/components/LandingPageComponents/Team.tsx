@@ -1,7 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-
+import cc from '../../assets/teampictures/cc.jpg'
+import sa from '../../assets/teampictures/sa.jpg'
 
 const Team = () => {
     const teamProfile = [
@@ -9,13 +10,13 @@ const Team = () => {
         name: 'Celene Chang',
         github: 'https://www.github.com/celenecchang',
         linkedIn: 'https://www.linkedin.com/in/celenecchang/',
-        src: './assets/teampictures/Celene-Chang.jpg',
+        src: cc,
       },
       {
         name: 'Sankari Ayyaluru',
         github: 'http://github.com/SankariAri',
         linkedIn: 'https://www.linkedin.com/in/sankari-ayyaluru/',
-        src: './assets/teampictures/Sankari-Ayyaluru.jpg',
+        src: sa,
       },
       {
         name: 'Nick Ozawa',
@@ -40,9 +41,9 @@ const Team = () => {
                  <span>
                   <img
                     src={profile.src}
-                    alt={profile.name}
-                    className="actual-pic"
-                  ></img>
+                    // alt={profile.name}
+                    // className="actual-pic"
+                  />
                 </span>
         
               <div className="team-profile-title">
@@ -63,7 +64,7 @@ const Team = () => {
     
       return (
         <div className="team-wrapper">
-          <h1 id="team">Meet The Team</h1>
+          <h1 id="team">The Team</h1>
           <div className="team-container">{profiles}</div>
         </div>
       );
