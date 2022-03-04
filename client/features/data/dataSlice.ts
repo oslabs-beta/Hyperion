@@ -10,39 +10,21 @@ import { NewDatabaseForm } from '../../models/database';
 // initial state ----- 
 const initialState: DataState = {
   databases: {}, 
-  status: 'idle',
-  errorMessage: null
 };
 
 export const dataSlice = createSlice({
   name: 'data',
   initialState, 
-  reducers: {
-    // addDb: (state, action: PayloadAction<Database>) => { state.databases[action.payload.id] = action.payload; },
-    // deleteDb: (state, action: PayloadAction<number>) => { delete state.databases[action.payload]; },
-    // addQuery: (state, action: PayloadAction<NewQuery>) => {
-    //   const { databaseId, queryId, query } = action.payload; 
-    //   state.databases[databaseId].queries[queryId] = {id: queryId, queryString: query };
-    // },
-    // deleteQuery: (state, action: PayloadAction<DeleteQuery>) => {
-    //   delete state.databases[action.payload.databaseId].queries[action.payload.queryId];
-    // }
-  }, 
+  reducers: {}, 
   extraReducers: (builder) => {
     builder.addCase(addDbThunk.fulfilled, (state, action: PayloadAction<Database>) => {
-      state.status = 'idle';
       state.databases[action.payload.id] = action.payload; 
     }),
-    builder.addCase(addDbThunk.pending, (state, action) => { state.status = 'loading' }),
-    builder.addCase(addDbThunk.rejected, (state, action) => { state.status = 'failed' }),
+    //----------------------------
     builder.addCase(deleteDb.fulfilled, (state, action: PayloadAction<number>) => { delete state.databases[action.payload] }),
-    builder.addCase(deleteDb.rejected, (state, action) => { 
-      state.status = 'failed';
-      state.errorMessage = 'Could not delete database';
-    })
+    builder.addCase(addQuery.fulfilled, (state, { query } : NewQuery) => { })
   }
 })
-
 
 
 // thunk functions
@@ -54,7 +36,7 @@ export default dataSlice.reducer;
 // THunk functions 
 export const addDbThunk = createAsyncThunk(
   'data/addDb',
-  async (formData: NewDatabaseForm) => {
+  async (formData: NewDatabaseForm, thunkApi) => {
     const settings = {
       method: 'POST', 
       headers: { 
@@ -62,52 +44,75 @@ export const addDbThunk = createAsyncThunk(
       },
       body: JSON.stringify(formData)
     };
-    try {
-      const response = await fetch('/api/db/new', settings);
-      const data = await response.json();
-      // create new database from data
-      const db = new Database(1,1,'', '', '','',false, 2);
-      return db;  // need to change 
-    } catch (e) {
-      console.log(e);
-      return e; 
-    }
+    
+    const data = await fetch('/api/db/new', settings).then(res => res.json());
+    if (data.statusCode !== 200) return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
+    // create new database from data
+    const db = new Database(1,1,'', '', '','',false, 2);
+    return db;  // need to change 
+
   }
 )
 
+
 export const deleteDb = createAsyncThunk(
   'data/deleteDb',
-  async (id: number) => {
+  async (id: number, thunkApi) => {
     try {
-      const response = await fetch(`/api/db/delete/${id}`, {
+      const data = await fetch(`/api/db/delete/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
-      });
-      const data = await response.json();
+      }).then(res => res.json());
+      
+      if (data.statusCode !== 200) return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
+      // need to confirm data first 
       // expecting data to be a status code
       return data;
     }
     catch (e) {
       console.log(e);
-      return "Failed to delete database"
-      // return e; 
+      return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
     }
   }
 )
 
+
+/// add query 
 export const addQuery = createAsyncThunk(
   'data/addQuery',
-  async (databaseId: number, query: string) => {
+  async (query: NewQuery, thunkApi) => {
     try {
-      const response = await fetch('/api/query/new', {
+      const data = await fetch('/api/query/new', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ databaseId: databaseId, query: query })
-      });
-      const data = await response.json();
-      return data; 
+        body: JSON.stringify({ databaseId: query.databaseId, query: query.query })
+      }).then(res => res.json());
+      if (data.statusCode !== 200) { return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE') }; 
+      return query; 
     } catch (e) {
-      return e; 
+      return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE');
+    }
+  }
+)
+
+
+
+export const deleteQuery = createAsyncThunk(
+  'data/deleteQuery', 
+  async (queryId: number, thunkApi) => {
+    try {
+      const data = await fetch('api/db/delete', {
+        method: 'DELETE', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dbInfo: { id: queryId } })
+      }).then(res => res.json());
+      if (data.statusCode !== 200) {
+        return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE');
+      }
+      return data; 
+    }
+    catch (e) {
+      return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE');
     }
   }
 )
@@ -117,8 +122,7 @@ export const addQuery = createAsyncThunk(
 //  ----- interfaces 
 export interface DataState {
   databases: { [id: number] : Database },
-  status: 'loading'|'failed'|'idle',
-  errorMessage: string
+  // errorMessage: string
 }
 
 

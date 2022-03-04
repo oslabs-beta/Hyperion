@@ -3,17 +3,28 @@ import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
 import Layout from './Layout';
-import { connect, useSelector } from "react-redux";
-import * as thunk from '../middleware/dbThunk';
+import { useSelector, useDispatch } from "react-redux";
 import Database from '../models/database';
-import { RootState } from '../store/store';
-import { useDispatch  } from 'react-redux';
+import { RootState } from '../features/store';
+import { NewDatabaseForm } from '../models/database';
+
+import { addDbThunk, deleteDb } from '../features/data/dataSlice';
+
 
 
 // -------- main component ---------- //
 const Databases = (props) => {  
+  
   const databases = useSelector((state: RootState) => state.data.databases);
   const dispatch = useDispatch();
+
+  const addDb = (formData: NewDatabaseForm) => {
+    dispatch(addDbThunk(formData));
+  }
+
+  const deleteDb = (id: number) => {
+    dispatch(deleteDb(id));
+  }
 
   return (
     <Layout>
@@ -39,14 +50,14 @@ const Databases = (props) => {
       <StyledContainer >
         <DatabaseGroup className='content-box'>
           <h4>My Databases</h4>
-          {Object.values(props.databases).map((db : Database, i) => {
+          {Object.values(databases).map((db : Database, i) => {
             return <DatabaseCard
               key={i}
               id={db.id}
               label={db.label}
               isConnected={db.isConnected}
               connectDbFunc={props.connectDb}
-              deleteDbFunc={props.deleteDb}
+              deleteDbFunc={deleteDb}
               database={db.pgDatabaseName} 
               port={db.port} 
               user={db.user}  // not sure if needed
@@ -55,7 +66,7 @@ const Databases = (props) => {
             />
           })}
         </DatabaseGroup>
-        <NewDatabaseWindow addDbFunc={props.addDb}/>
+        <NewDatabaseWindow addDbFunc={addDb}/>
       </StyledContainer>
     </Layout>
   )
@@ -70,18 +81,6 @@ const StyledContainer = styled.div`
 `;
 
 
-// ---------------- dispatch ------------ // 
-const mapStateToProps = (state) =>({
-  databases: state.app.databases
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  addDb: (formData) => { dispatch(thunk.addDb(formData)) },
-  deleteDb: (id) => { 
-    dispatch(thunk.deleteDb(id)) 
-  }
-})
-
 const DatabaseGroup = styled.div`
   // background-color: rgb(220, 220 ,220); 
   // width: 100%;
@@ -89,4 +88,4 @@ const DatabaseGroup = styled.div`
   // overflow-y: scroll;
 `;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Databases);
+export default Databases;
