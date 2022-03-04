@@ -48,7 +48,7 @@ const Queries = (props) => {
           <h4>Queries</h4>
           <div>
             <select className='app-dropdown' value={dbId} onChange={handleDbChange}>
-              { Object.values(props.databases).map((db : Database, i) => {
+              { databases.map((db : Database, i) => {
                 return (
                   <option key={i} value={db.id}>
                     {db.label}

@@ -5,9 +5,11 @@ import Login from '../components/Login';
 
 const Dashboard = () => {
   return (
+    <Layout>
       <div>
-      <Login> </Login>
+        Dashboard
       </div> 
+    </Layout>
   )
 }
 

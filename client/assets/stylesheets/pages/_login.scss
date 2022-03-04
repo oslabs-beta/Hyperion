@@ -2,12 +2,12 @@
 @use '../base/mixins';
 @use '../framework/layouts';
 
-.login-area {
+.login-signup-area {
   @include mixins.flexCenter(column);
   // @extend .content-box; 
 }
 
-.login-box {
+.login-signup-box {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -18,13 +18,13 @@
   padding: 15px; 
 }
 
-.login-label {
+.login-signup-label {
   display: flex;
   flex-direction: column;
-  padding:10px ;
+  padding: 10px;
 }
 
-.login-header {
+.login-signup-header {
   font-family: 'Notable', sans-serif;
   font-size: 15px;
   display: flex;
@@ -32,6 +32,3 @@
   justify-content: center;
 };
 
-.signup-box {
-  @extend .login-box;
-}

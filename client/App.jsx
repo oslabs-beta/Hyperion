@@ -21,19 +21,24 @@ const App = (props) => {
   /*
     make a fetch to the server to check if the user cookies are authenticated 
   */
+  const auth = { 
+    isAuthenticated: isAuthenticated
+  }
   return (
     <BrowserRouter>
       <Routes>
         {/* change this to dashboard later  */}
         <Route path='/' element={<Dashboard/>} />
         <Route path='login' element={<Login/>} />
-        <Route path='signup' element={<SignUpForm/>} />
-        <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+        <Route path='register' element={<SignUpForm/>} />
+        <Route path='about' element={<div>About</div>} />
+  
+        {/* <Route path='signup' element={<SignUpForm handleCloseFunc={()=>console.log('hi')}/>} /> */}
+        <Route element={<PrivateRoute auth={auth}/>}>
           <Route path='dashboard' element={<Dashboard/>}/>
           <Route path='queries' element={<Queries/>}/>
           <Route path='tests' element={<Tests/>}/>
           <Route path='database' element={<Databases/>}/>
-          <Route path='data-models' element={<DataModels/>}/>
         </Route>
         <Route path='*' element={<NotFound />}/>
       </Routes>

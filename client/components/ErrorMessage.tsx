@@ -1,9 +1,12 @@
 import React from 'react'
 
-const ErrorMessage = (props) => {
+const ErrorMessage = (props: Props) => {
   return (
-    <div>ErrorMessage</div>
+    <div>{props.message}</div>
   )
 }
 
+interface Props {
+  message: string
+}
 export default ErrorMessage

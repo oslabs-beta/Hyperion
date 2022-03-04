@@ -28,7 +28,10 @@
     font-size: 10pt;
     padding: 0;
     list-style-type: none;
-
+   
+  }
+  li {
+    text-decoration: none;
   }
 }
 
@@ -41,6 +44,7 @@
 .app-container {
   background-color: variables.$app-background-color;
   flex-grow: 1;
+  width: 100%;
   .app-content {
     padding: 1em 2em;
   }

@@ -6,17 +6,19 @@ export const testSlice = createSlice({
   name: 'test',
   initialState, 
   reducers: {
-    // TODO 
-    runTest: (state, action) => {
-
-    }
+    // TODOz
   }, 
   extraReducers: (builder) => {
 
   }
 })
 
-
+export const runTest = createAsyncThunk(
+  '/test/run', 
+  async () => {
+    return 'TODO';
+  }
+)
 export const {} = testSlice.actions;
 
 export default testSlice.reducer; 

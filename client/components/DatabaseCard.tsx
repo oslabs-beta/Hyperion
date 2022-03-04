@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
 
-const DatabaseCard = (props) => {
+const DatabaseCard = (props: Props) => {
   const {
     id, 
     deleteDbFunc,
@@ -54,9 +54,19 @@ const DatabaseCard = (props) => {
         <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
       </div>
     </div>
-    
-
   )
+}
+
+interface Props {
+  id: number, 
+  deleteDbFunc: Function,
+  label: string,
+  isConnected?: boolean,
+  database: string,
+  port: number,
+  user?: string, 
+  ssl?: string, 
+  latency: number
 }
 
 const StyledCard = styled.div`

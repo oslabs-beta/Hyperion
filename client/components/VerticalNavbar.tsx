@@ -5,6 +5,7 @@ import { FiDatabase } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import NavbarLink from './NavbarLink';
 import { icons } from 'react-icons/lib';
+import { logoutUser } from '../features/user/userSlice';
 
 // -------------- constants -------------// 
 const NAV_ICON_SIZE = 22; 
@@ -26,7 +27,7 @@ const VerticalNavbar = (props) => {
       <div className='app-links-group'>
         <NavbarLink icon={ICONS.dashboard} displayText='Dashboard' linkPath='/dashboard'/> 
         <NavbarLink icon={ICONS.database} displayText='Databases' linkPath='/database'/> 
-        <NavbarLink icon={ICONS.schema} displayText='Data Models' linkPath='/data-models'/> 
+        {/* <NavbarLink icon={ICONS.schema} displayText='Data Models' linkPath='/data-models'/>  */}
         <NavbarLink icon={ICONS.queries} displayText='Queries' linkPath='/queries'/> 
         <NavbarLink icon={ICONS.tests} displayText='Run Tests' linkPath='/tests'/> 
       </div>
@@ -34,8 +35,8 @@ const VerticalNavbar = (props) => {
       {/* TODO make these into working links  */}
       <ul className='user-links-group'>
         <Link to='/'>Home</Link>
-        <li>Logout</li>
-        <li>Settings</li>
+        <li onClick={logoutUser} ><div>Logout</div></li>
+        <Link to='/about'>About</Link>
       </ul>
     </div>
   )

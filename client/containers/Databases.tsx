@@ -28,8 +28,8 @@ const Databases = (props) => {
   }
 
   return (
-    // <Layout>
-    <>      <div className='app-container'>
+    <Layout>
+      <div className='app-container'>
         <div className='content-box'>
           <nav className='queries-header'>
             <h4>Databases</h4>
@@ -57,7 +57,6 @@ const Databases = (props) => {
               id={db.id}
               label={db.label}
               isConnected={db.isConnected}
-              connectDbFunc={props.connectDb}
               deleteDbFunc={handleDbDelete}
               database={db.pgDatabaseName} 
               port={db.port} 
@@ -69,9 +68,7 @@ const Databases = (props) => {
         </DatabaseGroup>
         <NewDatabaseWindow addDbFunc={handleDbAdd}/>
       </StyledContainer>
-    {/* </Layout> */}
-    </>
-
+    </Layout>
   )
 }
 
