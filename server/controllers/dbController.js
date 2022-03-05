@@ -4,6 +4,14 @@ const { Pool } = require('pg');
 
 const dbController = {};
 
+/**
+ * Add a database to the user's list and store all associated parameters for future connections
+ * 
+ * @param {Object} req Request object provided by the Express framework
+ * @param {Object} res Response object provided by the Express framework
+ * @param {Function} next Callback function provided by the Express framework
+ * @returns next() 
+ */
 dbController.addNewDb = (req, res, next) => {
   const queryString = 'INSERT INTO app.databases (user_id, database_name, connection_type) VALUES ($1, $2, $3) RETURNING _id;';
   const uriString = 'INSERT INTO app.uris (database_id, uri) VALUES ($1, $2)';
@@ -17,6 +25,15 @@ dbController.addNewDb = (req, res, next) => {
     .catch(e => next(e));
 };
 
+/**
+ * Remove a database from the user's list and all stored associated parameters.  
+ * This does NOT delete the actual database.
+ * 
+ * @param {Object} req Request object provided by the Express framework
+ * @param {Object} res Response object provided by the Express framework
+ * @param {Function} next Callback function provided by the Express framework
+ * @returns next() 
+ */
 dbController.removeDb = (req, res, next) => {
   const uriString = 
   `DELETE FROM app.uris
@@ -42,6 +59,15 @@ dbController.removeDb = (req, res, next) => {
     .catch(e => next(e));
 }
 
+/**
+ * Attempts to establish a database connection using the provided parameters
+ * If successful, stores a pg Pool object in res.locals.dbInfo.pool
+ * 
+ * @param {Object} req Request object provided by the Express framework
+ * @param {Object} res Response object provided by the Express framework
+ * @param {Function} next Callback function provided by the Express framework
+ * @returns next() 
+ */
 dbController.connect = (req, res, next) => {
 
   // retrieve the db id from body
@@ -92,20 +118,31 @@ dbController.connect = (req, res, next) => {
 
 };
 
+/**
+ * Handles and coordinates the database requests to be evaluated.
+ * 
+ * @param {Object} req Request object provided by the Express framework
+ * @param {Object} res Response object provided by the Express framework
+ * @param {Function} next Callback function provided by the Express framework
+ * @returns next() 
+ */
 dbController.runQueryTests = (req, res, next) => {
   const pool = res.locals.dbInfo.pool;
   const { queryString, queryParams, repeat, throttle } = req.body.query;
   const promisesArray = [];
+  if (throttle < 0 || repeat < 1) return next('Incorrect parameters');
   let waitUntil = Date.now() - throttle;
   // get all the combinations of parameters
   const combinations = generateCombinations(queryParams);
 
+  // logic to send a query to the user's database
   const sendQuery = (params, queryFunc) => {
-    if (throttle === 0) {
+    if (throttle === 0) { //if there is no throttle, send request immediately
       return promisesArray.push(queryFunc(queryString, params, pool)
         .then(r => r)
         .catch(() => null));
     } 
+    // if there is a throttle, queue and delay the request
     const delay = Math.max(0, waitUntil - Date.now());
     setTimeout(() => 
     promisesArray.push(queryFunc(queryString, params, pool)
@@ -115,25 +152,33 @@ dbController.runQueryTests = (req, res, next) => {
     waitUntil = Math.max(waitUntil, Date.now()) + throttle;
   };
 
+  // Send a request using both db.runExplainAnalyze and db.runQueryAnalyze
+  // Use two methods for accuracy and statistical significance
   const queueRequestPair = (params) => {
     sendQuery(params, db.runExplainAnalyze);
     sendQuery(params, db.runQueryAnalyze);
   };
 
+  // Invoke Promise.all once all the requests have been sent  
   const sendResults = () => {
+    // Length of promisesArray should be equal to ( combinations.length * repeat * 2 )
+    if (promisesArray.length < combinations.length * repeat * 2) return next('Error: Promise.all cannot run yet');
     Promise.all(promisesArray)
     .then(arr => {
+      // Sort the results by starting timestamp in ascending order
       res.locals.testResults = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
       return next();
     })
     .catch(e => next(e));
   };
   
+  // Outer loop to repeat the tests if requested
   for (let i = 0; i < repeat; i++) {
     for (const params of combinations) {
+      // Test the query for this combination of parameters
       queueRequestPair(params);
     }
-    if (i + 1 === repeat) {
+    if (i + 1 === repeat) { // once all the requests have been sent/queued, queue Promise.all
       if (throttle === 0) sendResults();
       else setTimeout(sendResults, Math.max(0, waitUntil - Date.now()));
     } 
