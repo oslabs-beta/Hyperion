@@ -10,4 +10,8 @@ api.use('/user', userRouter);
 
 api.use('/query', queryRouter)
 
+api.get('/test', (req, res) => {
+  res.status(200).send('Success!');
+});
+
 module.exports = api;
