@@ -5,10 +5,11 @@ statsController.calculateStats = (arr) => {
   arr.sort((a,b) => a - b);
   const min = Math.min(...arr);
   const max = Math.max(...arr);
-  const mean = arr.reduce((a,b) => a + b) / arr.length;
-  const stdDev = Math.sqrt(arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / (arr.length));
-  
-  //inclusive method 
+  let mean = arr.reduce((a,b) => a + b) / arr.length;
+  mean = Math.round(mean*100)/100
+  let stdDev = Math.sqrt(arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / (arr.length - 1));
+  stdDev = Math.round(stdDev*100)/100
+  //inclusive 
   const quartile = (q) => {
     const pos = (arr.length - 1) * q;
     const base = Math.floor(pos);
@@ -23,9 +24,9 @@ statsController.calculateStats = (arr) => {
   const median = quartile(.50)
   const q3 = quartile( .75)
 
-  return {"min": min, "mean": mean, "median": median, "max": max, "stdDev": stdDev, "q1": q1, "q3": q3};
+  return {"min": min, "max": max, "mean": mean, "median": median, "stdDev": stdDev, "q1": q1, "q3": q3};
 }
 
-console.log(statsController.calculateStats([48, 52, 57, 61, 64, 72, 76, 77, 81, 85, 88]));
 
-exports.module = statsController;
+
+module.exports = statsController;

@@ -115,7 +115,9 @@ userController.logout = (req, res, next) => {
 //   res.locals.userInfo = {
 //     loggedIn: false
 //   }
-//   if()
+//   if(!loggedIn){
+
+//}
 //   return next();
 // }
 
