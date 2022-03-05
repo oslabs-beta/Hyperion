@@ -22,13 +22,13 @@ test('encrypt then decrypt a string successfully', () => {
 
 test('cannot decrypt string with wrong password', () => {
   const encryptedString = encryptionModule.encryptString(testString, testPassword);
-  const decryptedString = encryptionModule.decryptString(encryptedString, 'otherpassword');
-  expect(decryptedString).not.toMatch(testString);
+  const decryptString = () => encryptionModule.decryptString(encryptedString, 'otherpassword');
+  expect(() => decryptString()).toThrow();
 });
 
-test('encrypt then decrypt an object serialized with JSON.stringify', () => {
+test('encrypt then decrypt an object serialized with JSON.stringify / JSON.parse', () => {
   const encryptedObject = encryptionModule.encryptString(JSON.stringify(testObject), testPassword);
   const decryptedObject = encryptionModule.decryptString(encryptedObject, testPassword);
-  expect(decryptedObject).toEqual(testObject);
+  expect(JSON.parse(decryptedObject)).toEqual(testObject);
 });
 
