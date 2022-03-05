@@ -15,17 +15,8 @@ userRouter.post('/logout', userController.logout, (req, res) => {
  return res.status(200).send('User has successfully logged out');
 });
 
-// get '/getinfo'
-
-
-// {
-//   loggedIn: true
-//   userInfo: {
-//     id: 5,
-//     name: 'Chloe'
-//   }
-// }
-
-
+userRouter.get('/getinfo', (req, res) => {
+  return res.status(200).json(res.locals.userAuth);
+});
 
 module.exports = userRouter;
