@@ -24,7 +24,7 @@ const App = (props) => {
   useEffect(() => {
     console.log("this useEffect is running in app")
     // runs a fetch request to server to authenticate 
-    // only runs once
+    // only runs on
     if (user.auth.isAuthenticated === false && user.auth.authRequestSent === false) {
       fetch('/api/user/authenticate')
         .then(res => res.json())
