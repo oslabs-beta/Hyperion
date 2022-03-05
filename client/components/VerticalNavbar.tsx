@@ -25,7 +25,6 @@ const VerticalNavbar = (props) => {
       <div className='app-links-group'>
         <NavbarLink icon={ICONS.dashboard} displayText='Dashboard' linkPath='/dashboard'/> 
         <NavbarLink icon={ICONS.database} displayText='Databases' linkPath='/database'/> 
-        {/* <NavbarLink icon={ICONS.schema} displayText='Data Models' linkPath='/data-models'/>  */}
         <NavbarLink icon={ICONS.queries} displayText='Queries' linkPath='/queries'/> 
         <NavbarLink icon={ICONS.tests} displayText='Run Tests' linkPath='/tests'/> 
       </div>

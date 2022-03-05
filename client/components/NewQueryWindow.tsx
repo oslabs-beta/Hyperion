@@ -1,6 +1,6 @@
 import React, { isValidElement, useState } from 'react';
 import styled from 'styled-components';
-import { FormControl, TextField } from '@mui/material';
+import { FormControl, TextField, InputLabel, Input } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const NewQueryWindow = ({ newQueryFunc }) => {
@@ -31,34 +31,21 @@ const NewQueryWindow = ({ newQueryFunc }) => {
 
 
   return (
-    <div className='content-box'>
+    <div className='modal-container'>
       <h4>Add Query</h4> 
       <form onSubmit={handleSubmit} className='new-query-form'>
+        <FormControl>
+          <InputLabel htmlFor='label'>Label</InputLabel>
+              <Input id='label' name='label' type='text' />
+        </FormControl>
         <FormControl>
           <TextField multiline rows={12} type='text' id='input-field' maxRows={12} name='input' />
         </FormControl>
         <Button type='submit' size='small' variant='contained'>Submit</Button>
       </form>
     </div>
-    // <StyledWindow >
-
-    // </StyledWindow>
   )
 }
 
-// const StyledWindow = styled.div`
-//   width: max(30%, 400px);
-//   // padding: .5em 1em; 
-//   display: flex;
-//   flex-direction: column; 
-//   row-gap: 1.5em;
-//   .new-query-form {
-//     display: flex; 
-//     flex-direction: column;
-//     row-gap: 1em;
-//   }
-
-//   overflow-y: scroll;
-// `;
 
 export default NewQueryWindow

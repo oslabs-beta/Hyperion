@@ -1,12 +1,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+// ---------------- initial state ---------------------------------------
 const initialState : UserState = {
   auth: {
+    authRequestSent: false, 
     isAuthenticated: false
   },
-
+  userProfile: {
+    id: null,
+    name: ''
+  }
 };
 
+
+// -------------------- slice/reducers ----------------------------
 export const userSlice = createSlice({
   name: 'user',
   initialState, 
@@ -14,17 +21,15 @@ export const userSlice = createSlice({
     authenticateUser: (state, action: PayloadAction<boolean>) => { state.auth.isAuthenticated = true }
   }, 
   extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.auth.isAuthenticated = true;
-    })
+    builder.addCase(loginUser.fulfilled, (state, action) => { state.auth.isAuthenticated = true; }),
+    builder.addCase(logoutUser.fulfilled, (state, action) => { state = initialState; }) // will need to add logic to eliminate all the user data stored as well as test data 
   }
 })
 
-// 
-
+// ----------------------- thunk ----------------------------------
 export const registerUser = createAsyncThunk(
   '/user/registerUser',
-  async (form: NewUserForm, thunkApi) => {
+  async (form: { name?: string, email: string, password: string }, thunkApi) => {
     try {
       const response = await fetch('/api/user/register', {
         method: 'POST', 
@@ -48,7 +53,6 @@ export const registerUser = createAsyncThunk(
     }
   }
 )
-
 export const loginUser = createAsyncThunk(
   '/user/loginUser', 
   async (form: { email: string, password: string}, thunkApi) => {
@@ -69,7 +73,6 @@ export const loginUser = createAsyncThunk(
         thunkApi.rejectWithValue('SOME ERROR MESSAGE');
       } else{ 
         // TODO ------------------------------------------------
-        localStorage.setItem('token', data.token);
         return data; 
       }
     } catch (e) {
@@ -101,19 +104,18 @@ export const logoutUser = createAsyncThunk(
 
 
 
-interface NewUserForm {
-  username: string,
-  password: string,
-  email: string
-}
-
 interface UserState {
-  auth: AuthState
+  auth: {
+    isAuthenticated: boolean,
+    authRequestSent: boolean,
+  },
+  userProfile: {
+    id: number | null;
+    name: string;
+  }
 }
 
-interface AuthState {
-  isAuthenticated: boolean
-}
+
 
 export const { authenticateUser } = userSlice.actions;
 

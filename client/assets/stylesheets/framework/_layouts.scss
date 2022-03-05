@@ -6,8 +6,24 @@
   background-color: variables.$content-background-color;
 }
 
-.app-container {
+.app-layout {
+  min-width: 600px;
+  background-color: variables.$app-background-color;
   display: flex;
-  flex-direction: column;
-  row-gap: 1em;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+
+  .app-container {
+    flex-grow: 1;    
+  
+    .app-content {
+      padding: 1em 2em;
+      display: flex;
+      flex-direction: column;
+      row-gap:20px;
+    }
+  }
 }
+
+

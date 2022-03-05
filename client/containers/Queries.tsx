@@ -17,6 +17,7 @@ const Queries = (props) => {
   // TODO  --- on each submission of form, delete allt eh values from the input fields 
 
   const dbMap = useSelector((state: RootState) => state.data.databases);
+
   const databases = Object.values(useSelector((state: RootState) => state.data.databases));
 
   const dispatch = useDispatch();
@@ -43,10 +44,13 @@ const Queries = (props) => {
 
   return (
     <Layout>
-      <div className='queries-container'>
-        <nav className='queries-header'>
+      <div className='content-box'>
+        <nav className='card-header'>
           <h4>Queries</h4>
           <div>
+            <div>
+              Select Database
+            </div>
             <select className='app-dropdown' value={dbId} onChange={handleDbChange}>
               { databases.map((db : Database, i) => {
                 return (
@@ -60,25 +64,26 @@ const Queries = (props) => {
             <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
           </div>
         </nav>
-        <div className='queries-content'>
-          { newWindowVisible === true && 
-            <NewQueryWindow newQueryFunc={handleNewQuery}/>
-          }
-          <QueryGroup>
-            {/* ------ query cards ------ */}
-            { dbId !== undefined && 
-              Object.values(props.databases[dbId].queries).map((query : Query, i) => {
-              return <QueryCard
-                label={'some random label'} // change this to the query label 
-                key={i} 
-                deleteQueryFunc={handleDeleteQuery}
-                id={query.id} 
-                sqlQuery={query.queryString}
-              />
-            })}
-          </QueryGroup>     
+      </div>
+      <div>
+        <div className='content-box'>
+          <h4>My Queries</h4>
+          { dbId !== undefined && 
+            Object.values(databases[dbId].queries).map((query: Query, i) => {
+            return <QueryCard
+              label={'some random label'} // change this to the query label 
+              key={i} 
+              deleteQueryFunc={handleDeleteQuery}
+              id={query.id} 
+              sqlQuery={query.queryString}
+            />
+          })}
         </div>
       </div>
+      { newWindowVisible === true && 
+        <NewQueryWindow newQueryFunc={handleNewQuery}/>
+      }
+
     </Layout>
   )
 }

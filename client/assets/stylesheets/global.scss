@@ -1,11 +1,20 @@
-@use './app.scss';
-@use './landing.scss';
+// base 
 @use './base/variables.scss';
 @use './base/mixins.scss';
 @use './base/functions.scss';
-@use './modules/cards';
-@use './framework/layouts';
+
+// pages 
 @use './pages/core';
-@use './pages/queries';
 @use './pages/login';
+@use './pages/app';
+@use './pages/landing';
+
+
+// framework 
+@use './framework/layouts';
+
+
+// modules 
+@use './modules/cards';
+@use './modules/headers';
 

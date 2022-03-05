@@ -12,6 +12,7 @@ const initialState: DataState = {
   status: {},
 };
 
+
 export const dataSlice = createSlice({
   name: 'data',
   initialState, 
@@ -46,11 +47,10 @@ export const fetchExistingData = createAsyncThunk(
       method: 'GET',
       body: JSON.stringify({ userId: userId })
     }).then(res => res.json());
-    
   }
 )
 
-// THunk functions 
+// Thunk functions 
 export const addDbThunk = createAsyncThunk(
   'data/addDb',
   async (formData: NewDatabaseForm, thunkApi) => {
@@ -136,7 +136,6 @@ export const deleteQuery = createAsyncThunk(
     }
   }
 )
-
 
 
 //  ----- interfaces 

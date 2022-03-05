@@ -73,7 +73,7 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
   }
 
   return (
-    <StyledWindow>
+    <StyledWindow className='modal-container'>
       <h4>Add New Database</h4>
       { isConnectingByUri ? 
         <label>Connecting by URI</label>

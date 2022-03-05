@@ -1,8 +1,12 @@
 import React from 'react'
+import HorizontalNavBar from '../components/LandingPageComponents/HorizontalNavBar';
 
-const NotFound = () => {
+const NotFound = (props) => {
   return (
-    <div>NotFound</div>
+    <>   
+      <HorizontalNavBar />
+      <div>NotFound</div>
+    </>
   )
 }
 

@@ -1,26 +1,58 @@
 import React from 'react'
-import { FormControl, InputLabel } from '@mui/material';
-import { Input } from '@mui/material';
-import { FormHelperText } from '@mui/material';
+import { Query } from '../models/database';
+import Database from '../models/database';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
+import { useSelector } from 'react-redux';
+import { RootState } from '../features/store';
         
-const TestConfigWindow = (props) => {
+const TestConfigWindow = (props: Props) => {
   const {
-    runTestHandler
+    runTestHandler,
+    changeDbHandler, 
+    changeQueryHandler,
+    dbId, 
+    queryId,
+    databases
   } = props;
   return (
-    <>
-      <StyledContainer>
-        <div>Test Configuration Window</div>
-        <Button type='submit' onClick={() => { runTestHandler()}} size='small' variant='contained'>
-          Run Test
-        </Button>
-      </StyledContainer>
-    </>
-
+    <StyledContainer className='modal-container'>
+      <div>Test Configuration Window</div>
+      <select value={dbId} onChange={() => { changeDbHandler() }}>
+        { Object.values(databases).map((db : Database, i) => {
+          return (
+            <option label={db.label} key={i} value={db.id}>
+              {db.label}
+            </option>
+          )
+        })}
+      </select>
+      <select value={queryId} onChange={() => { changeQueryHandler() }}>
+        { dbId !== undefined && Object.values(databases[dbId].queries).map((query : Query, i) => {
+          return (
+            <option key={i} value={query.id}>
+              {query.queryString}
+            </option>
+          )
+        })}
+      </select>
+      <Button type='submit' onClick={() => { runTestHandler()}} size='small' variant='contained'>
+        Run Test
+      </Button>
+    </StyledContainer>
   )
 }
+
+
+interface Props {
+  runTestHandler: Function;
+  changeDbHandler: Function;
+  changeQueryHandler: Function;
+  dbId: number;
+  queryId: number;
+  databases: {[id: number]: Database};
+}
+
 
 const StyledContainer = styled.div`
   display: flex; 

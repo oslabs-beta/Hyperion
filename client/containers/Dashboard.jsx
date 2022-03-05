@@ -6,15 +6,15 @@ import HorizontalNavBar from '../components/LandingPageComponents/HorizontalNavB
 import Team from '../components/LandingPageComponents/Team';
 import Info from '../components/LandingPageComponents/Info';
 import Features from '../components/LandingPageComponents/Features';
-// import SignUpForm from '../components/SignUpForm';
 
 const Dashboard = () => {
   return (
     <Layout>
-      <div>
-
-      </div> 
-      <Outlet />
+      <div className='dashboard-container'>
+        <div className='dashboard-content'>
+          HYPERION
+        </div> 
+      </div>
     </Layout>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Database from '../models/database';
 import { RootState } from '../features/store';
 import { NewDatabaseForm } from '../models/database';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
 import { addDbThunk, deleteDb } from '../features/data/dataSlice';
 
@@ -16,6 +17,8 @@ import { addDbThunk, deleteDb } from '../features/data/dataSlice';
 const Databases = (props) => {  
   
   const databases = useSelector((state: RootState) => state.data.databases);
+
+  const [modalVisible, setModalVisible] = useState(false);
   
   const dispatch = useDispatch();
 
@@ -29,26 +32,15 @@ const Databases = (props) => {
 
   return (
     <Layout>
-      <div className='app-container'>
-        <div className='content-box'>
-          <nav className='queries-header'>
-            <h4>Databases</h4>
-            <div>
-              {/* <select className='app-dropdown' value={dbId} onChange={handleDbChange}>
-                { Object.values(props.databases).map((db : Database, i) => {
-                  return (
-                    <option key={i} value={db.id}>
-                      {db.label}
-                    </option>
-                  )
-                })}
-              </select>  */}
-              {/* <Button variant='text' size='small' onClick={() => { setNewWindowVisible(!newWindowVisible) }}>New Query</Button> */}
-          </div>
-          </nav>
+      <div className='content-box'>
+        <nav className='card-header'>
+          <h4>Databases</h4>
+          <div>
+            <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
         </div>
+        </nav>
       </div>
-      <StyledContainer >
+      <div>
         <DatabaseGroup className='content-box'>
           <h4>My Databases</h4>
           {Object.values(databases).map((db : Database, i) => {
@@ -66,8 +58,10 @@ const Databases = (props) => {
             />
           })}
         </DatabaseGroup>
+      </div>
+      { modalVisible  && 
         <NewDatabaseWindow addDbFunc={handleDbAdd}/>
-      </StyledContainer>
+      }
     </Layout>
   )
 }
@@ -76,7 +70,7 @@ const Databases = (props) => {
 const StyledContainer = styled.div`
   display: flex; 
   height: 100%; 
-  // background-color: red;
+  background-color: red;
   // flex-wrap: nowrap;
 `;
 

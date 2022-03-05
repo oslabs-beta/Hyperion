@@ -17,33 +17,32 @@ import LandingPage from './containers/LandingPage';
 const App = (props) => {
 
   const user = useSelector((state: RootState) => { return state.user })
+
   // const user = useSelector((state: RootState) => state.user.auth);
   // fetch to get cookies and authenticate  
     // if theyre authenticated we can update the database initail state
   useEffect(() => {
-    fetch('/api/user/authenticate')
-      .then(res => res.json())
-      .then(data => {
-        if (data.statusCode === 200) {
-          authenticateUser(true);
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    console.log("this useEffect is running in app")
+    // runs a fetch request to server to authenticate 
+    // only runs once
+    if (user.auth.isAuthenticated === false && user.auth.authRequestSent === false) {
+      fetch('/api/user/authenticate')
+        .then(res => res.json())
+        .then(data => {
+          if (data.statusCode === 200) {
+            authenticateUser(true);
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
   }, [])
-
-// export const authenticateUser = async () => {
-//   try {
-//     const response = await fetch('/api/user/authenticate')
-//       .then(res => res.json());
-//   }
-// }
 
   /*
     make a fetch to the server to check if the user cookies are authenticated 
   */
-  const auth = { isAuthenticated: user.auth.isAuthenticated }
+  const auth = { isAuthenticated: true }  //user.auth.isAuthenticated 
   return (
     <BrowserRouter>
       <Routes>

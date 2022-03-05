@@ -1,32 +1,32 @@
-@use './base/variables';
+@use '../base/variables';
 
 // TOP NAV BAR STYLING 
 
-.loginButton{
-    margin-right: -750px;
-    width: 90px;
-    height: 40px;
-    background-color: white;
-    font-size: 1.2em;
-    border-radius: 5px;
-    float: right;
-}
-
-.signUpButton{
-    margin-right: -850px;
-    width: 90px;
-    height: 40px;
-    background-color: white;
-    font-size: 1.2em;
-    border-radius: 5px;
-    float: right;
+.landing-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .mr-auto{
     text-align: center; 
 }
 
-// TEAM STYLING 
 
+.top-navbar-custom {
+  background-color:  variables.$primary-purple;
+  color: white;
+  display: flex; 
+  height: 100px;
+  width: 100%;
+  flex-direction: row;
+  // justify-content: space-around;
+  align-items: center;
+}
+
+
+
+// TEAM STYLING 
 .team-wrapper {
     @media screen  {
       h1 {
