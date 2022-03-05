@@ -1,7 +1,7 @@
 const db = require('../models/dbModel.js');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
-//uuid generates randoms tring to help generate a session cookie 
+const globalCache = require('./globalCache');
 
 const SALT_ROUNDS = 12;
 
@@ -54,8 +54,6 @@ userController.signUp = (req, res, next) => {
 
 userController.login = (req, res, next) => {
 
-  console.log(`user id is ${res.locals.userId}`);
-
   /* Step 1: Validate input to pass in as format we are expecting*/
   if (!req.body.userInfo 
       || typeof req.body.userInfo.email !== 'string' 
@@ -96,6 +94,8 @@ userController.login = (req, res, next) => {
       return db.runQuery(ssidString, queryParams);
     })
     .then(r => {
+      // add password to volatile local cache for AES encryption/decryption
+      globalCache.set(res.locals.userId, req.body.userInfo.password);
       // 3 add ssid cookie to res
       res.cookie('ssid', r.rows[0].ssid, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
       // 4 call next();
@@ -105,6 +105,8 @@ userController.login = (req, res, next) => {
 }
 
 userController.logout = (req, res, next) => {
+  // remove password from local cache
+  globalCache.clear(res.locals.userAuth.userId);
   // this will overwrite prev ssid and end curr session 
   res.cookie('ssid', '', { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
   return next();
@@ -148,15 +150,20 @@ userController.authenticate = (req, res, next) => {
   
 }
 
-
-
-
 userController.authorize = (req, res, next) => {
   if (!res.locals.userAuth.authenticated) {
     const err = {
       log: 'User not authorized',
       status: 403,
       message: {err: 'User not authorized'}
+    }
+    return next(err);
+  }
+  if (!globalCache.get(res.locals.userAuth.userId)) {
+    const err = {
+      log: 'Error: Please log in again',
+      status: 403,
+      message: {err: 'Please log in again'}
     }
     return next(err);
   }

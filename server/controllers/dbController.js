@@ -1,5 +1,7 @@
 const db = require('../models/dbModel.js');
 const generateCombinations = require('./generateCombinations');
+const encryptionModule = require('./encryptionModule');
+const globalCache = require('./globalCache');
 const { Pool } = require('pg');
 
 const dbController = {};
@@ -13,13 +15,16 @@ const dbController = {};
  * @returns next() 
  */
 dbController.addNewDb = (req, res, next) => {
+
+  const encryptedUri = encryptionModule.encryptString(req.body.connectionString, globalCache.get(res.locals.userAuth.userId));
+
   const queryString = 'INSERT INTO app.databases (user_id, database_name, connection_type) VALUES ($1, $2, $3) RETURNING _id;';
   const uriString = 'INSERT INTO app.uris (database_id, uri) VALUES ($1, $2)';
   db.runQuery(queryString, [res.locals.userAuth.userId, req.body.dbInfo.dbname, req.body.connectionType])
     .then(r => {
       console.log(`The new db id is ${r.rows[0]._id}`);
       res.locals.dbInfo = { id: r.rows[0]._id };
-      return db.runQuery(uriString, [res.locals.dbInfo.id, req.body.connectionString]);
+      return db.runQuery(uriString, [res.locals.dbInfo.id, encryptedUri]);
     })
     .then(() => next())
     .catch(e => next(e));
@@ -88,7 +93,9 @@ dbController.connect = (req, res, next) => {
         console.log('No URI found for this database');
         return next('No URI found for this database');
       } 
-      const URI = r2.rows[0].uri;
+      const encryptedUri = r2.rows[0].uri;
+
+      const URI = encryptionModule.decryptString(encryptedUri, globalCache.get(res.locals.userAuth.userId));
 
       if (req.body.query.maxConnections < 1 || req.body.query.maxConnections > 100) {
         return next('Invalid number of max connections');
