@@ -2,28 +2,46 @@
 
 // TOP NAV BAR STYLING 
 
-.loginButton{
-    margin-right: -750px;
-    width: 90px;
-    height: 40px;
-    background-color: white;
-    font-size: 1.2em;
-    border-radius: 5px;
-    float: right;
-}
+.top-navbar-custom {
+  background-color: purple;
+  padding: 0.5vh 0 ;
 
-.signUpButton{
-    margin-right: -850px;
-    width: 90px;
-    height: 40px;
-    background-color: white;
-    font-size: 1.2em;
-    border-radius: 5px;
-    float: right;
-}
-.mr-auto{
-    text-align: center; 
-}
+  .brand {
+    font-weight: 600;
+    font-size: 2.7em;
+    letter-spacing: 0.8px;
+    cursor: default ;
+  }
+  .mr-auto{
+    font-size: 1.3em;
+    color: black; 
+    padding-left: 20px;
+  }
+  .btn-primary {
+    margin-right: 10vh;
+    background-color: purple;
+    font-size: 0.9em ;
+    border-radius: 5px ;
+    border-color: purple ;
+  }
+
+  @media screen  {
+    
+    .navbar-nav {
+      margin-top: 1em;
+    }
+    .navbar-toggler {
+      margin-right: 1em;
+    }
+    .navbar-text {
+      padding-left: 20px;
+    }
+    
+    .form-inline {
+      display: none;
+    }
+  }
+};
 
 // TEAM STYLING 
 
@@ -148,7 +166,7 @@
 
       .description {
         font-size: 0.7em;
-        max-width: 50%;
+        max-width: 70%;
       }
 
       .button-wrapper {
@@ -174,5 +192,13 @@
 
        // FEATURES SECTION STYLING 
        #features {
+        h1 {
+          font-size: 3em;
+          padding-bottom: 4vh;
+          text-align: center;
+          letter-spacing: 0.5px;
+          color: black;
+          margin: 0;
+        }
         
         }

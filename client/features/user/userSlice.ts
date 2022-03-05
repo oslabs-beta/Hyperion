@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState : UserState = {
   auth: {
-    isAuthenticated: true
+    isAuthenticated: false
   },
 
 };
