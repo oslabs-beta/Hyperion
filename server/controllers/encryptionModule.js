@@ -7,7 +7,7 @@ const keyLengthBits = keyLengthBytes * 8;
 const numIterations = 310000;
 
 /**
- * Encrypts a string using AES-256
+ * Encrypts a string using AES-256-GCM
  * @param {String} string the string to be encrypted
  * @param {String} password a 256-bit key will be derived from this password using PBKDF2
  * @returns the encrypted string
@@ -22,23 +22,24 @@ encryptionModule.encryptString = (string, password) => {
   let iv = forge.random.getBytesSync(keyLengthBytes);
   let salt = forge.random.getBytesSync(keyLengthBits);
   let key = forge.pkcs5.pbkdf2(password, salt, numIterations, keyLengthBytes);
-  let cipher = forge.cipher.createCipher('AES-CBC', key);
+  let cipher = forge.cipher.createCipher('AES-GCM', key);
 
   cipher.start({iv: iv});
   cipher.update(forge.util.createBuffer(string));
   cipher.finish();
   let encrypted = cipher.output;
 
-  encryptionObject.payload = encrypted;
-  encryptionObject.iv = iv;
-  encryptionObject.salt = salt;
+  encryptionObject.payload = forge.util.bytesToHex(encrypted);
+  encryptionObject.iv = forge.util.bytesToHex(iv);
+  encryptionObject.salt = forge.util.bytesToHex(salt);
+  encryptionObject.tag = forge.util.bytesToHex(cipher.mode.tag);
 
   return JSON.stringify(encryptionObject);
 };
 
 /**
- * Decrypts a string using AES-256
- * @param {String} string Serialized object containing the encrypted payload, iv, and salt
+ * Decrypts a string using AES-256-GCM
+ * @param {String} string Serialized object containing the encrypted payload, iv, salt, and tag
  * @param {String} key 
  * @returns the encrypted string
  */
@@ -46,15 +47,20 @@ encryptionModule.decryptString = (string, password) => {
 
   let encryptionObject = JSON.parse(string);
 
-  let { payload, iv, salt } = encryptionObject;
+  let { payload, iv, salt, tag } = encryptionObject;
+
+  payload = forge.util.hexToBytes(payload);
+  salt = forge.util.hexToBytes(salt);
+  iv = forge.util.hexToBytes(iv);
+  tag = forge.util.hexToBytes(tag);
   
   let key = forge.pkcs5.pbkdf2(password, salt, numIterations, keyLengthBytes);
 
-  var decipher = forge.cipher.createDecipher('AES-CBC', key);
-  decipher.start({iv: iv});
+  let decipher = forge.cipher.createDecipher('AES-GCM', key);
+  decipher.start({iv, tag});
   decipher.update(forge.util.createBuffer(payload));
-  var result = decipher.finish(); // check 'result' for true/false
-  if (!result) throw  new Error('Unable to decrypt message')
+  let pass = decipher.finish(); 
+  if (!pass) throw  new Error('Unable to decrypt message')
 
   return decipher.output.toString();
 };
