@@ -8,7 +8,7 @@ dbRouter.post('/new', userController.authorize, dbController.addNewDb, (req, res
   res.status(200).json(res.locals.dbInfo);
 });
 
-dbRouter.delete('/delete', userController.authorize, dbController.removeDb, (req, res) => {
+dbRouter.delete('/remove', userController.authorize, dbController.removeDb, (req, res) => {
   res.status(200).json(res.locals.dbInfo);
 });
 
