@@ -39,15 +39,12 @@ db.runQueryAnalyze = async (queryText, params, pool = defaultPool) => {
     let timing = {};
     if (queryText[queryText.length - 1] !== ';') queryText = queryText + ';';
 
-
     // inject params into queryText one by one
     for (let i = 0; i < params.length; i++) {
       const placeholder = '$' + String(i + 1);
       if (typeof params[i] === 'string') queryText = queryText.replaceAll(placeholder, `'${params[i]}'`);
       else queryText = queryText.replaceAll(placeholder, params[i]);
     }
-
-    console.log(queryText);
 
     /* === QUERY START === */
     await client.query('BEGIN');
@@ -72,7 +69,6 @@ db.runQueryAnalyze = async (queryText, params, pool = defaultPool) => {
     // return object
     return timing;
   } catch (e) {
-    console.log('error in runQueryAnalyze')
     throw e;
   } finally {
     client.release();
@@ -110,7 +106,6 @@ db.runExplainAnalyze = async (queryText, params, pool = defaultPool) => {
     // return object
     return timing;
   } catch (e) {
-    console.log('error in runExplainAnalyze')
     throw e;
   } finally {
     client.release();

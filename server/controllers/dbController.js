@@ -95,52 +95,49 @@ dbController.connect = (req, res, next) => {
 dbController.runQueryTests = (req, res, next) => {
   const pool = res.locals.dbInfo.pool;
   const { queryString, queryParams, repeat, throttle } = req.body.query;
-
   const promisesArray = [];
-
-  // get all the combinations and run them
+  let waitUntil = Date.now() - throttle;
+  // get all the combinations of parameters
   const combinations = generateCombinations(queryParams);
 
-  let lastRequestSent = 0;
-
-  function cb(params, methodFunc) {
-    if (Date.now() - lastRequestSent >= throttle) {
-      promisesArray.push(methodFunc(queryString, params, pool)
+  const sendQuery = (params, queryFunc) => {
+    if (throttle === 0) {
+      return promisesArray.push(queryFunc(queryString, params, pool)
         .then(r => r)
-        .catch(() => null)
-      );
-      lastRequestSent = Date.now();
-    } else {
-      setTimeout(() => cb(params, methodFunc), throttle);
-    }
-    
-  }
+        .catch(() => null));
+    } 
+    const delay = Math.max(0, waitUntil - Date.now());
+    setTimeout(() => 
+    promisesArray.push(queryFunc(queryString, params, pool)
+      .then(r => r)
+      .catch(() => null)), 
+      delay);
+    waitUntil = Math.max(waitUntil, Date.now()) + throttle;
+  };
 
-  for (let i = 0; i < repeat; i++) {
-    for (const params of combinations) {
-      cb(params, db.runExplainAnalyze);
-      cb(params, db.runQueryAnalyze);
-    }
-  }
-  
-  function promises() {
-    if (promisesArray.length < combinations.length * repeat * 2) {
-      console.log('sorry we have to wait a little bit longer');
-      setTimeout(() => promises(), throttle);
-      return;
-    }
+  const queueRequestPair = (params) => {
+    sendQuery(params, db.runExplainAnalyze);
+    sendQuery(params, db.runQueryAnalyze);
+  };
+
+  const sendResults = () => {
     Promise.all(promisesArray)
     .then(arr => {
-      res.locals.testcombinations = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
+      res.locals.testResults = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
       return next();
     })
-    .catch(e => {
-      console.log('error is here');
-      next(e);
-    });
+    .catch(e => next(e));
+  };
+  
+  for (let i = 0; i < repeat; i++) {
+    for (const params of combinations) {
+      queueRequestPair(params);
+    }
+    if (i + 1 === repeat) {
+      if (throttle === 0) sendResults();
+      else setTimeout(sendResults, Math.max(0, waitUntil - Date.now()));
+    } 
   }
-
-  promises();
 
 };
 
