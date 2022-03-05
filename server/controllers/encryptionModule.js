@@ -2,14 +2,14 @@ const forge = require('node-forge');
 
 const encryptionModule = {};
 
-const keyLengthBytes = 32; // 32 bytes = 256 bits
-const keyLengthBits = keyLengthBytes * 8;
+const keyLengthBytes = 32; 
+const keyLengthBits = keyLengthBytes * 8; // 32 bytes = 256 bits
 const numIterations = 310000;
 
 /**
  * Encrypts a string using AES-256-GCM
  * @param {String} string the string to be encrypted
- * @param {String} password a 256-bit key will be derived from this password using PBKDF2
+ * @param {String} password password that will be used to derive a 256-bit key using PBKDF2
  * @returns the encrypted string
  */
 encryptionModule.encryptString = (string, password) => {
@@ -40,7 +40,7 @@ encryptionModule.encryptString = (string, password) => {
 /**
  * Decrypts a string using AES-256-GCM
  * @param {String} string Serialized object containing the encrypted payload, iv, salt, and tag
- * @param {String} key 
+ * @param {String} password that was used to encrypt the data
  * @returns the encrypted string
  */
 encryptionModule.decryptString = (string, password) => {
