@@ -27,11 +27,14 @@ const Login = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
 
 
-  const handleSubmit = () => {
+  const handleLogin = async () => {
     if (password === '') { setErrorMessage('Password field was left empty'); return; };
     if (email === '') { setErrorMessage('Username field was left empty'); return;  };
-    dispatch(loginUser({ email: email, password: password }))
-    navigate('/dashboard');
+    const { payload } : any = await dispatch(loginUser({ email: email, password: password })); 
+    console.log('this is payload in handleLogin', payload)
+    if (payload === true) {
+      navigate('/dashboard');
+    } else return alert('Incorrect login credentials');
   }
 
   useEffect(() => {
@@ -43,19 +46,43 @@ const Login = (props) => {
       <form action="" className='login-signup-box'>
         <h3 className='login-signup-header'>Login</h3>
         <label className='login-signup-label' htmlFor="email">
-          <TextField onChange={(e)=>{ setEmail(e.target.value)} } required id="outlined-required"  label="Email"/>
+          <TextField
+            label="Email"
+            onChange={(e)=>{ setEmail(e.target.value)} }
+            required 
+            id="outlined-required" 
+          />
         </label>
         <label htmlFor="" className='login-signup-label'>
-          <TextField onChange={e => setPassword(e.target.value) } required id="outlined-password-input" label="Password" type="Password"/>
+          <TextField 
+            label="Password"
+            onChange={e => setPassword(e.target.value) } 
+            required id="outlined-password-input" 
+            type="Password"
+          />
         </label>
         { errorMessage !== '' &&  
           <ErrorMessage message={errorMessage} />
         }
-        <Button variant='outlined' onClick={handleSubmit} size='small' color= 'secondary'>LOG IN</Button>
+        <Button 
+          variant='outlined' 
+          onClick={handleLogin} 
+          size='small' 
+          color= 'secondary'
+        >
+          LOG IN
+        </Button>
       </form>
       <div className='login-signup-box'>
         <h3 className='login-signup-header'>Don't have an acccount?</h3>
-        <Button onClick={() => { navigate('/register')} }  variant='outlined' size='small' color= 'secondary' >SIGN UP</Button>
+        <Button 
+          onClick={() => { navigate('/register')} } 
+          variant='outlined' 
+          size='small' 
+          color= 'secondary'
+        >
+          SIGN UP
+        </Button>
       </div>
     </div>
   )

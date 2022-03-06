@@ -6,12 +6,11 @@ import { Button } from '@mui/material';
 const DatabaseCard = (props: Props) => {
   const {
     id, 
+    isConnected,
     deleteDbFunc,
     label,
-    isConnected,
     database, 
     port, 
-    user, 
     ssl,
     latency
   } = props;
@@ -31,10 +30,10 @@ const DatabaseCard = (props: Props) => {
           <h5>Port:</h5>
           {port}
         </div>
-        <div className='info-group-item'>
+        {/* <div className='info-group-item'>
           <h5>User:</h5>
           {user}
-        </div>
+        </div> */}
         <div className='info-group-item'>
           <h5>SSL:</h5>
           {ssl}
@@ -101,16 +100,6 @@ const StyledCard = styled.div`
 `;
 
 
-// DatabaseCard.propTypes = {
-//   id: PropTypes.number.isRequired,
-//   connectDbFunc: PropTypes.func.isRequired,
-//   deleteDbFunc: PropTypes.func.isRequired,
-//   database: PropTypes.string.isRequired,
-//   port: PropTypes.number.isRequired, 
-//   user: PropTypes.string.isRequired, 
-//   ssl: PropTypes.string,
-//   latency: PropTypes.number,
-// }
 
 
 export default DatabaseCard

@@ -5,7 +5,6 @@ import Database from '../../models/database';
 import { NewDatabaseForm } from '../../models/database';
 
 
-
 // initial state ----- 
 const initialState: DataState = {
   databases: {}, 
@@ -56,18 +55,24 @@ export const addDbThunk = createAsyncThunk(
   async (formData: NewDatabaseForm, thunkApi) => {
     const settings = {
       method: 'POST', 
-      headers: { 
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     };
-    
-    const data = await fetch('/api/db/new', settings).then(res => res.json());
-    if (data.statusCode !== 200) return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
-    // create new database from data
-    const db = new Database(1,1,'', '', '','',false, 2);
-    return db;  // need to change 
-
+    const response = await fetch('/api/db/new', settings);
+    if (response.status !== 200) {
+      return thunkApi.rejectWithValue('Could not add database');
+    } else {
+      const data: { id: number } = await response.json();
+      
+      // construct new database instance using the form data and server response data 
+      const db = new Database({
+        id: data.id, 
+        port: formData.connectionDetails.port,
+        pgDatabaseName: formData.connectionDetails.database,
+        label: formData.dbInfo.name,
+      });
+      return db;
+    }
   }
 )
 
@@ -75,16 +80,16 @@ export const addDbThunk = createAsyncThunk(
 export const deleteDb = createAsyncThunk(
   'data/deleteDb',
   async (id: number, thunkApi) => {
+    console.log('reached deleteDb. heres the id passed in ', id)
     try {
-      const data = await fetch(`/api/db/delete/${id}`, {
+      const data = await fetch(`/api/db/delete`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-      }).then(res => res.json());
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dbInfo: { id: id }})
+      });
       
-      if (data.statusCode !== 200) return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
-      // need to confirm data first 
-      // expecting data to be a status code
-      return data;
+      if (data.status !== 200) return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
+      else return id; 
     }
     catch (e) {
       console.log(e);

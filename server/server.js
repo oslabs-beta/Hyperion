@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
   return res.sendFile(path.join(__dirname, '../build/index.html'));
 })
 
-// app.use('/api', apiRouter);
+app.use('/api', apiRouter);
 
 // 404 Error handler
 app.use('/', (req, res) => {

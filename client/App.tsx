@@ -1,6 +1,5 @@
-
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Databases from './containers/Databases';
 import Dashboard from './containers/Dashboard';
 import Tests from './containers/Tests';
@@ -9,40 +8,49 @@ import NotFound from './containers/NotFound';
 import Login from './components/Login';
 import SignUpForm from './components/SignUpForm';
 import PrivateRoute from './components/PrivateRoute';
-import { authenticateUser } from './features/user/userSlice';
+import { authenticateUser, setUserId, authRequestSent } from './features/user/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from './features/store';
 import LandingPage from './containers/LandingPage';
-
+import { useNavigate } from 'react-router-dom';
 const App = (props) => {
 
   const user = useSelector((state: RootState) => { return state.user })
-
   // const user = useSelector((state: RootState) => state.user.auth);
   // fetch to get cookies and authenticate  
     // if theyre authenticated we can update the database initail state
-  useEffect(() => {
-    console.log("this useEffect is running in app")
-    // runs a fetch request to server to authenticate 
-    // only runs on
-    if (user.auth.isAuthenticated === false && user.auth.authRequestSent === false) {
-      fetch('/api/user/authenticate')
-        .then(res => res.json())
-        .then(data => {
-          if (data.statusCode === 200) {
-            authenticateUser(true);
-          }
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (user.auth.isAuthenticated === false && user.auth.authRequestSent === false) {
+      // fetch('/api/user/getinfo')
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     console.log(data);
+      //     authRequestSent(true);
+      //     if (data.authenticated === true) { 
+      //       authenticateUser();
+      //       setUserId(data.id);
+      //     } 
+      //   })
+      //   .catch(e => {
+      //     console.log(e)
+      //   })
+  //   }
+  // }, [])
+  fetch('/api/user/getinfo')
+    .then(res => res.json())
+    .then(data => {
+      authRequestSent(true);
+      if (data.authenticated === true) { 
+        authenticateUser();
+        setUserId(data.id);
+      } 
+    })
+    .catch(e => {
+      console.log(e)
+    })
 
-  /*
-    make a fetch to the server to check if the user cookies are authenticated 
-  */
-  const auth = { isAuthenticated: true }  //user.auth.isAuthenticated 
+  const auth = { isAuthenticated: user.auth.isAuthenticated } 
+  console.log('user')
   return (
     <BrowserRouter>
       <Routes>

@@ -17,13 +17,22 @@ const SignUpForm = (props: Props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
+
+    // validation 
     if (password !== confirmPassword) return;
-    if (!name) return setErrorMessage('Username is required');
+    if (!name) return setErrorMessage('Name is required');
     if (!email) return setErrorMessage('Email address is required');
     if (!password) return setErrorMessage('Password is required');
-    dispatch(registerUser({ name: name, password: password, email: email}));
-    navigate('/login')
+    
+    // calling dispatch with async thunk function 
+    const { payload } : any = await dispatch(registerUser({ name: name, password: password, email: email}));
+     
+    // redirect on success 
+    if (payload === 200) {
+      alert('Successfully registered. Redirecting to login page');
+      return navigate('/login');
+    } else { alert('User creation unsuccessful'); }
   };
 
 
@@ -77,9 +86,7 @@ const SignUpForm = (props: Props) => {
 }
 
 
-interface Props {
-
-}
+interface Props {}
 
 const ButtonGroup = styled.label`
   display: flex;
