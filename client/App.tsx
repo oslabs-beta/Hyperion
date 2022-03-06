@@ -13,8 +13,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './features/store';
 import LandingPage from './containers/LandingPage';
 import { useNavigate } from 'react-router-dom';
-const App = (props) => {
-
+const App = () => {
+  
   const user = useSelector((state: RootState) => { return state.user })
   // const user = useSelector((state: RootState) => state.user.auth);
   // fetch to get cookies and authenticate  
@@ -36,21 +36,21 @@ const App = (props) => {
       //   })
   //   }
   // }, [])
-  fetch('/api/user/getinfo')
-    .then(res => res.json())
-    .then(data => {
-      authRequestSent(true);
-      if (data.authenticated === true) { 
-        authenticateUser();
-        setUserId(data.id);
-      } 
-    })
-    .catch(e => {
-      console.log(e)
-    })
+  // fetch('/api/user/getinfo')
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     authRequestSent(true);
+  //     if (data.authenticated === true) { 
+  //       authenticateUser();
+  //       setUserId(data.id);
+  //     } 
+  //   })
+  //   .catch(e => {
+  //     console.log(e)
+  //   })
 
   const auth = { isAuthenticated: user.auth.isAuthenticated } 
-  console.log('user')
+ 
   return (
     <BrowserRouter>
       <Routes>

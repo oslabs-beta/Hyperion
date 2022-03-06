@@ -8,7 +8,7 @@ import App from './App';
 
 render(
   <Provider store={store}>
-    <App/>
+    <App  isAuthenticated={authenticated}/>
   </Provider>,
   document.getElementById('app')
 );
