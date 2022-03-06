@@ -2,34 +2,22 @@
 export default class Database {
   // properties 
   id: number;
-  port: number;
-  pgDatabaseName: string;
-  label: string;
-  sslMode: string;
-  user: string;
-  isConnected: boolean;
-  queries: { [id: number] : Query };
-  tables: { [ id: number ] : Table };
-  latency: number;
+  port?: number;
+  pgDatabaseName?: string;
+  label?: string;
+  sslMode?: string;
+  queries?: { [id: number] : Query };
+  tables?: { [ id: number ] : Table };
+  latency?: number;
   // addQuery: () => void
 
-  constructor(
-    id: number,
-    port: number,
-    pgDatabaseName: string,
-    label : string,
-    sslMode: string,
-    user: string,
-    isConnected: boolean,
-    latency?: number,
-  ) {
-    this.id = id; 
-    this.port = port; 
-    this.pgDatabaseName = pgDatabaseName;
-    this.label = label;
-    this.sslMode = sslMode; 
-    this.user = user; 
-    this.isConnected = isConnected;
+  constructor(data: DatabaseConstructor) {
+    
+    this.id = data.id; 
+    this.port = data.port || undefined ; 
+    this.pgDatabaseName = data.pgDatabaseName || undefined;
+    this.label = data.label;
+    this.sslMode = data.sslMode || undefined; 
     this.queries = {};
     this.latency = 0; // change this when new
   }
@@ -57,13 +45,9 @@ export default class Database {
     delete this.queries[id];
     // TODO error handling 
   }
-
   getQueries = () => { return Object.values(this.queries); }
-  
   getTables = () => { return Object.values(this.tables); }
-
   deepCopy = () => { return JSON.parse(JSON.stringify(this)); }
-
 }
 
 // ---------- interfaces ----------
@@ -85,17 +69,31 @@ export interface Attribute {
   datatypeId: number
 }
 
+export interface DatabaseConstructor {
+  id: number,
+  label: string,
+  port?: number,
+  pgDatabaseName?: string,
+  sslMode?: string,
+  latency?: number,
+}
+
+
 
 export interface NewDatabaseForm {
-  isConnectingByUri: boolean;
-  label: string; 
-  uri? : string;
-  host?: string;
-  port?: number;
-  database?: string; 
-  username?: string; 
-  password?: string; 
-  ssl?: string; // might change to option of
+  dbInfo: {
+    name: string,
+    connectionType: 'URI'|'CONNECTION_PARAMS',
+  },
+  connectionType: 'URI'|'CONNECTION_PARAMS',
+  connectionString: string,
+  connectionDetails: {
+    host: string,
+    port: number,
+    database: string,
+    username: string, 
+    password: string,
+  }
 }
 
 export interface DatabaseReducerState {

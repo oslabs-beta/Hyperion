@@ -12,6 +12,17 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
   
   const [isConnectingByUri, setIsConnectingByUri] = useState(true); 
   const [inputError, setInputError] = useState({ error: ''})
+
+  const [label, setLabel] = useState('');
+  const [uri, setUri] = useState('');
+  const [host, setHost] = useState('');
+  const [port, setPort] = useState(undefined);
+  const [database, setDatabase] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+
+
  
   // invoked when new database form is submitted 
   // validates input with error message 
@@ -19,31 +30,45 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
   const handleSubmit = (e) => {
     // prevents automatic reload on submit 
     e.preventDefault();
-    
-    const form : NewDatabaseForm = {
-      isConnectingByUri: isConnectingByUri,
-      label: e.target.label.value,
-    };
+    let form: NewDatabaseForm;
+    if (isConnectingByUri === true) {
+      form = {
+        dbInfo: {
+          name: label,
+          connectionType: 'URI'
+        },
+        connectionType: 'URI',
+        connectionString: uri,
+        connectionDetails: {
+          host: '',
+          port: 1, 
+          database: '',
+          username: '',
+          password: ''
+        }
+      }
+    } else {
+      form = {
+        dbInfo: {
+          name: label,
+          connectionType: 'CONNECTION_PARAMS'
+        },
+        connectionType: 'CONNECTION_PARAMS',
+        connectionString: '',
+        connectionDetails: {
+          host: host,
+          port: port,
+          database: database, 
+          username: username, 
+          password: password
+        }
+      }
+    }
 
-    if (isConnectingByUri) { form.uri = e.target.uri.value }
-    else {
-      form.host = e.target.host.value,
-      form.port = e.target.port.value,
-      form.database = e.target.database.value,
-      form.username = e.target.username.value, 
-      form.password = e.target.password.value, 
-      form.ssl = e.target.ssl.value
-    };
-
-    const isValidForm = validate(form);
-    if (!isValidForm) {
-      displayError('Missing database detail(s)');
-      return; 
-    };
-    if (isValidForm === true) {
+    if (validate(form) === true) {
       clearInputFields();
       return addDbFunc(form);
-    };
+    } else return displayError('Missing database detail(s)'); 
   }
 
   // displays the message error at the bottom of the window for time ms
@@ -58,11 +83,17 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
   // validates the user input form 
   const validate = (form : NewDatabaseForm): boolean => {
     // if database is connecting by uri
-    if (form.isConnectingByUri && form.uri && form.label) return true; 
+    if (form.connectionType === 'URI' && form.dbInfo.name && form.connectionString) return true; 
     // if database is connected by settings
     else {
-      if (!form.host || !form.port || !form.database || !form.username || !form.password || !form.ssl || !form.label) return false; 
-      if (typeof form.port !== 'number') return false; 
+      if (
+        !form.connectionDetails.host ||
+        !form.connectionDetails.port || 
+        !form.connectionDetails.database || 
+        !form.connectionDetails.username ||
+        !form.connectionDetails.password    
+      ) return false;
+      if (typeof form.connectionDetails.port !== 'number') return false; 
     }
     return true; 
   }
@@ -88,42 +119,42 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
       <form onSubmit={handleSubmit} className='new-db-form'>
         <FormControl>
           <InputLabel htmlFor='label'>Label</InputLabel>
-              <Input id='label' name='label' type='text' />
+              <Input onChange={(e) => {setLabel(e.target.value)}} id='label' name='label' type='text' />
         </FormControl>
         { isConnectingByUri ? 
           <>
             <FormControl>
               <InputLabel htmlFor='uri'>URI</InputLabel>
-                <Input id='uri' name='uri' type='text' />
+                <Input onChange={(e) => {setUri(e.target.value)}} id='uri' name='uri' type='text' />
             </FormControl>
           </>
           : 
           <>
             <FormControl>
               <InputLabel htmlFor='host'>Host</InputLabel>
-                <Input id='host' name='host' type='text' />
+                <Input id='host' onChange={(e) => setHost(e.target.value)} name='host' type='text' />
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='port'>Port</InputLabel>
-                <Input id='port' name='port' type='number' />
+                <Input onChange={(e) => setPort(e.target.value)} id='port' name='port' type='number' />
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='database'>Database</InputLabel>
-                <Input id='database' name='database' type='text' />
+                <Input onChange={(e) => setDatabase(e.target.value)} id='database' name='database' type='text' />
               <FormHelperText id="database-helper-text">Name of database</FormHelperText>
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='username'>Username</InputLabel>
-                <Input id='username' name='username' type='text' />
+                <Input onChange={(e) => setUsername(e.target.value)} id='username' name='username' type='text' />
             </FormControl>
             <FormControl>
               <InputLabel htmlFor='password'>Password</InputLabel>
-                <Input id='password' name='password' type='password' />
+                <Input onChange={(e) => setPassword(e.target.value)} id='password' name='password' type='password' />
             </FormControl>
-            <FormControl>
+            {/* <FormControl>
               <InputLabel htmlFor='ssl'>SSL Mode</InputLabel>
                 <Input id='ssl' name='ssl' type='text' />
-            </FormControl>
+            </FormControl> */}
           </>
         }
         <Button type='submit' size='small' variant='contained'>Add</Button>

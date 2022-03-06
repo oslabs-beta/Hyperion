@@ -36,7 +36,12 @@ const TestConfigWindow = (props: Props) => {
           )
         })}
       </select>
-      <Button type='submit' onClick={() => { runTestHandler()}} size='small' variant='contained'>
+      <Button 
+        type='submit' 
+        onClick={() => { runTestHandler()}} 
+        size='small' 
+        variant='contained'
+      >
         Run Test
       </Button>
     </StyledContainer>

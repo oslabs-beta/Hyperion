@@ -8,10 +8,7 @@ import Database from '../models/database';
 import { RootState } from '../features/store';
 import { NewDatabaseForm } from '../models/database';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-
 import { addDbThunk, deleteDb } from '../features/data/dataSlice';
-
-
 
 // -------- main component ---------- //
 const Databases = (props) => {  
@@ -48,11 +45,10 @@ const Databases = (props) => {
               key={i}
               id={db.id}
               label={db.label}
-              isConnected={db.isConnected}
+              isConnected={true}
               deleteDbFunc={handleDbDelete}
               database={db.pgDatabaseName} 
               port={db.port} 
-              user={db.user}  // not sure if needed
               ssl={db.sslMode}
               latency = {db.latency}
             />

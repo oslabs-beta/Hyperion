@@ -1,8 +1,9 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { MdOutlineSpaceDashboard, MdOutlineSchema, MdQueryBuilder, MdOutlineSpeed } from 'react-icons/md';
 import { FiDatabase } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavbarLink from './NavbarLink';
 import { icons } from 'react-icons/lib';
 import { logoutUser } from '../features/user/userSlice';
@@ -17,8 +18,27 @@ const ICONS = {
   tests: <MdOutlineSpeed size={NAV_ICON_SIZE}/>
 }
 
+
 // -------------- main component -------// 
 const VerticalNavbar = (props) => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { payload } : any = await dispatch(logoutUser());
+    const isSuccess : boolean = payload; 
+    console.log('payload in handleLogout', payload)
+
+    // on success, redirect to login page 
+    if (isSuccess === true) { window.location.href = '/login' }
+    else { 
+      // TODO: handle call failures to 
+      alert('User could not be logged out');
+    }
+  }
+
+
   return (
     <div className='vertical-navbar'>
       <div className='header'>Hyperion</div>
@@ -32,7 +52,7 @@ const VerticalNavbar = (props) => {
       {/* TODO make these into working links  */}
       <ul className='user-links-group'>
         <Link to='/'>Home</Link>
-        <li onClick={logoutUser} ><div>Logout</div></li>
+        <li><div onClick={handleLogout}>Logout</div></li>
         <Link to='/about'>About</Link>
       </ul>
     </div>

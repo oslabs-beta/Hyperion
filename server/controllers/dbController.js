@@ -13,15 +13,16 @@ const dbController = {};
  * @returns next() 
  */
 dbController.addNewDb = (req, res, next) => {
+  console.log(req.body);
   const queryString = 'INSERT INTO app.databases (user_id, database_name, connection_type) VALUES ($1, $2, $3) RETURNING _id;';
   const uriString = 'INSERT INTO app.uris (database_id, uri) VALUES ($1, $2)';
-  db.runQuery(queryString, [res.locals.userAuth.userId, req.body.dbInfo.dbname, req.body.connectionType])
+  db.runQuery(queryString, [res.locals.userAuth.userId, req.body.dbInfo.name, req.body.connectionType])
     .then(r => {
       console.log(`The new db id is ${r.rows[0]._id}`);
       res.locals.dbInfo = { id: r.rows[0]._id };
       return db.runQuery(uriString, [res.locals.dbInfo.id, req.body.connectionString]);
     })
-    .then(() => next())
+    .then(() => { next()} )
     .catch(e => next(e));
 };
 
