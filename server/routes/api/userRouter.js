@@ -1,5 +1,5 @@
 const express = require('express');
-const userController = require('../controllers/userController');
+const userController = require('../../controllers/userController');
 
 const userRouter = express.Router();
 
@@ -15,5 +15,8 @@ userRouter.post('/logout', userController.logout, (req, res) => {
  return res.status(200).send('User has successfully logged out');
 });
 
+userRouter.get('/getinfo', (req, res) => {
+  return res.status(200).json(res.locals.userAuth);
+});
 
 module.exports = userRouter;

@@ -1,81 +1,48 @@
-const aws = require('../models/dbModel.js');
+const db = require('../models/dbModel.js');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
-const sgMail = require('@sendgrid/mail');
-  //uuid generates randoms tring to help generate a session cookie 
+const globalCache = require('./globalCache');
 
 const SALT_ROUNDS = 12;
 
 const userController = {};
 
-userController.createSession = (req, res, next) => {
-
-
-
-
-};
-
-userController.send2FACode = (req, res, next) => {
-
-  const authCode = 'BDT7GA';
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  const msg = {
-    to: 'alexis.angel99@gmail.com', // Change to your recipient
-    from: 'support@hyperionapp.com', // Change to your verified sender
-    subject: 'Hyperion App 2FA Code',
-    html: `Code: <strong>${authCode}</strong>`
-  }
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log('Email sent');
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-};
-
-userController.verify2FACode = (req, res, next) => {
-
-};
-
 userController.signUp = (req, res, next) => {
 
   /* Step 1: Validate input */
   if(!req.body.userInfo 
-      || typeof req.body.userInfo.username !== 'string' 
-      || req.body.userInfo.username.length < 4
-      || typeof req.body.userInfo.password !== 'string'
-      || req.body.userInfo.password.length < 4) {
+      || typeof req.body.userInfo.email !== 'string' 
+      || typeof req.body.userInfo.name !== 'string' 
+      || typeof req.body.userInfo.password !== 'string') {
     /* Error handling if the username and/or password do not meet the specifications defined above */
     const err = {
-      log: 'Invalid username or password',
+      log: 'Invalid email or password',
       status: 400,
-      message: {err: 'Please provide a valid username or password'}
+      message: {err: 'Please provide a valid email and password'}
     }
     return next(err);
   }
   
   /* Step 2: Create new user in database */
-  const queryString =  `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING _id, username;`;
+  const queryString =  `INSERT INTO app.users (email, name, pwd) VALUES ($1, $2, $3) RETURNING _id;`;
   bcrypt.hash(req.body.userInfo.password, SALT_ROUNDS)
     .then(hash => {
-      return aws.query(queryString, [req.body.userInfo.username, hash]) // returns a promise
+      return db.runQuery(queryString, [req.body.userInfo.email, req.body.userInfo.name, hash]); // returns a promise
     })
     .then(r => {
       /* New user successfully created */
-      res.locals.newUserInfo = {id: r.rows[0]._id, username: r.rows[0].username};
-      console.log(`User ${r.rows[0].username} created with id ${r.rows[0]._id}`);
+      res.locals.newUserInfo = {id: r.rows[0]._id};
+      console.log(`User ${r.rows[0]._id} created`);
       return next();
     })
     .catch(e => {
       /* Error handling if the username already exists */
-      if (e.constraint === 'users_username_key') {
+      if (e.constraint === 'users_email_key') {
           // constraint is returned from pg command/error when same username is entered 
         const err = {
-          log: 'This username already exists.',
+          log: 'This email already exists.',
           status: 400,
-          message: {err: 'This username already exists.'}
+          message: {err: 'This email already exists.'}
         }
         return next(err);
       }
@@ -89,32 +56,30 @@ userController.login = (req, res, next) => {
 
   /* Step 1: Validate input to pass in as format we are expecting*/
   if (!req.body.userInfo 
-      || typeof req.body.userInfo.username !== 'string' 
-      || req.body.userInfo.username.length < 4
-      || typeof req.body.userInfo.password !== 'string'
-      || req.body.userInfo.password.length < 4) {
+      || typeof req.body.userInfo.email !== 'string' 
+      || typeof req.body.userInfo.password !== 'string') {
   /* Error handling if the username and/or password do not meet the specifications defined above */
   const err = {
-    log: 'Invalid username or password',
+    log: 'Invalid email or password',
     status: 400,
-    message: {err: 'Please provide a valid username or password'}
+    message: {err: 'Please provide a valid email or password'}
   }
   return next(err);
 }
 
   /* Step 2: Verify username and password with the hash stored in the database */
 
-  const queryString = `SELECT _id, password FROM users WHERE username = $1;`;
+  const queryString = `SELECT _id, pwd FROM app.users WHERE email = $1;`;
   const err = {
-    log: 'Incorrect username and/or password',
+    log: 'Incorrect email and/or password',
     status: 401,
-    message: {err: 'Incorrect username and/or password'}
+    message: {err: 'Incorrect email and/or password'}
   };
-  aws.query(queryString, [req.body.userInfo.username])
+  db.runQuery(queryString, [req.body.userInfo.email])
     .then(r => {
       if (!r.rows.length) return next(err);
       res.locals.userId = r.rows[0]._id;
-      return bcrypt.compare(req.body.userInfo.password, r.rows[0].password);
+      return bcrypt.compare(req.body.userInfo.password, r.rows[0].pwd);
     })
     .then(result => {
       // hash plaintext password and compare with hash stored in database
@@ -124,13 +89,15 @@ userController.login = (req, res, next) => {
       // 1 generate ssid using uuid
       const ssid = uuid.v4();
       // 2 add ssid to database
-      const ssidString = `INSERT INTO sessions (user_id, uuid) VALUES ($1, $2) RETURNING uuid;`;
+      const ssidString = `INSERT INTO app.sessions (user_id, ssid) VALUES ($1, $2) RETURNING ssid;`;
       const queryParams = [res.locals.userId, ssid];
-      return aws.query(ssidString, queryParams);
+      return db.runQuery(ssidString, queryParams);
     })
     .then(r => {
+      // add password to volatile local cache for AES encryption/decryption
+      globalCache.set(res.locals.userId, req.body.userInfo.password);
       // 3 add ssid cookie to res
-      res.cookie('ssid', r.rows[0].uuid, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+      res.cookie('ssid', r.rows[0].ssid, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
       // 4 call next();
       return next();
     })
@@ -138,42 +105,69 @@ userController.login = (req, res, next) => {
 }
 
 userController.logout = (req, res, next) => {
+  // remove password from local cache
+  globalCache.clear(res.locals.userAuth.userId);
   // this will overwrite prev ssid and end curr session 
   res.cookie('ssid', '', { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
   return next();
 }
 
-userController.logoutAllSessions = (req, res, next) => {
-
-};
 
 // checking session cookie, making sure its a valid session and assoc w/ user if it is 
 //global middleware, import into server js 
 userController.authenticate = (req, res, next) => {
 
+  console.log('authenticate middleware');
   res.locals.userAuth = {
     authenticated: false,
-    userId: null,
-    username: null
+    userId: null
   };
 
-  //check if session id corresponds with the user id 
-  // Step 1: check the ssid cookie and get its value
-  if(!req.cookies.ssid) return next();
   
-  // Step 2: query database on sessions and join with users to get the userid and username
-  // const ssidQuery =
+  // Step 1: check the ssid cookie and get its value
+  if(!req.cookies.ssid || !uuid.validate(req.cookies.ssid) || !uuid.version === 4) {
+    console.log(`No valid ssid found`);
+    return next();
+  } 
+
+  // Step 2: query database on sessions to get user id
+  const ssidQuery = `SELECT user_id FROM app.sessions WHERE ssid = $1`;
+  const params = [req.cookies.ssid];
   // Step 2.1: if the result is not empty then update the res.locals.userAuth object
-
-  // Step 3 return next();
-
-  next();
+  db.runQuery(ssidQuery, params)
+    .then(r => {
+      
+      if (!r.rows.length) {
+        console.log(`User not authenticated`);
+        return next();
+      } 
+      res.locals.userAuth.userId = r.rows[0].user_id;
+      res.locals.userAuth.authenticated = true;
+      console.log(`User ${res.locals.userAuth.userId} authenticated`)
+      return next();
+    })
+    .catch(e => next(e));
+  
 }
 
 userController.authorize = (req, res, next) => {
-
+  if (!res.locals.userAuth.authenticated) {
+    const err = {
+      log: 'User not authorized',
+      status: 403,
+      message: {err: 'User not authorized'}
+    }
+    return next(err);
+  }
+  if (!globalCache.get(res.locals.userAuth.userId)) {
+    const err = {
+      log: 'Error: Please log in again',
+      status: 403,
+      message: {err: 'Please log in again'}
+    }
+    return next(err);
+  }
+  return next();
 };
-
-userController.send2FACode();
 
 module.exports = userController;
