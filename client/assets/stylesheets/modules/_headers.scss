@@ -1,0 +1,10 @@
+@use '../base/variables';
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // position: fixed;
+  // top: 0;
+  // font-size: variables.$font-weights
+}

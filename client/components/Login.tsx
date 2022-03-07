@@ -6,32 +6,41 @@ import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../features/store';
 import { loginUser } from '../features/user/userSlice';
-
+import { Spinner } from 'react-bootstrap';
+import { CircularProgress } from '@mui/material';
+import { formatInputString } from '../utils/inputs';
 
 // Login Component
 const Login = (props) => {
-  //Need validation here to see if user has entered valid login credentials 
-  // If user enters valid login credentials need to navigate to home page? 
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const user = useSelector((state: RootState) => state.user.auth);
-
-  useEffect(() => {
-    if (user.isAuthenticated === true) navigate('/dashboard')
-  }, [])
-
+  // component level state 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // redux state 
+  const user = useSelector((state: RootState) => state.user.auth);
 
-  const handleSubmit = () => {
+  // hooks 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  
+  // redirection 
+  useEffect(() => {
+    if (user.isAuthenticated === true) navigate('/dashboard')
+  }, [])
+
+  // login handler function 
+  const handleLogin = async () => {
     if (password === '') { setErrorMessage('Password field was left empty'); return; };
     if (email === '') { setErrorMessage('Username field was left empty'); return;  };
-    dispatch(loginUser({ email: email, password: password }))
-    navigate('/dashboard');
+
+    const { payload } : any = await dispatch(loginUser({ email: email.trim(), password: password.trim() })); 
+    console.log('this is payload in handleLogin', payload)
+    if (payload === true) {
+      navigate('/dashboard');
+    } else return alert('Incorrect login credentials');
   }
 
   useEffect(() => {
@@ -43,19 +52,44 @@ const Login = (props) => {
       <form action="" className='login-signup-box'>
         <h3 className='login-signup-header'>Login</h3>
         <label className='login-signup-label' htmlFor="email">
-          <TextField onChange={(e)=>{ setEmail(e.target.value)} } required id="outlined-required"  label="Email"/>
+          <TextField
+            label="Email"
+            onChange={(e)=>{ setEmail(e.target.value)} }
+            required 
+            id="outlined-required" 
+          />
         </label>
         <label htmlFor="" className='login-signup-label'>
-          <TextField onChange={e => setPassword(e.target.value) } required id="outlined-password-input" label="Password" type="Password"/>
+          <TextField 
+            label="Password"
+            onChange={e => setPassword(e.target.value) } 
+            required id="outlined-password-input" 
+            type="Password"
+          />
         </label>
         { errorMessage !== '' &&  
           <ErrorMessage message={errorMessage} />
         }
-        <Button variant='outlined' onClick={handleSubmit} size='small' color= 'secondary'>LOG IN</Button>
+        <Button 
+          variant='outlined' 
+          onClick={handleLogin} 
+          size='small' 
+          color= 'secondary'
+        >
+          LOG IN
+        </Button>
+        { user.status === 'loading' && <CircularProgress /> }
       </form>
       <div className='login-signup-box'>
         <h3 className='login-signup-header'>Don't have an acccount?</h3>
-        <Button onClick={() => { navigate('/register')} }  variant='outlined' size='small' color= 'secondary' >SIGN UP</Button>
+        <Button 
+          onClick={() => { navigate('/register')} } 
+          variant='outlined' 
+          size='small' 
+          color= 'secondary'
+        >
+          SIGN UP
+        </Button>
       </div>
     </div>
   )

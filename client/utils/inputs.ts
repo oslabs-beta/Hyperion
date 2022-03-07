@@ -3,8 +3,8 @@
  * @param input 
  * @returns 
  */
-export const formatStringInput = (input: String) => {
-  return input.trim().toLowerCase();
+export const formatInputString = (input: String) => {
+  return input.trim();
 }
  
 /**

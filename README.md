@@ -49,8 +49,7 @@ A step-by-step tutorial is also available [here](/TUTORIAL.md).
 - [Chloe Angel]()  
 - [Sankari Ayyaluru]()  
 - [Celene Chang]()  
-- [Nick Ozawa]()  
-- [Aram Paparian]()    
+- [Nick Ozawa]()     
 
 # License
 

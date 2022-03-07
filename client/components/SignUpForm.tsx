@@ -1,44 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { TextField, Button, Dialog, DialogActions  } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { TextField, Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from './ErrorMessage';
 import { registerUser } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../features/store';
+import { CircularProgress } from '@mui/material';
 
-const SignUpForm = (props) => {
+const SignUpForm = (props: Props) => {
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [username, setUsername] = useState('');
+  // component level state 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // user state 
+  const user = useSelector((state: RootState) => state.user );
 
-  const handleRegister = () => {
+  // hooks 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // register user handler function 
+  const handleRegister = async () => {
+    // validation 
     if (password !== confirmPassword) return;
-    if (!username) return setErrorMessage('Username is required');
+    if (!name) return setErrorMessage('Name is required');
     if (!email) return setErrorMessage('Email address is required');
     if (!password) return setErrorMessage('Password is required');
-    dispatch(registerUser({ username: username, password: password, email: email}));
-    navigate('/login')
+    
+    // calling dispatch with async thunk function 
+    const { payload } : any = await dispatch(registerUser({ name: name, password: password, email: email}));
+     
+    // redirect on success 
+    if (payload === 200) {
+      alert('Successfully registered. Redirecting to login page');
+      return navigate('/login');
+    } else { return alert('User creation unsuccessful'); }
   };
 
 
+  // resets the error message when input is detected on fields 
   useEffect(() => {
     setErrorMessage('');
-  }, [username, email, password, confirmPassword])
+  }, [name, email, password, confirmPassword])
 
 
   return (
     <div className='login-signup-area'>
       <form action="" className='login-signup-box'>
         <h3 className='login-signup-header'>Register</h3>
-        <label htmlFor="username" className='login-signup-label'>
-          <TextField onChange={(e) => { setUsername(e.target.value) }} label="Username"/>
+        <label htmlFor="name" className='login-signup-label'>
+          <TextField onChange={(e) => { setName(e.target.value) }} label="Name"/>
         </label>
         <label htmlFor="email" className='login-signup-label'>
           <TextField type='email' onChange={(e) => { setEmail(e.target.value) }} label="Email"/>
@@ -65,17 +81,20 @@ const SignUpForm = (props) => {
             variant='outlined' 
             size='small' 
             color= 'secondary' 
-            onClick={() => { navigate('/') }}
+            onClick={() => { navigate('/login') }}
           >
             CANCEL
           </Button>
           <Button variant='outlined' size='small' color= 'secondary' onClick={handleRegister}>SIGN UP</Button>
         </ButtonGroup>
+        { user.registration.status === 'loading' && <CircularProgress /> }
       </form>
     </div>
   )
 }
 
+
+interface Props {}
 
 const ButtonGroup = styled.label`
   display: flex;

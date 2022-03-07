@@ -1,50 +1,29 @@
-@use './base/variables';
+@use '../base/variables';
 
 // TOP NAV BAR STYLING 
 
+.landing-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.mr-auto{
+    text-align: center; 
+}
+
 .top-navbar-custom {
-  background-color: purple;
-  padding: 0.5vh 0 ;
-
-  .brand {
-    font-weight: 600;
-    font-size: 2.7em;
-    letter-spacing: 0.8px;
-    cursor: default ;
-  }
-  .mr-auto{
-    font-size: 1.3em;
-    color: black; 
-    padding-left: 20px;
-  }
-  .btn-primary {
-    margin-right: 10vh;
-    background-color: purple;
-    font-size: 0.9em ;
-    border-radius: 5px ;
-    border-color: purple ;
-  }
-
-  @media screen  {
-    
-    .navbar-nav {
-      margin-top: 1em;
-    }
-    .navbar-toggler {
-      margin-right: 1em;
-    }
-    .navbar-text {
-      padding-left: 20px;
-    }
-    
-    .form-inline {
-      display: none;
-    }
-  }
-};
+  background-color:  variables.$primary-purple;
+  color: white;
+  display: flex; 
+  height: 100px;
+  width: 100%;
+  flex-direction: row;
+  // justify-content: space-around;
+  align-items: center;
+}
 
 // TEAM STYLING 
-
 .team-wrapper {
     @media screen  {
       h1 {

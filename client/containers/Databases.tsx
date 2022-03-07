@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NewDatabaseWindow from '../components/NewDatabaseWindow';
 import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
 import Layout from './Layout';
 import { useSelector, useDispatch } from "react-redux";
-import Database from '../models/database';
+import { Database } from '../models/database';
 import { RootState } from '../features/store';
 import { NewDatabaseForm } from '../models/database';
-
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { addDbThunk, deleteDb } from '../features/data/dataSlice';
-
-
 
 // -------- main component ---------- //
 const Databases = (props) => {  
   
-  const databases = useSelector((state: RootState) => state.data.databases);
+  const databases = useSelector((state: RootState) => state.data.databases );
+  // state.data.databases
+
+  const [modalVisible, setModalVisible] = useState(false);
   
   const dispatch = useDispatch();
 
@@ -29,45 +30,39 @@ const Databases = (props) => {
 
   return (
     <Layout>
-      <div className='app-container'>
-        <div className='content-box'>
-          <nav className='queries-header'>
-            <h4>Databases</h4>
-            <div>
-              {/* <select className='app-dropdown' value={dbId} onChange={handleDbChange}>
-                { Object.values(props.databases).map((db : Database, i) => {
-                  return (
-                    <option key={i} value={db.id}>
-                      {db.label}
-                    </option>
-                  )
-                })}
-              </select>  */}
-              {/* <Button variant='text' size='small' onClick={() => { setNewWindowVisible(!newWindowVisible) }}>New Query</Button> */}
-          </div>
-          </nav>
+      <div className='content-box'>
+        <nav className='card-header'>
+          <h4>Databases</h4>
+          <div>
+            
         </div>
+        </nav>
       </div>
-      <StyledContainer >
-        <DatabaseGroup className='content-box'>
-          <h4>My Databases</h4>
+      <div>
+        <DatabaseGroup className='content-box database-group'>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h4>My Databases</h4>
+            <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
+          </div>
+          
           {Object.values(databases).map((db : Database, i) => {
             return <DatabaseCard
               key={i}
               id={db.id}
               label={db.label}
-              isConnected={db.isConnected}
+              isConnected={true}
               deleteDbFunc={handleDbDelete}
               database={db.pgDatabaseName} 
               port={db.port} 
-              user={db.user}  // not sure if needed
               ssl={db.sslMode}
               latency = {db.latency}
             />
           })}
         </DatabaseGroup>
-        <NewDatabaseWindow addDbFunc={handleDbAdd}/>
-      </StyledContainer>
+      </div>
+      { modalVisible  && 
+        <NewDatabaseWindow toggleWindowFunc={() => { setModalVisible(!modalVisible) }} addDbFunc={handleDbAdd}/>
+      }
     </Layout>
   )
 }
@@ -76,7 +71,7 @@ const Databases = (props) => {
 const StyledContainer = styled.div`
   display: flex; 
   height: 100%; 
-  // background-color: red;
+  background-color: red;
   // flex-wrap: nowrap;
 `;
 

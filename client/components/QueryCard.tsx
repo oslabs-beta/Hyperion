@@ -4,22 +4,34 @@ import styled from 'styled-components';
 import { Button } from '@mui/material';
 
 
-const QueryCard = ({ id, label, deleteQueryFunc, sqlQuery }) => {
+const QueryCard = ({ id, label, deleteQueryFunc, sqlQuery, params }) => {
 
-return (
+  return (
     <StyledCard>
       <div className='info-group'>
         <div className='info-group-item'>
           <h5>SQL Query:</h5>
           {sqlQuery}
         </div>
+        <div className='info-group-item'>
+          <h5>Params:</h5>
+          {params}
+        </div>
       </div>
       <div className='button-group'>
-        <Button onClick={() => {deleteQueryFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
+        <Button 
+          onClick={() => {deleteQueryFunc(id)}} 
+          variant='outlined'
+          size='small' 
+          color='error'
+        >
+          Remove
+        </Button>
       </div>  
     </StyledCard>
   )
 }
+
 
 const StyledCard = styled.div`
   display: flex; 

@@ -1,48 +1,87 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
+
+// ---------------- initial state ---------------------------------------
+interface UserState {
+  auth: {
+    isAuthenticated: boolean,
+    authRequestSent: boolean,
+    status: 'loaded' | 'loading'
+  },
+  userProfile: {
+    id: number | null;
+    name: string;
+  }, 
+  registration: {
+    status: 'loaded' | 'loading'
+  }
+}
 
 const initialState : UserState = {
   auth: {
-    isAuthenticated: true
+    status: 'loaded',
+    authRequestSent: false, 
+    isAuthenticated: true ////  <------------------------------------- CHANGE BACK TO FALSEEEEE
   },
-
+  userProfile: {
+    id: null,
+    name: ''
+  }, 
+  registration: {
+    status: 'loaded'
+  }
 };
 
+
+// -------------------- slice/reducers ----------------------------
 export const userSlice = createSlice({
   name: 'user',
   initialState, 
   reducers: {
-    authenticateUser: (state, action: PayloadAction<boolean>) => { state.auth.isAuthenticated = true }
+    authenticateUser: (state, action: PayloadAction<boolean>) => { state.auth.isAuthenticated = true },
+    authRequestSent: (state, action) => { state.auth.authRequestSent = true },
+    setUserId: (state, action: PayloadAction<number>) => { state.userProfile.id = action.payload }
   }, 
   extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.auth.isAuthenticated = true;
+    // login user cases
+    builder.addCase(loginUser.pending, (state, action) => {
+      state.auth.status = 'loading';
     })
+    builder.addCase(loginUser.fulfilled, (state, action) => { 
+      state.auth.status = 'loaded';
+      state.auth.isAuthenticated = true; }),
+    builder.addCase(loginUser.rejected, (state, action) => { 
+      state.auth.status = 'loaded';
+      state.auth.isAuthenticated = false;
+    })
+    // logout user cases 
+    builder.addCase(logoutUser.fulfilled, (state, action) => { state = initialState; }), // will need to add logic to eliminate all the user data stored as well as test data 
+    // register user cases
+    builder.addCase(registerUser.fulfilled, (state, action) => { state.registration.status = 'loaded' }),
+    builder.addCase(registerUser.rejected, (state, action) => { state.registration.status = 'loaded' }),
+    builder.addCase(registerUser.pending, (state, action) => { state.registration.status = 'loading' })
   }
 })
 
-// 
-
+// ----------------------- thunk ----------------------------------
 export const registerUser = createAsyncThunk(
   '/user/registerUser',
-  async (form: NewUserForm, thunkApi) => {
+  async (form: { name?: string, email: string, password: string }, thunkApi) => {
+
     try {
-      const response = await fetch('/api/user/register', {
+      const response = await fetch('/api/user/signup', {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userInfo: {
+            name: form.name,
             email: form.email,
             password: form.password
           }
         })
-      }) 
-      // ----------------------------------- need to assume that token is beign sent back 
-      const data = await response.json();
-      if (data.statusCode === 200) {
-        localStorage.setItem('token', data.token); 
-      } else {
-        return thunkApi.rejectWithValue(data);
-      }
+      });
+      if (response.status === 200) return 200; 
+      else return 400;
     } catch (e) {
       return thunkApi.rejectWithValue(e.response.data);
     }
@@ -53,7 +92,7 @@ export const loginUser = createAsyncThunk(
   '/user/loginUser', 
   async (form: { email: string, password: string}, thunkApi) => {
     try {
-      const data = await fetch('api/user/login', {
+      const response = await fetch('api/user/login', {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({
@@ -62,59 +101,35 @@ export const loginUser = createAsyncThunk(
             password: form.password,
           }
         })
-      }).then(res => res.json());
-      console.log('response from loginUser', data);
-      
-      if (data.statusCode !== 200) {
-        thunkApi.rejectWithValue('SOME ERROR MESSAGE');
-      } else{ 
-        // TODO ------------------------------------------------
-        localStorage.setItem('token', data.token);
-        return data; 
-      }
+      })
+      if (response.status === 200) return thunkApi.fulfillWithValue(true);
+      return thunkApi.fulfillWithValue(false);
     } catch (e) {
       console.log('Error in loginUser', e.response);
-      thunkApi.rejectWithValue(e.response.data);
+      return thunkApi.rejectWithValue(e.response.data);
     }
   }
 )
 
 export const logoutUser = createAsyncThunk(
   'user/logoutUser',
-  async (data, thunkApi) => {
+  async (param, thunkApi) => {
     try {
       const data = await fetch('api/user/logout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-      }).then(res => res.json());
-      if (data.statusCode === 200) {
-        localStorage.removeItem('token');
+      });
+      if (data.status === 200) {
+        return thunkApi.fulfillWithValue(true)
       }
-      return data; 
+      else return thunkApi.rejectWithValue(false);
     } catch(e) {
       console.log('Error in logoutUser', e.response)
-      thunkApi.rejectWithValue(e.response.data);
+      return thunkApi.rejectWithValue(e.response.data);
     }
   }
 )
 
-
-
-
-interface NewUserForm {
-  username: string,
-  password: string,
-  email: string
-}
-
-interface UserState {
-  auth: AuthState
-}
-
-interface AuthState {
-  isAuthenticated: boolean
-}
-
-export const { authenticateUser } = userSlice.actions;
+export const { authenticateUser, setUserId, authRequestSent } = userSlice.actions;
 
 export default userSlice.reducer; 

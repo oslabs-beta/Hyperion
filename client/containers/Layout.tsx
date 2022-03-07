@@ -7,27 +7,17 @@ import styled from 'styled-components';
  */
 const Layout = (props: any) => {
   return (
-    <StyledLayout className={props.className}>
+    <div className='app-layout'>
       <VerticalNavbar />
       <div className='app-container'>
         <div className='app-content'>
           {props.children}
         </div>
       </div>
-    </StyledLayout>
+    </div>
   )
 }
 
-const StyledLayout = styled.div`
-  display: flex;
-  flex-direction: row; 
-  height: 100%; 
-  justify-content: space-between;
-   
-`;
 
-const Container = styled.div`
-  // flex-grow: 1; 
-`;
 
 export default Layout

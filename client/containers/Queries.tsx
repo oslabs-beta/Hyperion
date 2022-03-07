@@ -4,7 +4,7 @@ import QueryCard from '../components/QueryCard';
 import styled from 'styled-components';
 import Layout from './Layout';
 import { useSelector, useDispatch } from 'react-redux';
-import Database, { Query } from '../models/database';
+import { Database, Query } from '../models/database';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import ReactCSSTransitionGroup from 'react-transition-group'; // ES6
 import Button from '@mui/material/Button';
@@ -17,6 +17,7 @@ const Queries = (props) => {
   // TODO  --- on each submission of form, delete allt eh values from the input fields 
 
   const dbMap = useSelector((state: RootState) => state.data.databases);
+
   const databases = Object.values(useSelector((state: RootState) => state.data.databases));
 
   const dispatch = useDispatch();
@@ -26,14 +27,17 @@ const Queries = (props) => {
   const [newWindowVisible, setNewWindowVisible] = useState(false);
 
   // need error checking 
-  const handleNewQuery = (query: string) => {
+  const handleNewQuery = (query: string, label: string, params: string) => {
     if (dbId === undefined) return; 
-    addQuery({ databaseId: dbId, query: query})
+    console.log('handleNewQuery')
+    dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: params }));
+    console.log('this is running after addQuery runs');
   }
+
 
   // need error checking 
   const handleDeleteQuery = (queryId: number) => {
-    deleteQuery({ queryId: queryId, databaseId: dbId });
+    dispatch(deleteQuery({ queryId: queryId, databaseId: dbId }));
   }
 
   // called when the an option from the database dropdown selector is chosen
@@ -43,10 +47,13 @@ const Queries = (props) => {
 
   return (
     <Layout>
-      <div className='queries-container'>
-        <nav className='queries-header'>
+      <div className='content-box'>
+        <nav className='card-header'>
           <h4>Queries</h4>
           <div>
+            <div>
+              Select Database
+            </div>
             <select className='app-dropdown' value={dbId} onChange={handleDbChange}>
               { databases.map((db : Database, i) => {
                 return (
@@ -56,29 +63,29 @@ const Queries = (props) => {
                 )
               })}
             </select> 
-            {/* <Button variant='text' size='small' onClick={() => { setNewWindowVisible(!newWindowVisible) }}>New Query</Button> */}
-            <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
           </div>
         </nav>
-        <div className='queries-content'>
-          { newWindowVisible === true && 
-            <NewQueryWindow newQueryFunc={handleNewQuery}/>
-          }
-          <QueryGroup>
-            {/* ------ query cards ------ */}
-            { dbId !== undefined && 
-              Object.values(props.databases[dbId].queries).map((query : Query, i) => {
-              return <QueryCard
-                label={'some random label'} // change this to the query label 
-                key={i} 
-                deleteQueryFunc={handleDeleteQuery}
-                id={query.id} 
-                sqlQuery={query.queryString}
-              />
-            })}
-          </QueryGroup>     
+      </div>
+      <div>
+        <div className='content-box'>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <h4>My Queries</h4>
+            <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
+          </div>
+          { dbId !== undefined && 
+            Object.values(dbMap[dbId].queries).map((query: Query, i) => {
+            return <QueryCard
+              label={'some random label'} // change this to the query label 
+              key={i} 
+              deleteQueryFunc={handleDeleteQuery}
+              id={query.id} 
+              sqlQuery={query.queryString}
+              params={query.params}
+            />
+          })}
         </div>
       </div>
+      { newWindowVisible === true && <NewQueryWindow toggleCloseFunc={()=> { setNewWindowVisible(!newWindowVisible) }} newQueryFunc={handleNewQuery}/> }
     </Layout>
   )
 }
