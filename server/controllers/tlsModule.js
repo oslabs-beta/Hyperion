@@ -2,12 +2,13 @@ const tlsModule = {};
 
 /**
  * Blocks PostgreSQL connections that don't use TLSv1.2 or TLSv1.3. 
- * Uses pool in res.locals.dbInfo.pool
+ * Looks in res.locals.dbInfo.pool for a Pool object
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  */
 tlsModule.verifyTLS = (req, res, next) => {
+  // select the SSL/TLS status for the specific pid corresponding to the request
   const q = 'select * from pg_stat_ssl where pid = pg_backend_pid()';
 
   const errObject = {
