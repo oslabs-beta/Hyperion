@@ -1,29 +1,25 @@
+const { Pool } = require('pg');
+
 const tlsModule = {};
 
 /**
- * Blocks PostgreSQL connections that don't use TLSv1.2 or TLSv1.3. 
- * Looks in res.locals.dbInfo.pool for a Pool object
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * Returns true for PostgreSQL connections that use TLSv1.2 or TLSv1.3. 
+ * Returns false for PostgreSQL connections that don't use TLSv1.2 or TLSv1.3. 
+ * Requires a node-postgres Pool object as input
+ * @param {object} pool node-postgres Pool object
+ * @return {boolean} true or false
  */
-tlsModule.verifyTLS = (req, res, next) => {
+tlsModule.isTlsEnabled = (pool) => {
   // select the SSL/TLS status for the specific pid corresponding to the request
   const q = 'select * from pg_stat_ssl where pid = pg_backend_pid()';
 
-  const errObject = {
-    log: 'Error establishing TLS connection with server',
-    status: 400,
-    message: { err: 'Error establishing TLS connection with server' },
-  };
-
-  res.locals.dbInfo.pool.query(q)
+  return pool.query(q)
     .then(r => {
-      if (!r.rows[0].ssl) return next(errObject);
-      if (r.rows[0].version !== 'TLSv1.2' && r.rows[0].version !== 'TLSv1.3') return next(errObject);
-      return next();
+      if (!r.rows[0].ssl) return false;
+      if (r.rows[0].version !== 'TLSv1.2' && r.rows[0].version !== 'TLSv1.3') return false;
+      return true;
     })
-    .catch(e => next(e));
+    .catch(e => { throw e; });
 };
 
 module.exports = tlsModule;

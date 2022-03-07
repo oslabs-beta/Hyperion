@@ -156,6 +156,13 @@ userController.authenticate = (req, res, next) => {
   
 }
 
+/**
+ * Blocks requests that do not have a valid session
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 userController.authorize = (req, res, next) => {
   if (!res.locals.userAuth.authenticated) {
     const err = {

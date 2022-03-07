@@ -20,7 +20,7 @@ userRouter.get('/getinfo', (req, res) => {
 });
 
 userRouter.get('/getdblist', userController.authorize, (req, res) => {
-  return res.status(200).send('get db list endpoint');
+  return res.status(200).json(res.locals.userDbList);
 });
 
 module.exports = userRouter;

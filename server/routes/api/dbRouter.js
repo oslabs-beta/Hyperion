@@ -1,5 +1,6 @@
 const express = require('express');
 const dbController = require('../../controllers/dbController');
+const tlsModule = require('../../controllers/tlsModule');
 const userController = require('../../controllers/userController');
 
 const dbRouter = express.Router();
@@ -12,17 +13,16 @@ dbRouter.delete('/remove', userController.authorize, dbController.removeDb, (req
   res.status(200).json(res.locals.dbInfo);
 });
 
-// test connection and get latency
-dbRouter.post('/testconnection', userController.authorize, dbController.connect, dbController.verifyTLS, (req, res) => {
-  res.status(200).send('testconnection endpoint')
-});
-
-dbRouter.post('/runtests', userController.authorize, dbController.connect, dbController.verifyTLS, dbController.runQueryTests, (req, res) => {
+dbRouter.post('/runtests', userController.authorize, dbController.connect, dbController.runQueryTests, (req, res) => {
   res.status(200).json(res.locals.testResults);
 });
 
 dbRouter.get('/getquerylist', userController.authorize, (req, res) => {
-  res.status(200).send('getquerylist endpoint');
+  res.status(200).json(res.locals.dbInfo);
+});
+
+dbRouter.post('/testconnection', userController.authorize, dbController.connect, (req, res) => {
+  res.status(200).json(res.locals.testResults);
 });
 
 module.exports = dbRouter;
