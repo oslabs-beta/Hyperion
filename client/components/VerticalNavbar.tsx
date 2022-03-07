@@ -48,12 +48,11 @@ const VerticalNavbar = (props) => {
         <NavbarLink icon={ICONS.queries} displayText='Queries' linkPath='/queries'/> 
         <NavbarLink icon={ICONS.tests} displayText='Run Tests' linkPath='/tests'/> 
       </div>
-
-      {/* TODO make these into working links  */}
       <ul className='user-links-group'>
-        <Link to='/'>Home</Link>
+        {/* <Link className='link-no-decoration' to='/'>Home</Link> */}
+        <li><div onClick={() => { navigate('/')}}>Home</div></li>
         <li><div onClick={handleLogout}>Logout</div></li>
-        <Link to='/about'>About</Link>
+        <li><div onClick={() => { navigate('/')}}>About</div></li>
       </ul>
     </div>
   )

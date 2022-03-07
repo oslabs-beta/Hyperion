@@ -16,7 +16,8 @@
 
   .app-container {
     flex-grow: 1;    
-  
+    overflow-y: scroll;
+    height: 100vh;
     .app-content {
       padding: 1em 2em;
       display: flex;

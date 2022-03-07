@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
 import dataReducer from './data/dataSlice';
 import testReducer from './test/testSlice';

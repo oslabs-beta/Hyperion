@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import DatabaseCard from '../components/DatabaseCard';
 import Layout from './Layout';
 import { useSelector, useDispatch } from "react-redux";
-import Database from '../models/database';
+import { Database } from '../models/database';
 import { RootState } from '../features/store';
 import { NewDatabaseForm } from '../models/database';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
@@ -13,7 +13,8 @@ import { addDbThunk, deleteDb } from '../features/data/dataSlice';
 // -------- main component ---------- //
 const Databases = (props) => {  
   
-  const databases = useSelector((state: RootState) => state.data.databases);
+  const databases = useSelector((state: RootState) => state.data.databases );
+  // state.data.databases
 
   const [modalVisible, setModalVisible] = useState(false);
   
@@ -38,7 +39,7 @@ const Databases = (props) => {
         </nav>
       </div>
       <div>
-        <DatabaseGroup className='content-box'>
+        <DatabaseGroup className='content-box database-group'>
           <h4>My Databases</h4>
           {Object.values(databases).map((db : Database, i) => {
             return <DatabaseCard

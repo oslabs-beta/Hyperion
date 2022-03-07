@@ -1,12 +1,13 @@
 import React from 'react'
 import { Query } from '../models/database';
-import Database from '../models/database';
+import { Database } from '../models/database';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import { RootState } from '../features/store';
         
 const TestConfigWindow = (props: Props) => {
+
   const {
     runTestHandler,
     changeDbHandler, 
@@ -15,9 +16,11 @@ const TestConfigWindow = (props: Props) => {
     queryId,
     databases
   } = props;
+
   return (
     <StyledContainer className='modal-container'>
       <div>Test Configuration Window</div>
+      <h3>Select Database</h3>
       <select value={dbId} onChange={() => { changeDbHandler() }}>
         { Object.values(databases).map((db : Database, i) => {
           return (
@@ -27,11 +30,12 @@ const TestConfigWindow = (props: Props) => {
           )
         })}
       </select>
+      <h3>Select Query</h3>
       <select value={queryId} onChange={() => { changeQueryHandler() }}>
         { dbId !== undefined && Object.values(databases[dbId].queries).map((query : Query, i) => {
           return (
             <option key={i} value={query.id}>
-              {query.queryString}
+              {query.label}
             </option>
           )
         })}
@@ -47,7 +51,6 @@ const TestConfigWindow = (props: Props) => {
     </StyledContainer>
   )
 }
-
 
 interface Props {
   runTestHandler: Function;

@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TextField, Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from './ErrorMessage';
 import { registerUser } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../features/store';
+import { CircularProgress } from '@mui/material';
 
 const SignUpForm = (props: Props) => {
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
+  // component level state 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleRegister = async () => {
+  // user state 
+  const user = useSelector((state: RootState) => state.user );
 
+  // hooks 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  
+
+  // register user handler function 
+  const handleRegister = async () => {
     // validation 
     if (password !== confirmPassword) return;
     if (!name) return setErrorMessage('Name is required');
@@ -32,7 +41,7 @@ const SignUpForm = (props: Props) => {
     if (payload === 200) {
       alert('Successfully registered. Redirecting to login page');
       return navigate('/login');
-    } else { alert('User creation unsuccessful'); }
+    } else { return alert('User creation unsuccessful'); }
   };
 
 
@@ -74,12 +83,13 @@ const SignUpForm = (props: Props) => {
             variant='outlined' 
             size='small' 
             color= 'secondary' 
-            onClick={() => { navigate('/') }}
+            onClick={() => { navigate('/login') }}
           >
             CANCEL
           </Button>
           <Button variant='outlined' size='small' color= 'secondary' onClick={handleRegister}>SIGN UP</Button>
         </ButtonGroup>
+        { user.registration.status === 'loading' && <CircularProgress /> }
       </form>
     </div>
   )

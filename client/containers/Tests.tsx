@@ -4,17 +4,22 @@ import Layout from './Layout';
 import TestConfigWindow from '../components/TestConfigWindow';
 import { connect, useSelector } from "react-redux";
 import LineGraph from '../components/LineGraph';
-import Database from '../models/database';
-import { Query } from '../models/database';
+
+import { Query, Database } from '../models/database';
 import { RootState } from '../features/store';
 import { runTest } from '../features/test/testSlice';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+
+
 const Tests = (props) => { 
 
   const databases = useSelector((state: RootState) => { return state.data.databases });
-  const [dbId, setDbId] = useState(Object.values(databases).length === 0 ? undefined : databases[0].id );
+  const databaseArr = Object.values(databases);
+
+  const [dbId, setDbId] = useState(databaseArr.length === 0 ? undefined : databaseArr[0].id );
   const [queryId, setQueryId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
+
 
   const handleDbChange = (e) => {
     console.log(e.target.value, 'in handleDbChange')
@@ -37,7 +42,7 @@ const Tests = (props) => {
     <Layout>
       <div className='content-box'>
         <nav className='card-header'>
-            <h3>Run Tests</h3>
+            <h4>Run Tests</h4>
         </nav>
       </div>
       <div className='content-box'>

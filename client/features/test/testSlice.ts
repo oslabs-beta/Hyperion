@@ -1,7 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  results: [] // contains the data we receive from the server from running the test 
+
+interface TestState {
+  results: Array<any>, // change to more specific later
+  status: 'loaded' | 'loading',
+}
+
+const initialState : TestState = {
+  results: [], // contains the data we receive from the server from running the test 
+  status: 'loaded'
+  
 };
 
 export const testSlice = createSlice({
