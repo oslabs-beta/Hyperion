@@ -8,6 +8,7 @@ import Database from '../models/database';
 import { Query } from '../models/database';
 import { RootState } from '../features/store';
 import { runTest } from '../features/test/testSlice';
+import Chart from '../components/PlotlyGraph'
 
 const Tests = (props) => { 
 
@@ -59,6 +60,7 @@ const Tests = (props) => {
 
         {/* <LineGraph /> */}
         <TestConfigWindow runTestHandler={runTest} />
+        <Chart></Chart>
       </StyledContainer>
     </Layout>
   )
