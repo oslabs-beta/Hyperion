@@ -6,9 +6,9 @@ import { FormControl, InputLabel } from '@mui/material';
 import { Input } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import { NewDatabaseForm } from '../models/database';
+import { AiOutlineClose } from 'react-icons/ai';
 
-
-const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
+const NewDatabaseWindow = ({ addDbFunc, toggleWindowFunc, ...rest}) => {
   
   const [isConnectingByUri, setIsConnectingByUri] = useState(true); 
   const [inputError, setInputError] = useState({ error: ''})
@@ -105,7 +105,11 @@ const NewDatabaseWindow = ({ addDbFunc, ...rest}) => {
 
   return (
     <StyledWindow className='modal-container'>
-      <h4>Add New Database</h4>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <h4>Add New Database</h4>
+        <AiOutlineClose onClick={toggleWindowFunc} />
+      </div>
+
       { isConnectingByUri ? 
         <label>Connecting by URI</label>
         : 

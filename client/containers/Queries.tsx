@@ -27,10 +27,10 @@ const Queries = (props) => {
   const [newWindowVisible, setNewWindowVisible] = useState(false);
 
   // need error checking 
-  const handleNewQuery = (query: string, label: string) => {
+  const handleNewQuery = (query: string, label: string, params: string) => {
     if (dbId === undefined) return; 
     console.log('handleNewQuery')
-    dispatch(addQuery({ databaseId: dbId, query: query, label: label }));
+    dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: params }));
     console.log('this is running after addQuery runs');
   }
 
@@ -63,13 +63,17 @@ const Queries = (props) => {
                 )
               })}
             </select> 
-            <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
+            
           </div>
         </nav>
       </div>
       <div>
         <div className='content-box'>
-          <h4>My Queries</h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <h4>My Queries</h4>
+            <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
+          </div>
+          
           { dbId !== undefined && 
             Object.values(dbMap[dbId].queries).map((query: Query, i) => {
             return <QueryCard
@@ -82,7 +86,7 @@ const Queries = (props) => {
           })}
         </div>
       </div>
-      { newWindowVisible === true && <NewQueryWindow newQueryFunc={handleNewQuery}/> }
+      { newWindowVisible === true && <NewQueryWindow toggleCloseFunc={()=> { setNewWindowVisible(!newWindowVisible) }} newQueryFunc={handleNewQuery}/> }
     </Layout>
   )
 }

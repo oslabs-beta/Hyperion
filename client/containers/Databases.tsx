@@ -34,13 +34,17 @@ const Databases = (props) => {
         <nav className='card-header'>
           <h4>Databases</h4>
           <div>
-            <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
+            
         </div>
         </nav>
       </div>
       <div>
         <DatabaseGroup className='content-box database-group'>
-          <h4>My Databases</h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h4>My Databases</h4>
+            <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
+          </div>
+          
           {Object.values(databases).map((db : Database, i) => {
             return <DatabaseCard
               key={i}
@@ -57,7 +61,7 @@ const Databases = (props) => {
         </DatabaseGroup>
       </div>
       { modalVisible  && 
-        <NewDatabaseWindow addDbFunc={handleDbAdd}/>
+        <NewDatabaseWindow toggleWindowFunc={() => { setModalVisible(!modalVisible) }} addDbFunc={handleDbAdd}/>
       }
     </Layout>
   )

@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { FormControl, TextField, InputLabel, Input } from '@mui/material';
 import Button from '@mui/material/Button';
 import { formatInputString } from '../utils/inputs';
+import { AiOutlineClose } from 'react-icons/ai';
 
 
-const NewQueryWindow = ({ newQueryFunc }) => {
+const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc }) => {
 
   // component level state 
   const [query, setQuery] = useState('');
@@ -27,7 +28,7 @@ const NewQueryWindow = ({ newQueryFunc }) => {
     e.target.params.value = '';
     
     if (isValidInput) {
-      newQueryFunc(formatInputString(query), formatInputString(label));
+      newQueryFunc(formatInputString(query), formatInputString(label), formatInputString(queryParams));
     }
   
   }
@@ -42,7 +43,10 @@ const NewQueryWindow = ({ newQueryFunc }) => {
 
   return (
     <div className='modal-container'>
-      <h4>Add Query</h4> 
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h4>Add Query</h4> 
+        <AiOutlineClose onClick={toggleCloseFunc} />
+      </div>
       <StyledForm onSubmit={handleSubmit} className='new-query-form'>
         <FormControl>
           <InputLabel htmlFor='label'>Label</InputLabel>

@@ -62,19 +62,12 @@ const Tests = (props) => {
           dbId={dbId}
           queryId={queryId}
           databases={databases}
+          toggleWindowFunc={()=> { setModalVisible(!modalVisible) }}
         />
       }
     </Layout>
   )
 }
  
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%; 
-  justify-content: right;
-`;
-
 
 export default Tests;

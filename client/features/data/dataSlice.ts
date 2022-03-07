@@ -125,7 +125,7 @@ export const deleteDb = createAsyncThunk(
 /// add query 
 export const addQuery = createAsyncThunk(
   'data/addQuery',
-  async (queryInfo: { databaseId: number, query: string, label: string }, thunkApi) => {
+  async (queryInfo: { databaseId: number, query: string, label: string, params: string }, thunkApi) => {
     console.log('trying new query')
     try {
       // UNCOMMENT OUT FOR REAL APPLICATION 

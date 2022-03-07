@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction, PayloadActionCreator } fr
 import thunk from 'redux-thunk';
 
 // ---------------- initial state ---------------------------------------
-
-
 interface UserState {
   auth: {
     isAuthenticated: boolean,

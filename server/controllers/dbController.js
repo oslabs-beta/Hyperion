@@ -13,7 +13,6 @@ const dbController = {};
  * @returns next() 
  */
 dbController.addNewDb = (req, res, next) => {
-  console.log(req.body);
   const queryString = 'INSERT INTO app.databases (user_id, database_name, connection_type) VALUES ($1, $2, $3) RETURNING _id;';
   const uriString = 'INSERT INTO app.uris (database_id, uri) VALUES ($1, $2)';
   db.runQuery(queryString, [res.locals.userAuth.userId, req.body.dbInfo.name, req.body.connectionType])
