@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './features/store';
 import LandingPage from './containers/LandingPage';
 import { useNavigate } from 'react-router-dom';
+
+
 const App = () => {
   
   const user = useSelector((state: RootState) => { return state.user })
@@ -21,19 +23,19 @@ const App = () => {
     // if theyre authenticated we can update the database initail state
   // useEffect(() => {
   //   if (user.auth.isAuthenticated === false && user.auth.authRequestSent === false) {
-      // fetch('/api/user/getinfo')
-      //   .then(res => res.json())
-      //   .then(data => {
-      //     console.log(data);
-      //     authRequestSent(true);
-      //     if (data.authenticated === true) { 
-      //       authenticateUser();
-      //       setUserId(data.id);
-      //     } 
-      //   })
-      //   .catch(e => {
-      //     console.log(e)
-      //   })
+  //     fetch('/api/user/getinfo')
+  //       .then(res => res.json())
+  //       .then(data => {
+  //         console.log(data);
+  //         authRequestSent(true);
+  //         if (data.authenticated === true) { 
+  //           authenticateUser();
+  //           setUserId(data.id);
+  //         } 
+  //       })
+  //       .catch(e => {
+  //         console.log(e)
+  //       })
   //   }
   // }, [])
   // fetch('/api/user/getinfo')

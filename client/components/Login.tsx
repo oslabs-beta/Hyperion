@@ -6,31 +6,37 @@ import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../features/store';
 import { loginUser } from '../features/user/userSlice';
-
+import { Spinner } from 'react-bootstrap';
+import { CircularProgress } from '@mui/material';
+import { formatInputString } from '../utils/inputs';
 
 // Login Component
 const Login = (props) => {
-  //Need validation here to see if user has entered valid login credentials 
-  // If user enters valid login credentials need to navigate to home page? 
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const user = useSelector((state: RootState) => state.user.auth);
-
-  useEffect(() => {
-    if (user.isAuthenticated === true) navigate('/dashboard')
-  }, [])
-
+  // component level state 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // redux state 
+  const user = useSelector((state: RootState) => state.user.auth);
 
+  // hooks 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  
+  // redirection 
+  useEffect(() => {
+    if (user.isAuthenticated === true) navigate('/dashboard')
+  }, [])
+
+  // login handler function 
   const handleLogin = async () => {
     if (password === '') { setErrorMessage('Password field was left empty'); return; };
     if (email === '') { setErrorMessage('Username field was left empty'); return;  };
-    const { payload } : any = await dispatch(loginUser({ email: email, password: password })); 
+
+    const { payload } : any = await dispatch(loginUser({ email: email.trim(), password: password.trim() })); 
     console.log('this is payload in handleLogin', payload)
     if (payload === true) {
       navigate('/dashboard');
@@ -72,6 +78,7 @@ const Login = (props) => {
         >
           LOG IN
         </Button>
+        { user.status === 'loading' && <CircularProgress /> }
       </form>
       <div className='login-signup-box'>
         <h3 className='login-signup-header'>Don't have an acccount?</h3>

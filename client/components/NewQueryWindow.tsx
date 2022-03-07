@@ -2,50 +2,91 @@ import React, { isValidElement, useState } from 'react';
 import styled from 'styled-components';
 import { FormControl, TextField, InputLabel, Input } from '@mui/material';
 import Button from '@mui/material/Button';
+import { formatInputString } from '../utils/inputs';
+
 
 const NewQueryWindow = ({ newQueryFunc }) => {
 
+  // component level state 
+  const [query, setQuery] = useState('');
+  const [label, setLabel] = useState('');
+  const [queryParams, setQueryParams] = useState('');
+
   const handleSubmit = (e) => {
-    
+    // prevents automatic reload of page
     e.preventDefault();
 
-    const query = e.target.input.value; 
-    e.target.input.value = '';
+    const isValidInput = validateInput(query, label);
     
-    const isValidInput = validateInput(query);
-
     if (!isValidInput) return;
     // TODO clean the input fields 
+
+    // clear input fields 
+    e.target.input.value = '';
+    e.target.label.value = '';
+    
     if (isValidInput) {
-      newQueryFunc(query);
+      newQueryFunc(formatInputString(query), formatInputString(label));
     }
   
   }
  
   // TODO validate the query input
   // ensure 
-  const validateInput = (input) => {
-    if (!input) return false;
+  const validateInput = (query, label) => {
+    if (!query || !label) return false;
     return true; 
   }
 
 
   return (
     <div className='modal-container'>
-      <h4>Add Query</h4> 
-      <form onSubmit={handleSubmit} className='new-query-form'>
-        <FormControl>
-          <InputLabel htmlFor='label'>Label</InputLabel>
-              <Input id='label' name='label' type='text' />
-        </FormControl>
-        <FormControl>
-          <TextField multiline rows={12} type='text' id='input-field' maxRows={12} name='input' />
-        </FormControl>
-        <Button type='submit' size='small' variant='contained'>Submit</Button>
-      </form>
+  
+        <h4>Add Query</h4> 
+        <StyledForm onSubmit={handleSubmit} className='new-query-form'>
+          <FormControl>
+            <InputLabel htmlFor='label'>Label</InputLabel>
+                <Input 
+                  onChange={(e) => setLabel(e.target.value)}
+                  id='label'
+                  name='label'
+                  type='text'
+                />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor='input'>Query</InputLabel>
+            <TextField 
+              onChange={(e) => setQuery(e.target.value)} 
+              multiline 
+              rows={10} 
+              type='text' 
+              id='input-field'
+              // maxRows={12} 
+              name='input' />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor='input'>Parameters</InputLabel>
+            <TextField 
+              onChange={(e) => setQueryParams(e.target.value)} 
+              multiline 
+              rows={10} 
+              type='text' 
+              id='params-input'
+              // maxRows={12} 
+              name='params-input' />
+          </FormControl>
+          <Button type='submit' size='small' variant='contained'>Submit</Button>
+        </StyledForm>
+      
     </div>
   )
 }
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
 
 
 export default NewQueryWindow

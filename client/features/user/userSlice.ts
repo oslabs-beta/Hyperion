@@ -2,14 +2,35 @@ import { createAsyncThunk, createSlice, PayloadAction, PayloadActionCreator } fr
 import thunk from 'redux-thunk';
 
 // ---------------- initial state ---------------------------------------
+
+
+interface UserState {
+  auth: {
+    isAuthenticated: boolean,
+    authRequestSent: boolean,
+    status: 'loaded' | 'loading'
+  },
+  userProfile: {
+    id: number | null;
+    name: string;
+  }, 
+  registration: {
+    status: 'loaded' | 'loading'
+  }
+}
+
 const initialState : UserState = {
   auth: {
+    status: 'loaded',
     authRequestSent: false, 
     isAuthenticated: false
   },
   userProfile: {
     id: null,
     name: ''
+  }, 
+  registration: {
+    status: 'loaded'
   }
 };
 
@@ -24,10 +45,23 @@ export const userSlice = createSlice({
     setUserId: (state, action: PayloadAction<number>) => { state.userProfile.id = action.payload }
   }, 
   extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => { state.auth.isAuthenticated = true; }),
-    builder.addCase(loginUser.rejected, (state, action) => { state.auth.isAuthenticated = false;})
+    // login user cases
+    builder.addCase(loginUser.pending, (state, action) => {
+      state.auth.status = 'loading';
+    })
+    builder.addCase(loginUser.fulfilled, (state, action) => { 
+      state.auth.status = 'loaded';
+      state.auth.isAuthenticated = true; }),
+    builder.addCase(loginUser.rejected, (state, action) => { 
+      state.auth.status = 'loaded';
+      state.auth.isAuthenticated = false;
+    })
+    // logout user cases 
     builder.addCase(logoutUser.fulfilled, (state, action) => { state = initialState; }), // will need to add logic to eliminate all the user data stored as well as test data 
-    builder.addCase(registerUser.fulfilled, (state, action) => { console.log('action', action, ' in builder add case for registe user'); })
+    // register user cases
+    builder.addCase(registerUser.fulfilled, (state, action) => { state.registration.status = 'loaded' }),
+    builder.addCase(registerUser.rejected, (state, action) => { state.registration.status = 'loaded' }),
+    builder.addCase(registerUser.pending, (state, action) => { state.registration.status = 'loading' })
   }
 })
 
@@ -82,7 +116,6 @@ export const loginUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   'user/logoutUser',
   async (param, thunkApi) => {
-    console.log('logout running')
     try {
       const data = await fetch('api/user/logout', {
         method: 'POST',
@@ -98,22 +131,6 @@ export const logoutUser = createAsyncThunk(
     }
   }
 )
-
-
-
-
-interface UserState {
-  auth: {
-    isAuthenticated: boolean,
-    authRequestSent: boolean,
-  },
-  userProfile: {
-    id: number | null;
-    name: string;
-  }
-}
-
-
 
 export const { authenticateUser, setUserId, authRequestSent } = userSlice.actions;
 

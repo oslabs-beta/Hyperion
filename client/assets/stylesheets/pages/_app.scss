@@ -46,3 +46,44 @@
     background-color: red;
   }
 }
+
+
+.database-group {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px; 
+
+  .database-card {
+    display: flex; 
+    flex-direction: column; 
+    border: 1.5px solid black;
+    row-gap: 10px;
+    margin-bottom: 1em;
+    padding: 1em 2em;
+    border-radius: 10px;
+    
+    background-color: rgb(250, 250, 250);
+  }
+
+  .info-group {
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .info-group-item {
+    display: flex; 
+    flex-direction: column; 
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between
+  }
+}
+
+
+
+.link-no-decoration {
+  text-decoration: none;
+}

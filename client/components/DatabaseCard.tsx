@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
 
+// component 
 const DatabaseCard = (props: Props) => {
   const {
     id, 
@@ -30,10 +31,6 @@ const DatabaseCard = (props: Props) => {
           <h5>Port:</h5>
           {port}
         </div>
-        {/* <div className='info-group-item'>
-          <h5>User:</h5>
-          {user}
-        </div> */}
         <div className='info-group-item'>
           <h5>SSL:</h5>
           {ssl}
@@ -44,12 +41,7 @@ const DatabaseCard = (props: Props) => {
         </div>
       </div>
       <div className='button-group'>
-        {isConnected ? 
-          <Button variant='text' size='small' disabled color='success'>Connected</Button>
-          :
-          null
-          // <Button onClick={() => {connectDbFunc(id)}} variant='contained' size='small' color='success'>Connect</Button>
-        }
+        { isConnected &&  <Button variant='text' size='small' disabled color='success'>Connected</Button> }
         <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
       </div>
     </div>
@@ -67,39 +59,6 @@ interface Props {
   ssl?: string, 
   latency: number
 }
-
-const StyledCard = styled.div`
-  display: flex; 
-  flex-direction: column; 
-  border: 1.5px solid black;
-  row-gap: 10px;
-  margin-bottom: 1em;
-  padding: 1em 2em;
-  border-radius: 10px;
-  background-color: rgb(250, 250, 250);
-
-  .info-group {
-    display: flex; 
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .info-group-item {
-    display: flex; 
-    flex-direction: column; 
-  }
-  .info-group-item > h5 {
-    margin: 0px;
-  }
-
-  .button-group {
-    display: flex; 
-    justify-content: flex-end; 
-    column-gap: 5px;
-  }
-`;
-
-
 
 
 export default DatabaseCard
