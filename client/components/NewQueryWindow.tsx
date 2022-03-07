@@ -24,6 +24,7 @@ const NewQueryWindow = ({ newQueryFunc }) => {
     // clear input fields 
     e.target.input.value = '';
     e.target.label.value = '';
+    e.target.params.value = '';
     
     if (isValidInput) {
       newQueryFunc(formatInputString(query), formatInputString(label));
@@ -41,43 +42,41 @@ const NewQueryWindow = ({ newQueryFunc }) => {
 
   return (
     <div className='modal-container'>
-  
-        <h4>Add Query</h4> 
-        <StyledForm onSubmit={handleSubmit} className='new-query-form'>
-          <FormControl>
-            <InputLabel htmlFor='label'>Label</InputLabel>
-                <Input 
-                  onChange={(e) => setLabel(e.target.value)}
-                  id='label'
-                  name='label'
-                  type='text'
-                />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor='input'>Query</InputLabel>
-            <TextField 
-              onChange={(e) => setQuery(e.target.value)} 
-              multiline 
-              rows={10} 
-              type='text' 
-              id='input-field'
-              // maxRows={12} 
-              name='input' />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor='input'>Parameters</InputLabel>
-            <TextField 
-              onChange={(e) => setQueryParams(e.target.value)} 
-              multiline 
-              rows={10} 
-              type='text' 
-              id='params-input'
-              // maxRows={12} 
-              name='params-input' />
-          </FormControl>
-          <Button type='submit' size='small' variant='contained'>Submit</Button>
-        </StyledForm>
-      
+      <h4>Add Query</h4> 
+      <StyledForm onSubmit={handleSubmit} className='new-query-form'>
+        <FormControl>
+          <InputLabel htmlFor='label'>Label</InputLabel>
+              <Input 
+                onChange={(e) => setLabel(e.target.value)}
+                id='label'
+                name='label'
+                type='text'
+              />
+        </FormControl>
+        <FormControl>
+          <InputLabel htmlFor='input'>Query</InputLabel>
+          <TextField 
+            onChange={(e) => setQuery(e.target.value)} 
+            multiline 
+            rows={10} 
+            type='text' 
+            id='input-field'
+            // maxRows={12} 
+            name='input' />
+        </FormControl>
+        <FormControl>
+          <InputLabel htmlFor='params'>Parameters</InputLabel>
+          <TextField 
+            onChange={(e) => setQueryParams(e.target.value)} 
+            multiline 
+            rows={10} 
+            type='text' 
+            id='params-input'
+            // maxRows={12} 
+            name='params' />
+        </FormControl>
+        <Button type='submit' size='small' variant='contained'>Submit</Button>
+      </StyledForm>
     </div>
   )
 }

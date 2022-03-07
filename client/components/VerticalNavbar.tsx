@@ -38,7 +38,6 @@ const VerticalNavbar = (props) => {
     }
   }
 
-
   return (
     <div className='vertical-navbar'>
       <div className='header'>Hyperion</div>

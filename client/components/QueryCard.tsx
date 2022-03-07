@@ -7,19 +7,27 @@ import { Button } from '@mui/material';
 const QueryCard = ({ id, label, deleteQueryFunc, sqlQuery }) => {
 
 return (
-    <StyledCard>
-      <div className='info-group'>
-        <div className='info-group-item'>
-          <h5>SQL Query:</h5>
-          {sqlQuery}
-        </div>
+  <StyledCard>
+    <div className='info-group'>
+      <div className='info-group-item'>
+        <h5>SQL Query:</h5>
+        {sqlQuery}
       </div>
-      <div className='button-group'>
-        <Button onClick={() => {deleteQueryFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
-      </div>  
-    </StyledCard>
+    </div>
+    <div className='button-group'>
+      <Button 
+        onClick={() => {deleteQueryFunc(id)}} 
+        variant='outlined'
+        size='small' 
+        color='error'
+      >
+        Remove
+      </Button>
+    </div>  
+  </StyledCard>
   )
 }
+
 
 const StyledCard = styled.div`
   display: flex; 

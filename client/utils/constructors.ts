@@ -1,6 +1,11 @@
 import { Database } from '../models/database'; 
+
+/**
+ * 
+ * @param info 
+ * @returns an object with properties filled in 
+ */
 export const constructDatabase = (info: DatabaseConstructorParams): Database => {
-  
   const {id, label, port, pgDatabaseName, sslMode, latency} = info;
   return {
     id: id,  
@@ -23,17 +28,3 @@ export interface DatabaseConstructorParams {
   latency?: number,
 }
 
-
-/*
-
-export interface Database {
-  id: number;
-  port?: number;
-  pgDatabaseName?: string;
-  label?: string;
-  sslMode?: string;
-  queries: { [id: number] : Query };
-  tables: { [ id: number ] : Table };
-  latency?: number;
-}
-*/

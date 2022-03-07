@@ -24,8 +24,6 @@ const SignUpForm = (props: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  
-
   // register user handler function 
   const handleRegister = async () => {
     // validation 

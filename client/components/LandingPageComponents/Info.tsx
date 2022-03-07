@@ -1,7 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import logo from '../../assets/logo.jpg'
+import logo from '../../assets/logo.jpg';
+
 const Info = () => { 
   return (
     <section id="info">
@@ -23,8 +24,6 @@ const Info = () => {
     </section>
   )
 }
-
-
 
     
 export default Info;

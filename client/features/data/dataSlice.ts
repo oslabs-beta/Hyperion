@@ -5,13 +5,27 @@ import { Database } from '../../models/database';
 import { NewDatabaseForm } from '../../models/database';
 import { constructDatabase } from '../../utils/constructors';
 
-// initial state ----- 
+// ------------------------- initial state -------------
 const initialState: DataState = {
   databases: {}, 
   status: {},
 };
 
+// ----- interfaces --------------------------
+export interface DataState {
+  databases: { [id: number] : Database },
+  status: {},
+}
 
+interface NewQuery {
+  label: string,
+  databaseId: number, 
+  queryId: number, 
+  query: string
+}
+
+
+// ---------------------- slice ----------------------------
 export const dataSlice = createSlice({
   name: 'data',
   initialState, 
@@ -33,7 +47,8 @@ export const dataSlice = createSlice({
 })
 
 
-// thunk functions
+// ------------------------- thunk functions --------------
+
  // TODOO 
 export const fetchExistingData = createAsyncThunk(
   'data/fetchExisting', 
@@ -44,8 +59,6 @@ export const fetchExistingData = createAsyncThunk(
     }).then(res => res.json());
   }
 )
-
-// Thunk functions 
 export const addDbThunk = createAsyncThunk(
   'data/addDb',
   async (formData: NewDatabaseForm, thunkApi) => {
@@ -173,19 +186,6 @@ export const deleteQuery = createAsyncThunk(
 )
 
 
-//  ----- interfaces 
-export interface DataState {
-  databases: { [id: number] : Database },
-  status: {},
-}
-
-
-interface NewQuery {
-  label: string,
-  databaseId: number, 
-  queryId: number, 
-  query: string
-}
 
 
 export const {  } = dataSlice.actions;
