@@ -8,7 +8,6 @@ const forge = require('node-forge');
 const encryptionModule = {};
 
 const keyLengthBytes = 32; 
-const keyLengthBits = keyLengthBytes * 8; // 32 bytes = 256 bits
 const numIterations = 310000;
 
 /**
@@ -19,13 +18,16 @@ const numIterations = 310000;
  */
 encryptionModule.encryptString = (string, password) => {
 
+  if (typeof string !== 'string' || typeof password !== 'string') return undefined;
+  if (!string.length || !password.length) return undefined;
+
   const encryptionObject = {
     iv: undefined,
     salt: undefined,
     payload: undefined
   };
   let iv = forge.random.getBytesSync(keyLengthBytes);
-  let salt = forge.random.getBytesSync(keyLengthBits);
+  let salt = forge.random.getBytesSync(keyLengthBytes);
   let key = forge.pkcs5.pbkdf2(password, salt, numIterations, keyLengthBytes);
   let cipher = forge.cipher.createCipher('AES-GCM', key);
 
@@ -46,12 +48,21 @@ encryptionModule.encryptString = (string, password) => {
  * Decrypts a string using AES-256-GCM
  * @param {String} string Serialized object containing the encrypted payload, iv, salt, and tag
  * @param {String} password that was used to encrypt the data
- * @returns the encrypted string
+ * @returns the decrypted string
  */
 encryptionModule.decryptString = (string, password) => {
 
-  let encryptionObject = JSON.parse(string);
+  if (typeof string !== 'string' || typeof password !== 'string') return undefined;
+  if (!string.length || !password.length) return undefined;
 
+
+  let encryptionObject;
+  try {
+    encryptionObject = JSON.parse(string);
+  } catch (e) {
+    return undefined;
+  }
+  
   let { payload, iv, salt, tag } = encryptionObject;
 
   payload = forge.util.hexToBytes(payload);
@@ -65,7 +76,8 @@ encryptionModule.decryptString = (string, password) => {
   decipher.start({iv, tag});
   decipher.update(forge.util.createBuffer(payload));
   let pass = decipher.finish(); 
-  if (!pass) throw  new Error('Unable to decrypt message')
+
+  if (!pass) return undefined;
 
   return decipher.output.toString();
 };
