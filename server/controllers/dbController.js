@@ -1,5 +1,7 @@
 const db = require('../models/dbModel.js');
 const generateCombinations = require('./generateCombinations');
+const encryptionModule = require('./encryptionModule');
+const globalCache = require('./globalCache');
 const { Pool } = require('pg');
 
 const dbController = {};
@@ -13,14 +15,15 @@ const dbController = {};
  * @returns next() 
  */
 dbController.addNewDb = (req, res, next) => {
-  console.log(req.body);
+
+  const encryptedUri = encryptionModule.encryptString(req.body.connectionString, globalCache.get(res.locals.userAuth.userId));
   const queryString = 'INSERT INTO app.databases (user_id, database_name, connection_type) VALUES ($1, $2, $3) RETURNING _id;';
   const uriString = 'INSERT INTO app.uris (database_id, uri) VALUES ($1, $2)';
   db.runQuery(queryString, [res.locals.userAuth.userId, req.body.dbInfo.name, req.body.connectionType])
     .then(r => {
       console.log(`The new db id is ${r.rows[0]._id}`);
       res.locals.dbInfo = { id: r.rows[0]._id };
-      return db.runQuery(uriString, [res.locals.dbInfo.id, req.body.connectionString]);
+      return db.runQuery(uriString, [res.locals.dbInfo.id, encryptedUri]);
     })
     .then(() => { next()} )
     .catch(e => next(e));
@@ -89,7 +92,9 @@ dbController.connect = (req, res, next) => {
         console.log('No URI found for this database');
         return next('No URI found for this database');
       } 
-      const URI = r2.rows[0].uri;
+      const encryptedUri = r2.rows[0].uri;
+
+      const URI = encryptionModule.decryptString(encryptedUri, globalCache.get(res.locals.userAuth.userId));
 
       if (req.body.query.maxConnections < 1 || req.body.query.maxConnections > 100) {
         return next('Invalid number of max connections');
@@ -103,7 +108,11 @@ dbController.connect = (req, res, next) => {
         query_timeout: 10000,
         statement_timeout: 10000,
         idleTimeoutMillis: 30000,
-        ssl: { rejectUnauthorized: false }
+        ssl: { 
+          rejectUnauthorized: false, 
+          // set default to require to confer protection from eavesdropping
+          sslmode: 'require' 
+        }
       });
       // return a pool object
       const t1 = Date.now();
@@ -118,6 +127,22 @@ dbController.connect = (req, res, next) => {
     .catch(e => next(e)); 
 
 };
+
+dbController.verifyTLS = (req, res, next) => {
+  const q = 'select * from pg_stat_ssl where pid = pg_backend_pid()';
+
+  res.locals.dbInfo.pool.query(q)
+    .then(r => {
+      console.log(`Secure connection established using ${r.rows[0].version}`);
+      if (!r.rows[0].ssl) return next('Error establishing TLS connection');
+      if (r.rows[0].version !== 'TLSv1.2' &&
+          r.rows[0].version !== 'TLSv1.3') {
+            return next('Error establishing TLS connection');
+      } 
+      return next();
+    })
+    .catch(e => next(e));
+}
 
 /**
  * Handles and coordinates the database requests to be evaluated.
