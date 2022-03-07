@@ -8,7 +8,7 @@ api.use('/db', dbRouter);
 
 api.use('/user', userRouter);
 
-api.use('/query', queryRouter)
+api.use('/query', queryRouter);
 
 api.get('/test', (req, res) => {
   res.status(200).send('Success!');

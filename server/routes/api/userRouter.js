@@ -8,15 +8,19 @@ userRouter.post('/signup', userController.signUp, (req, res) => {
 });
 
 userRouter.post('/login', userController.login, (req, res) => {
-  return res.status(200).send('User successfully logged in');
+  return res.status(200).json(res.locals.userAuth);
 });
 
 userRouter.post('/logout', userController.logout, (req, res) => {
- return res.status(200).send('User has successfully logged out');
+ return res.status(200).send('User successfully logged out');
 });
 
 userRouter.get('/getinfo', (req, res) => {
   return res.status(200).json(res.locals.userAuth);
+});
+
+userRouter.get('/getdblist', userController.authorize, (req, res) => {
+  return res.status(200).send('get db list endpoint');
 });
 
 module.exports = userRouter;

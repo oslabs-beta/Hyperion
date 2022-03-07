@@ -98,6 +98,12 @@ userController.login = (req, res, next) => {
       globalCache.set(res.locals.userId, req.body.userInfo.password);
       // 3 add ssid cookie to res
       res.cookie('ssid', r.rows[0].ssid, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+      // set the values in the userAuth object
+      res.locals.userAuth = {
+        authenticated: true,
+        userId: res.locals.userId
+      };
+
       // 4 call next();
       return next();
     })

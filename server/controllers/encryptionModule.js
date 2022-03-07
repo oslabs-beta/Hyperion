@@ -1,3 +1,8 @@
+/**
+ * Implement AES-256-GCM using node-forge
+ * https://www.npmjs.com/package/node-forge
+ */
+
 const forge = require('node-forge');
 
 const encryptionModule = {};
