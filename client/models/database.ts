@@ -15,7 +15,7 @@ export interface Query {
   id: number;  // id in internal database
   label: string;
   queryString: string; 
-  params: string;
+  params: Array<Array<string|number>>
 }
 
 export interface Table {

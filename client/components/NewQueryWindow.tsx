@@ -4,14 +4,16 @@ import { FormControl, TextField, InputLabel, Input } from '@mui/material';
 import Button from '@mui/material/Button';
 import { formatInputString } from '../utils/inputs';
 import { AiOutlineClose } from 'react-icons/ai';
+import { MdAdd } from 'react-icons/md';
+import { FiTrash } from 'react-icons/fi';
 
 
-const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc }) => {
+const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamField, removeParamField, handleChange }) => {
 
   // component level state 
   const [query, setQuery] = useState('');
   const [label, setLabel] = useState('');
-  const [queryParams, setQueryParams] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleSubmit = (e) => {
     // prevents automatic reload of page
@@ -25,21 +27,20 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc }) => {
     // clear input fields 
     e.target.input.value = '';
     e.target.label.value = '';
-    e.target.params.value = '';
     
     if (isValidInput) {
-      newQueryFunc(formatInputString(query), formatInputString(label), formatInputString(queryParams));
+      newQueryFunc(formatInputString(query), formatInputString(label));
     }
-  
-  }
- 
-  // TODO validate the query input
-  // ensure 
-  const validateInput = (query, label) => {
-    if (!query || !label) return false;
-    return true; 
   }
 
+
+  // TODO validate the query input
+  const validateInput = (query: string, label: string) : boolean => {
+    if (!query || !label) {
+      return false;
+    }
+    return true; 
+  }
 
   return (
     <div className='modal-container'>
@@ -68,17 +69,31 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc }) => {
             // maxRows={12} 
             name='input' />
         </FormControl>
-        <FormControl>
-          <InputLabel htmlFor='params'>Parameters</InputLabel>
-          <TextField 
-            onChange={(e) => setQueryParams(e.target.value)} 
-            multiline 
-            rows={10} 
-            type='text' 
-            id='params-input'
-            // maxRows={12} 
-            name='params' />
-        </FormControl>
+        <div style={{display: 'flex', flexDirection: 'column', rowGap: '10px', marginTop: '10px'}}>
+          {
+            paramArray.map((paramField, i) => {
+              return (
+                <FormControl key={i}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'center' }}>
+                    <InputLabel htmlFor='label'>{`$${i+1} placeholder values`}</InputLabel>
+                      <Input 
+                        onChange={(e) => handleChange(i, e.target.value)}
+                        id='label'
+                        name={`#${i+1} placeholder`}
+                        type='text'
+                        value={paramField}
+                      />
+                      <FiTrash onClick={ () => { removeParamField(i) }} />
+                  </div>
+                </FormControl>
+              )
+            })
+          }
+        </div>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div>Add Parameter Field</div>
+          <MdAdd onClick={addParamField} />
+        </div>
         <Button type='submit' size='small' variant='contained'>Submit</Button>
       </StyledForm>
     </div>

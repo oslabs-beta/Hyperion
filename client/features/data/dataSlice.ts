@@ -1,6 +1,7 @@
 
 import { create } from '@mui/material/styles/createTransitions';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { useParams } from 'react-router-dom';
 import { Database } from '../../models/database';
 import { NewDatabaseForm } from '../../models/database';
 import { constructDatabase } from '../../utils/constructors';
@@ -22,7 +23,7 @@ interface NewQuery {
   databaseId: number, 
   queryId: number, 
   query: string,
-  params: string,
+  params: Array<Array<string|number>>
 }
 
 
@@ -126,25 +127,36 @@ export const deleteDb = createAsyncThunk(
 /// add query 
 export const addQuery = createAsyncThunk(
   'data/addQuery',
-  async (queryInfo: { databaseId: number, query: string, label: string, params: string }, thunkApi) => {
+  async (queryInfo: { databaseId: number, query: string, label: string, params: Array<Array<string|number>> }, thunkApi) => {
     try {
-      // UNCOMMENT OUT FOR REAL APPLICATION 
-      // const data = await fetch('/api/query/new', {
+      // // UNCOMMENT OUT FOR REAL APPLICATION 
+      // const data : any = await fetch('/api/query/new', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ databaseId: queryInfo.databaseId, query: queryInfo.query })
-      // }).then(res => res.json());
-      // if (data.statusCode !== 200) { return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE') }; 
+      //   body: JSON.stringify({
+      //     dbId: queryInfo.databaseId, 
+      //     queryName: queryInfo.label, 
+      //     query: {
+      //       queryParams: queryInfo.params, 
+      //       queryString: queryInfo.query
+      //     }
+      //   })
+      // }).then(res =>  {
+      //   // if (res.status !== 200) return thunkApi.rejectWithValue(1);
+      //   res.json()
+      // });
+      
       // const newQuery: NewQuery = {
       //   query: queryInfo.query,
       //   databaseId: queryInfo.databaseId,
-      //   queryId: data.queryId ///// <------------------ needs to be changed 
+      //   label: queryInfo.label, 
+      //   params: queryInfo.params,
+      //   queryId: data.queryInfo.queryId ///// <------------------ needs to be changed 
       // }
       // return newQuery;
       ///////////////////
 
       // test purposes only
-      // const data = await (await fetch('/api/user/getInfo')).json(); 
       const newQuery : NewQuery = {
         label: queryInfo.label,
         query: queryInfo.query,
@@ -152,6 +164,7 @@ export const addQuery = createAsyncThunk(
         queryId: Math.floor(Math.random() * 10000),
         params: queryInfo.params
       }
+      console.log(' this is the new query that will be stored in the store', newQuery)
       return newQuery; 
       ///////////////////
     } catch (e) {
