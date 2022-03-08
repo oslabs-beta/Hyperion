@@ -38,10 +38,18 @@ queryController.addNewQuery = (req, res, next) => {
 queryController.removeQuery = (req, res, next) => {
   //validate that user owns db that query is in  
   const userId = req.body.userAuth.userId;
-  const { dbId , queryName } = req.body
+  const { queryId } = req.body;
 
-  const q = 'DELETE FROM app.queries INNER JOIN app.databases WHERE queryId =$1 AND EXISTS (SELECT _id FROM app.databases WHERE _id =$1 AND user_id =$2'
-  db.runQuery(q, [userId, dbId, queryName])
+  const q = `DELETE FROM app.queries 
+  WHERE _id = $1 
+  AND EXISTS 
+    (SELECT * 
+      FROM app.databases d 
+      INNER JOIN app.queries q 
+      ON q.db_id = d._id
+      WHERE q._id = $1 
+      AND d.user_id = $2)`;
+  db.runQuery(q, [queryId, userId])
     .then(() =>{
       console.log('Query has been successfully removed')
       return next();
