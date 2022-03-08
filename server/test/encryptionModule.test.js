@@ -8,6 +8,7 @@ const testObject = {
   aNumber: -756392653,
   anObject: {hi: 'hello world'}
 };
+const invalidJSON = 'test';
 
 test('checks the type and length of the arguments', () => {
   expect(encryptionModule.encryptString(3, testPassword)).toBeUndefined();
@@ -37,6 +38,12 @@ test('encrypt then decrypt a string successfully', () => {
 test('cannot decrypt string with wrong password', () => {
   const encryptedString = encryptionModule.encryptString(testString, testPassword);
   const decryptedString = encryptionModule.decryptString(encryptedString, 'otherpassword');
+  expect(decryptedString).toBeUndefined();
+});
+
+test('cannot decrypt non-JSON input', () => {
+  let encryptedString = encryptionModule.encryptString(testString, testPassword);
+  const decryptedString = encryptionModule.decryptString(encryptedString.slice(20), testPassword);
   expect(decryptedString).toBeUndefined();
 });
 

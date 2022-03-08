@@ -24,7 +24,7 @@ queryController.addNewQuery = (req, res, next) => {
 
   authentication.hasDbPermission(userId, dbId)
     .then(authorized => {
-      if (!authorized) return next(new Error('Unauthorized'));
+      if (!authorized) return Promise.reject('Unauthorized');
       return db.runQuery(q, params);
     })
     .then(result => {
@@ -36,7 +36,17 @@ queryController.addNewQuery = (req, res, next) => {
 };
 
 queryController.removeQuery = (req, res, next) => {
+  //validate that user owns db that query is in  
+  const userId = req.body.userAuth.userId;
+  const { dbId , queryName } = req.body
 
+  const q = 'DELETE FROM app.queries INNER JOIN app.databases WHERE queryId =$1 AND EXISTS (SELECT _id FROM app.databases WHERE _id =$1 AND user_id =$2'
+  db.runQuery(q, [userId, dbId, queryName])
+    .then(() =>{
+      console.log('Query has been successfully removed')
+      return next();
+    })
+    .catch(e => next(e))
 };
 
 queryController.updateQuery = (req, res, next) =>{

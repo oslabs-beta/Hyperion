@@ -26,9 +26,9 @@ statsController.calculateStats = (arr) => {
 
   // calculate quartiles and median 
   const quartile = (q) => {
-    const pos = (arr.length - 1) * q;
-    const base = Math.floor(pos);
-    const rest = pos - base;
+    const pos = (arr.length - 1) * q; // [1, 2, 3, 4, 5, 6] length = 6 / 5/ 5 * 0.25 = 1.25
+    const base = Math.floor(pos); // base is 1
+    const rest = pos - base; // rest is 0.25
     if (arr[base + 1] !== undefined) return arr[base] + rest * (arr[base + 1] - arr[base]);
     else return arr[base];
   };

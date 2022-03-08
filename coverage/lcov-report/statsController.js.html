@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/30</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.45% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
@@ -128,32 +128,32 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,8 +179,8 @@
 statsController.calculateStats = (arr) =&gt; {
 &nbsp;
   // Verify that the input matches the specifications
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (!Array.isArray(arr) || !arr.length) <span class="cstat-no" title="statement not covered" >return undefined;</span>
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (arr.some(element =&gt; typeof element !== 'number')) <span class="cstat-no" title="statement not covered" >return undefined;</span>
+  if (!Array.isArray(arr) || !arr.length) return undefined;
+  if (arr.some(element =&gt; typeof element !== 'number')) return undefined;
 &nbsp;
   // calculate min, max, mean, stdDev
   arr.sort((a,b) =&gt; a - b);
@@ -193,11 +193,11 @@ statsController.calculateStats = (arr) =&gt; {
 &nbsp;
   // calculate quartiles and median 
   const quartile = (q) =&gt; {
-    const pos = (arr.length - 1) * q;
-    const base = Math.floor(pos);
-    const rest = pos - base;
+    const pos = (arr.length - 1) * q; // [1, 2, 3, 4, 5, 6] length = 6 / 5/ 5 * 0.25 = 1.25
+    const base = Math.floor(pos); // base is 1
+    const rest = pos - base; // rest is 0.25
     if (arr[base + 1] !== undefined) return arr[base] + rest * (arr[base + 1] - arr[base]);
-    else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>return arr[base];</span>
+    else return arr[base];
   };
 &nbsp;
   const q1 = quartile(.25);
@@ -223,7 +223,7 @@ module.exports = statsController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon Mar 07 2022 11:34:33 GMT-0800 (Pacific Standard Time)
+                at Tue Mar 08 2022 00:25:37 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="prettify.js"></script>
         <script>
