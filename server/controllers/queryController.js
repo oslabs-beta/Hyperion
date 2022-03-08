@@ -37,8 +37,10 @@ queryController.addNewQuery = (req, res, next) => {
 
 queryController.removeQuery = (req, res, next) => {
   //validate that user owns db that query is in  
-  const userId = req.body.userAuth.userId;
+  const userId = res.locals.userAuth.userId;
   const { queryId } = req.body;
+
+  if(!queryId) return next(new Error ());
 
   const q = `DELETE FROM app.queries 
   WHERE _id = $1 
@@ -49,13 +51,15 @@ queryController.removeQuery = (req, res, next) => {
       ON q.db_id = d._id
       WHERE q._id = $1 
       AND d.user_id = $2)`;
+
   db.runQuery(q, [queryId, userId])
     .then(() =>{
-      console.log('Query has been successfully removed')
+      console.log(`Query ${queryId} has been successfully removed`)
       return next();
     })
     .catch(e => next(e))
 };
+
 
 queryController.updateQuery = (req, res, next) =>{
 

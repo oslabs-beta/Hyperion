@@ -15,12 +15,8 @@ userRouter.post('/logout', userController.logout, (req, res) => {
  return res.status(200).send('User successfully logged out');
 });
 
-userRouter.get('/getinfo', (req, res) => {
-  return res.status(200).json(res.locals.userAuth);
-});
-
-userRouter.get('/getdblist', userController.authorize, (req, res) => {
-  return res.status(200).json(res.locals.userDbList);
+userRouter.get('/getinfo', userController.authorize, userController.getInfo, (req, res) => {
+  return res.status(200).json(res.locals.userInfo);
 });
 
 module.exports = userRouter;

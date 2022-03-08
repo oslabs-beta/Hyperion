@@ -12,7 +12,7 @@ queryRouter.delete('/remove', userController.authorize, queryController.removeQu
   res.status(200).json(res.locals.queryInfo);
 });
 
-queryRouter.post('/update', userController.authorize, queryController.updateQuery, (req, res) => {
+queryRouter.patch('/update', userController.authorize, queryController.updateQuery, (req, res) => {
   res.status(200).json(res.locals.queryInfo);
 });
 

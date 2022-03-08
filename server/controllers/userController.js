@@ -2,6 +2,7 @@ const db = require('../models/dbModel.js');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const globalCache = require('./globalCache');
+const { equals } = require('node-forge/lib/asn1');
 
 const SALT_ROUNDS = 12;
 
@@ -181,6 +182,48 @@ userController.authorize = (req, res, next) => {
     return next(err);
   }
   return next();
+};
+
+userController.getInfo = (req, res, next) => {
+  
+  const q = `select 
+  db._id as dbid, 
+  db.database_name,
+  db.connection_type,
+  q._id as qid,
+  q.query_name,
+  q.query
+  from app.users u 
+  inner join app.databases db 
+  on db.user_id = u._id 
+  left join app.queries q
+  on q.db_id = db._id
+  where u._id = $1;`;
+  const params = [res.locals.userAuth.userId];
+  res.locals.userInfo = { 
+    userId: res.locals.userAuth.userId, 
+    userData: undefined 
+  };
+  db.runQuery(q, params)
+    .then(results => {
+      let { rows } = results;
+      const dbIds = {};
+      let databases = [];
+      rows.forEach(r => {
+        if (!dbIds[r.dbid]) databases.push({ 
+          dbId: r.dbid, 
+          dbName: r.database_name, 
+          connectionType: r.connection_type, 
+          queries: rows.filter(elem => elem.dbid === r.dbid && elem.qid).map(e => ({ qid: e.qid, queryName: e.query_name, query: JSON.parse(e.query) }))  
+        });
+        dbIds[r.dbid] = true;
+      });
+
+      res.locals.userInfo.userData = databases;
+      return next();
+    })
+    .catch(e => next(e));
+
 };
 
 module.exports = userController;
