@@ -1,6 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import { runQueryAnalyze } from '../../server/models/dbModel';
+
 
 
 // const data = {
@@ -33,8 +33,9 @@ import { runQueryAnalyze } from '../../server/models/dbModel';
 // }
 
 
-const Chart = ({ data }) => {
+const Chart = (props: Props) => {
 
+  const data = props.data;
   const yExplain = data.queryResults.explainAnalyzeResults.resultsArray;
   const xExplain = yExplain.map((value, i) => { return i + 1} );
 
@@ -83,6 +84,38 @@ const Chart = ({ data }) => {
   );
 }
 
+
+
+interface Props {
+  data: {
+    queryResults: {
+      explainAnalyzeResults: {
+        resultsArray: Array<number>,
+        stats: {
+          min: number,
+          max: number,
+          mean: number,
+          median: number, 
+          stdDev: number, 
+          q1: number, 
+          q3, number,
+        }
+      }
+    },
+    testResults: {
+      resultsArray: Array<number>,
+      stats: {
+        min: number,
+        max: number,
+        mean: number,
+        median: number, 
+        stdDev: number, 
+        q1: number, 
+        q3, number,
+      }
+    }
+  }
+}
 export default Chart;
   
   

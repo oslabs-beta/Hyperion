@@ -48,9 +48,8 @@ export const runTest = createAsyncThunk(
     //   console.log(e);
     //   return thunkApi.rejectWithValue(e.response.data);
     // }
-    console.log('in the runTest thunk function')
 
-  
+
     const data = {
       queryResults: {
         explainAnalyzeResults: {

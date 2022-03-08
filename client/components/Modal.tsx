@@ -8,8 +8,7 @@ const Modal = () => {
 interface Props {
   isOpen: boolean, 
   onClose: Function,
-  class: string, 
-
+  class: string
 }
 
 export default Modal

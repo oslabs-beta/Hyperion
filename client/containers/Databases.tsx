@@ -14,7 +14,6 @@ import { addDbThunk, deleteDb } from '../features/data/dataSlice';
 const Databases = (props) => {  
   
   const databases = useSelector((state: RootState) => state.data.databases );
-  // state.data.databases
 
   const [modalVisible, setModalVisible] = useState(false);
   

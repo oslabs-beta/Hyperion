@@ -29,9 +29,7 @@ const Queries = (props) => {
   // need error checking 
   const handleNewQuery = (query: string, label: string, params: string) => {
     if (dbId === undefined) return; 
-    console.log('handleNewQuery')
     dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: params }));
-    console.log('this is running after addQuery runs');
   }
 
 

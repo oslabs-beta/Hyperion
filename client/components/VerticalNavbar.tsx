@@ -18,7 +18,6 @@ const ICONS = {
   tests: <MdOutlineSpeed size={NAV_ICON_SIZE}/>
 }
 
-
 // -------------- main component -------// 
 const VerticalNavbar = (props) => {
 
@@ -28,7 +27,6 @@ const VerticalNavbar = (props) => {
   const handleLogout = async () => {
     const { payload } : any = await dispatch(logoutUser());
     const isSuccess : boolean = payload; 
-    console.log('payload in handleLogout', payload)
 
     // on success, redirect to login page 
     if (isSuccess === true) { window.location.href = '/login' }
