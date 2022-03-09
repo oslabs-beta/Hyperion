@@ -10,6 +10,7 @@ import { Spinner } from 'react-bootstrap';
 import { CircularProgress } from '@mui/material';
 import { formatInputString } from '../utils/inputs';
 import { fetchExistingData } from '../features/data/dataSlice';
+import { validateEmail } from '../utils/inputs';
 // Login Component
 const Login = (props) => {
 
@@ -17,6 +18,7 @@ const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [helperText, setHelperText] = useState({ email: '', password: ''})
 
   // redux state 
   const user = useSelector((state: RootState) => state.user.auth);
@@ -43,9 +45,19 @@ const Login = (props) => {
     } else return alert('Incorrect login credentials');
   }
 
+  // resets the error message 
   useEffect(() => {
     setErrorMessage('');
   }, [email, password])
+
+
+  useEffect(() => {
+    if (email === '') return; 
+    console.log('is valid email', email, validateEmail(email))
+    if (validateEmail(email) === false) { setHelperText({ ...helperText, email: 'Not a valid email'})}
+    else setHelperText({ ...helperText, email: ''})
+    console.log('new state', helperText)
+  }, [email])
 
   return (
     <div className='login-signup-area'>
@@ -53,6 +65,7 @@ const Login = (props) => {
         <h3 className='login-signup-header'>Login</h3>
         <label className='login-signup-label' htmlFor="email">
           <TextField
+            helperText={helperText.email}
             label="Email"
             onChange={(e)=>{ setEmail(e.target.value)} }
             required 

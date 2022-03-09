@@ -61,6 +61,8 @@ const Queries = (props) => {
   const handleNewQuery = (query: string, label: string) => {
     // if (dbId === undefined) return;
 
+
+    console.log('heres the object being passed to addQuery dispatch: ',{ databaseId: dbId, query: query, label: label, params: [[]] })
     if (paramArr.length === 0) {
       return dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: [[]] }))
     }

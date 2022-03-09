@@ -10,16 +10,6 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-
-
 
 const QueryCard = (props: Props) => {
 
@@ -27,27 +17,31 @@ const QueryCard = (props: Props) => {
 
     return (
     <Card sx={{ minWidth: 275 }}>
-      {/* <Grid container spacing={2}>
-
-      </Grid> */}
       <CardContent>
         <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
-          Word of the Day
+          Label
         </Typography>
         <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
+          {query.label}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
+        {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Query String 
+        </Typography> */}
         <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Query String 
+            <br/>
+            { query.queryString }
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Parameters
+            <br/>
+            { JSON.stringify(query.params) }
+          </Typography>
         </Typography>
       </CardContent>
       <CardActions dir=''>
-        <Button size="small">Learn More</Button>
+        <Button size="small">Edit</Button> 
         <Button 
           onClick={() => {deleteQueryFunc(query.id)}} 
           variant='outlined'

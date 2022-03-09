@@ -122,7 +122,7 @@ export const addDbThunk = createAsyncThunk(
       else {
         const data: { id: number } = await response.json();
         const db = constructDatabase({
-          id: data.id, 
+          id: Number(data.id), 
           port: formData.dbInfo.connectionParams.port, 
           pgDatabaseName: formData.dbInfo.connectionParams.database,
           connectionType: formData.dbInfo.connectionType,
@@ -175,7 +175,7 @@ export const addQuery = createAsyncThunk(
   async (queryInfo: { databaseId: number, query: string, label: string, params: Array<Array<string|number>> }, thunkApi) => {
     try {
       const requestBody: NewQueryRequestBody = {
-        dbId: queryInfo.databaseId, 
+        dbId:  Number(queryInfo.databaseId), 
         queryName: queryInfo.label, 
         query: {
           queryString: queryInfo.query, 
@@ -185,6 +185,7 @@ export const addQuery = createAsyncThunk(
           // repeat: 
         }
       } 
+      console.log('here is the request body being sent to api/query/new', requestBody)
       const response : any = await fetch('/api/query/new', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -196,10 +197,10 @@ export const addQuery = createAsyncThunk(
 
       const queryForStore : NewQuery = {
         query: queryInfo.query,
-        databaseId: queryInfo.databaseId,
+        databaseId: Number(queryInfo.databaseId),
         label: queryInfo.label, 
         params: queryInfo.params,
-        queryId: data.queryId  // might need to check on that 
+        queryId: Number(data.queryId)  // might need to check on that 
       }
       return queryForStore; 
     

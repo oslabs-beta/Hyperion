@@ -10,6 +10,7 @@ queryController.addNewQuery = (req, res, next) => {
   const { dbId, queryName, query } = req.body;
 
   // input validation
+  console.log('req.body in addNewQuery controller',req.body);
   if (typeof dbId !== 'number') return next(new Error());
   if (typeof queryName !== 'string') return next(new Error());
   if (typeof query !== 'object') return next(new Error());
