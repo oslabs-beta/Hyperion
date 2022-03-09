@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import { runQueryAnalyze } from '../../../server/models/dbModel';
-
+import { RunTestResponse } from '../../models/api';
 const props = {
     data : {
       queryResults: {
@@ -36,92 +36,64 @@ const props = {
   }
 
 
+const LatencyChart = (props: Props) => {
+  const data = props.data;
+  const yExplainLatency = data.queryResults.explainAnalyzeResults.latency;
+  const xExplainLatency = yExplainLatency.map((value, i) => { return i + 1} );
+  const yActualLatency = data.testResults.latency; 
+  const xActualLatency = yActualLatency.map((value, i) => { return i + 1 });
 
-const LatencyChart = () => {
-    const data = props.data;
-    const yExplainLatency = data.queryResults.explainAnalyzeResults.latency;
-    const xExplainLatency = yExplainLatency.map((value, i) => { return i + 1} );
-    const yActualLatency = data.testResults.latency; 
-    const xActualLatency = yActualLatency.map((value, i) => { return i + 1 });
-    return (
-        <Plot
-        data={[
-            { x: xExplainLatency,
-            y: yExplainLatency,
-            name: 'Explain Analyze Latency',
-            type: 'scatter',
-            mode: 'lines+markers',
-            line: { color: 'rgb(240, 89, 69)', width:2 },},
-           
-            { x: xActualLatency,
-            y: yActualLatency,
-            name: 'Actual Latency',
-            type: 'scatter',
-            mode: 'lines+markers',
-            line: { color: 'rgb(94, 170, 168)', width:2 },},
-            
-            { x: [1,2,3,4,5], //update when we know where the data will be sent back
-                y: [0.2, 0.4, 0.7, 0.75, 0.8],
-                name: 'Baseline Latency',
-                type: 'scatter',
-                mode: 'lines+markers',
-                line: { color: 'rgb(163, 210, 202)', width:2 },}, 
-            
-        ]} 
-        layout={{ 
-            title: 'Latency',
-            xaxis: { 
-              title: 'Test #',
-              mirror: false,
-              ticks: 'outside',
-              showline: true,
-              showgrid: false,
-            },
-            yaxis: { 
-                title: 'Time (ms)',
-                mirror: false,
-                ticks: 'outside',
-                showline: true,
-                showgrid: false,
-              },
-        
-        }}
-
-        />
-        )}
+  // could refactor to and redefine data above 
+  return (
+    <Plot
+      data={[{
+          x: xExplainLatency,
+          y: yExplainLatency,
+          name: 'Explain Analyze Latency',
+          type: 'scatter',
+          mode: 'lines+markers',
+          line: { color: 'rgb(240, 89, 69)', width:2 },
+        }, 
+        {
+          x: xActualLatency,
+          y: yActualLatency,
+          name: 'Actual Latency',
+          type: 'scatter',
+          mode: 'lines+markers',
+          line: { color: 'rgb(94, 170, 168)', width:2 }
+        },
+        {
+          x: [1,2,3,4,5], //update when we know where the data will be sent back
+          y: [0.2, 0.4, 0.7, 0.75, 0.8],
+          name: 'Baseline Latency',
+          type: 'scatter',
+          mode: 'lines+markers',
+          line: { color: 'rgb(163, 210, 202)', width:2 }
+        }
+      ]} 
+      layout={{
+        title: 'Latency',
+        xaxis: { 
+          title: 'Test #',
+          mirror: false,
+          ticks: 'outside',
+          showline: true,
+          showgrid: false,
+        },
+        yaxis: { 
+          title: 'Time (ms)',
+          mirror: false,
+          ticks: 'outside',
+          showline: true,
+          showgrid: false,
+        }
+      }}
+    />
+)}
 
 
 interface Props {
-    data: {
-      queryResults: {
-        explainAnalyzeResults: {
-          resultsArray: Array<number>,
-          latency: Array<number>,
-          stats: {
-            min: number,
-            max: number,
-            mean: number,
-            median: number, 
-            stdDev: number, 
-            q1: number, 
-            q3, number,
-          }
-        }
-      },
-      testResults: {
-        resultsArray: Array<number>,
-        latency: Array<number>,
-        stats: {
-          min: number,
-          max: number,
-          mean: number,
-          median: number, 
-          stdDev: number, 
-          q1: number, 
-          q3, number,
-        }
-      }
-    }
-  }
+  data: RunTestResponse
+}
 
 export default LatencyChart;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from './Layout';
 import TestConfigWindow from '../components/TestConfigWindow';
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Query, Database } from '../models/database';
 import { RootState } from '../features/store';
 import { runTest } from '../features/test/testSlice';
@@ -12,11 +12,13 @@ import LineChart  from '../components/Charts/RunTimeChart';
 import BoxPlot from '../components/Charts/BoxPlot';
 import LatencyChart from '../components/Charts/LatencyChart';
 import DataTable from '../components/Charts/DataTable';
+import ChartGroup from '../components/Charts/ChartGroup';
 
 const Tests = (props) => { 
 
   const testState = useSelector((state: RootState) => { return state.test });
   const databases = useSelector((state: RootState) => { return state.data.databases });
+
   const databaseArr = Object.values(databases);
   const dispatch = useDispatch()
 
@@ -24,6 +26,16 @@ const Tests = (props) => {
   const [queryId, setQueryId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
 
+
+  const generateChartsArray = () => {
+    const output = [];
+    for (const [queryId, data] of Object.entries(testState)) {
+      const databaseId = data.databaseId; 
+      const chartGroup = <ChartGroup key={queryId} query={databases[databaseId].queries[queryId]} data={data} />
+      output.push(chartGroup);
+    }
+    return output; 
+  }
 
   const handleDbChange = (e) => {
     console.log(e.target.value, 'in handleDbChange')
@@ -41,8 +53,8 @@ const Tests = (props) => {
     // if (!databases[dbId][queryId]) return null; 
     console.log('this is databases[dbId]', databases[dbId])
     console.log('in the run test handler')
-    // TODO validate that queryId and dbId exist first 
 
+    if (!dbId || !queryId) return; 
     dispatch(runTest({ dbId: dbId, queryId: queryId }));
   }
 
@@ -63,7 +75,6 @@ const Tests = (props) => {
               <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
             </div>
         </nav>
-        {/* put test results here  */}
       </div>
       { modalVisible === true && 
         <TestConfigWindow 
@@ -76,10 +87,8 @@ const Tests = (props) => {
           toggleWindowFunc={()=> { setModalVisible(!modalVisible) }}
         />
       }
-      { testState.results.map((result, i) => { return <LineChart key={i} data={result} />})}
-      <BoxPlot></BoxPlot>
-      <LatencyChart></LatencyChart>
-      <DataTable></DataTable>
+      {/* generates the charts and returns the components  */}
+      { generateChartsArray().map(chart => { return chart; }) }
     </Layout>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-
+import { RunTestResponse } from '../../models/api';
 
 // const data = {
 //   queryResults: {
@@ -77,43 +77,12 @@ const LineChart = (props: Props) => {
         },
         paper_bgcolor: 'white',
       }} 
-    />
-
-  
-    
+    />  
   );
 };
 
-
 interface Props {
-  data: {
-    queryResults: {
-      explainAnalyzeResults: {
-        resultsArray: Array<number>,
-        stats: {
-          min: number,
-          max: number,
-          mean: number,
-          median: number, 
-          stdDev: number, 
-          q1: number, 
-          q3, number,
-        }
-      }
-    },
-    testResults: {
-      resultsArray: Array<number>,
-      stats: {
-        min: number,
-        max: number,
-        mean: number,
-        median: number, 
-        stdDev: number, 
-        q1: number, 
-        q3, number,
-      }
-    }
-  }
+  data: RunTestResponse
 }
 
 export default LineChart;

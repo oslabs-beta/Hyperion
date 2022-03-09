@@ -19,7 +19,6 @@ import { RootState } from '../../features/store';
 const HorizontalNavBar = (props) => {
   const navigate = useNavigate();
 
-
   const auth = useSelector((state: RootState) => { return state.user.auth })
 
   return (

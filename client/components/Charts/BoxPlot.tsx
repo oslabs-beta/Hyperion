@@ -2,6 +2,8 @@ import React from 'react';
 import { MdGroup } from 'react-icons/md';
 import Plot from 'react-plotly.js';
 import { runQueryAnalyze } from '../../../server/models/dbModel';
+import { RunTestResponse } from '../../models/api';
+
 
 const props = {
   data : {
@@ -35,7 +37,7 @@ const props = {
 }
  
 //props: Props 
-const BoxPlot = () => {
+const BoxPlot = (props: Props) => {
 
 const data = props.data;
 
@@ -86,41 +88,11 @@ return (
 
     />
     )
-
 };
 
 
-
-
 interface Props {
-  data: {
-    queryResults: {
-      explainAnalyzeResults: {
-        resultsArray: Array<number>,
-        stats: {
-          min: number,
-          max: number,
-          mean: number,
-          median: number, 
-          stdDev: number, 
-          q1: number, 
-          q3, number,
-        }
-      }
-    },
-    testResults: {
-      resultsArray: Array<number>,
-      stats: {
-        min: number,
-        max: number,
-        mean: number,
-        median: number, 
-        stdDev: number, 
-        q1: number, 
-        q3, number,
-      }
-    }
-  }
+  data: RunTestResponse
 }
 
 export default BoxPlot;
