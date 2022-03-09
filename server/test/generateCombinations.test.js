@@ -1,5 +1,9 @@
 const generateCombinations = require('../controllers/generateCombinations.js');
 
+test('handles invalid input', () => {
+  expect(generateCombinations(['A'])).toBeUndefined();
+});
+
 test('handles 2-d array of dimensions 1x1', () => {
   expect(generateCombinations([['A']])).toEqual([['A']]);
 });

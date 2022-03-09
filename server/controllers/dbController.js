@@ -128,22 +128,6 @@ dbController.connect = (req, res, next) => {
 
 };
 
-dbController.verifyTLS = (req, res, next) => {
-  const q = 'select * from pg_stat_ssl where pid = pg_backend_pid()';
-
-  res.locals.dbInfo.pool.query(q)
-    .then(r => {
-      console.log(`Secure connection established using ${r.rows[0].version}`);
-      if (!r.rows[0].ssl) return next('Error establishing TLS connection');
-      if (r.rows[0].version !== 'TLSv1.2' &&
-          r.rows[0].version !== 'TLSv1.3') {
-            return next('Error establishing TLS connection');
-      } 
-      return next();
-    })
-    .catch(e => next(e));
-}
-
 /**
  * Handles and coordinates the database requests to be evaluated.
  * 
