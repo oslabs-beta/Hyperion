@@ -26,7 +26,7 @@ const TestConfigWindow = (props: Props) => {
         <div>Test Configuration</div>  
       </div>
       <h3>Select Database</h3>
-      <select value={dbId} onChange={() => { changeDbHandler() }}>
+      <select value={dbId} onChange={(e) => { changeDbHandler(e) }}>
         { Object.values(databases).map((db : Database, i) => {
           return (
             <option label={db.label} key={i} value={db.id}>
@@ -36,7 +36,7 @@ const TestConfigWindow = (props: Props) => {
         })}
       </select>
       <h3>Select Query</h3>
-      <select value={queryId} onChange={() => { changeQueryHandler() }}>
+      <select value={queryId} onChange={(e) => { changeQueryHandler(e)} }>
         { dbId !== undefined && Object.values(databases[dbId].queries).map((query : Query, i) => {
           return (
             <option key={i} value={query.id}>

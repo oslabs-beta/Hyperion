@@ -4,7 +4,6 @@ import dbpage from '../../assets/appfeatures/dbpage.jpg'
 import querypage from '../../assets/appfeatures/querypage.jpg'
 import runtestpage from '../../assets/appfeatures/runtestpage.jpg'
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Features = (props) => {
   const [index, setIndex] = useState(0);

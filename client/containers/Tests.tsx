@@ -26,12 +26,12 @@ const Tests = (props) => {
 
   const handleDbChange = (e) => {
     console.log(e.target.value, 'in handleDbChange')
-    if (e.target.value) setDbId(e.target.value);
+    if (e.target.value) setDbId(Number(e.target.value));
   }
 
   const handleQueryChange = (e) => {
     if (e.target.value) {
-      setQueryId(e.target.value);
+      setQueryId(Number(e.target.value));
     }
   }
 

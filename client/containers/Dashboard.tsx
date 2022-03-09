@@ -6,6 +6,7 @@ import HorizontalNavBar from '../components/LandingPageComponents/HorizontalNavB
 import Team from '../components/LandingPageComponents/Team';
 import Info from '../components/LandingPageComponents/Info';
 import Features from '../components/LandingPageComponents/Features';
+// import logo from '../assets/images/IconLogo.png';
 
 const Dashboard = (props) => {
   return (
@@ -13,6 +14,7 @@ const Dashboard = (props) => {
       <div className='dashboard-container'>
         <div className='dashboard-content'>
           HYPERION
+          {/* {logo} */}
         </div> 
       </div>
     </Layout>
