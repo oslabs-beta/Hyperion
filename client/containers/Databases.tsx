@@ -35,7 +35,7 @@ const Databases = (props) => {
         </nav>
       </div>
       <div>
-        <DatabaseGroup className='content-box database-group'>
+        <div className='content-box database-group'>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h4>My Databases</h4>
             <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
@@ -48,13 +48,12 @@ const Databases = (props) => {
               label={db.label}
               isConnected={true}
               deleteDbFunc={handleDbDelete}
-              // database={db.pgDatabaseName} 
               port={db.port} 
               ssl={db.sslMode}
               latency = {db.latency}
             />
           })}
-        </DatabaseGroup>
+        </div>
       </div>
       { modalVisible  && 
         <NewDatabaseWindow toggleWindowFunc={() => { setModalVisible(!modalVisible) }} addDbFunc={handleDbAdd}/>
@@ -63,13 +62,6 @@ const Databases = (props) => {
   )
 }
 
-// ----------- styling ---------- // 
-const StyledContainer = styled.div`
-  display: flex; 
-  height: 100%; 
-  background-color: red;
-  // flex-wrap: nowrap;
-`;
 
 
 const DatabaseGroup = styled.div`

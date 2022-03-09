@@ -1,17 +1,17 @@
 @use '../base/variables';
 @use '../framework/layouts';
 
-.database-card {
-  @extend .content-box;
-  .header {
-    display: flex; 
-    justify-content: space-between;
-  }
-}
+// .database-card {
+//   @extend .content-box;
+//   .header {
+//     display: flex; 
+//     justify-content: space-between;
+//   }
+// }
 
-.query-card {
-  @extend .database-card;
-}
+// .query-card {
+//   @extend .database-card;
+// }
 
 
 .modal-container {

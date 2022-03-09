@@ -4,7 +4,7 @@
 
 .login-signup-area {
   @include mixins.flexCenter(column);
-  // @extend .content-box; 
+  height: 100vh;
 }
 
 .login-signup-box {

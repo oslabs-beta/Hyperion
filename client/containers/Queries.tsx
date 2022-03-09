@@ -109,7 +109,7 @@ const Queries = (props) => {
         </nav>
       </div>
       <div>
-        <div className='content-box'>
+        <div className='content-box database-group'>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <h4>My Queries</h4>
             <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
