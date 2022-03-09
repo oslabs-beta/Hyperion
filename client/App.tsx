@@ -13,11 +13,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from './features/store';
 import LandingPage from './containers/LandingPage';
 import { useNavigate } from 'react-router-dom';
-
+import { fetchExistingData } from './features/data/dataSlice';
 
 const App = () => {
   
-  const user = useSelector((state: RootState) => { return state.user })
+  const user = useSelector((state: RootState) => { return state.user });
   // const user = useSelector((state: RootState) => state.user.auth);
   // fetch to get cookies and authenticate  
     // if theyre authenticated we can update the database initail state
@@ -50,6 +50,14 @@ const App = () => {
   //   .catch(e => {
   //     console.log(e)
   //   })
+
+  useEffect(() => {
+    if (user.auth.isAuthenticated === true) {
+      fetchExistingData();
+    }
+
+  }, [])
+
 
   const auth = { isAuthenticated: user.auth.isAuthenticated } 
  

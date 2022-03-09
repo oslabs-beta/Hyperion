@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { FormControl, InputLabel } from '@mui/material';
 import { Input } from '@mui/material';
 import { FormHelperText } from '@mui/material';
-import { NewDatabaseForm } from '../models/database';
+import { NewDatabaseRequestBody } from '../models/api';
 import { AiOutlineClose } from 'react-icons/ai';
 
 const NewDatabaseWindow = ({ addDbFunc, toggleWindowFunc, ...rest}) => {
@@ -20,6 +20,7 @@ const NewDatabaseWindow = ({ addDbFunc, toggleWindowFunc, ...rest}) => {
   const [database, setDatabase] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [sslMode, setSslMode] = useState('');
 
 
 
@@ -30,37 +31,37 @@ const NewDatabaseWindow = ({ addDbFunc, toggleWindowFunc, ...rest}) => {
   const handleSubmit = (e) => {
     // prevents automatic reload on submit 
     e.preventDefault();
-    let form: NewDatabaseForm;
+    let form: NewDatabaseRequestBody; 
     if (isConnectingByUri === true) {
       form = {
         dbInfo: {
-          name: label,
-          connectionType: 'URI'
+          dbname: label,
+          connectionString: uri,
+          connectionType: 'URI',
+          connectionParams: {
+            host: null, 
+            port: null, 
+            database: null, 
+            username: null, 
+            password: null,
+            sslMode: null 
+          }
         },
-        connectionType: 'URI',
-        connectionString: uri,
-        connectionDetails: {
-          host: '',
-          port: 1, 
-          database: '',
-          username: '',
-          password: ''
-        }
       }
     } else {
       form = {
         dbInfo: {
-          name: label,
-          connectionType: 'CONNECTION_PARAMS'
-        },
-        connectionType: 'CONNECTION_PARAMS',
-        connectionString: '',
-        connectionDetails: {
-          host: host,
-          port: port,
-          database: database, 
-          username: username, 
-          password: password
+          dbname: label,
+          connectionType: 'CONNECTION_PARAMS',
+          connectionString: null, 
+          connectionParams: {
+            host: host, 
+            port: port, 
+            database: database, 
+            username: username, 
+            password: password, 
+            sslMode: sslMode
+          }
         }
       }
     }
@@ -81,19 +82,21 @@ const NewDatabaseWindow = ({ addDbFunc, toggleWindowFunc, ...rest}) => {
   }
 
   // validates the user input form 
-  const validate = (form : NewDatabaseForm): boolean => {
+  const validate = (form : NewDatabaseRequestBody): boolean => {
+    const dbInfo = form.dbInfo;
     // if database is connecting by uri
-    if (form.connectionType === 'URI' && form.dbInfo.name && form.connectionString) return true; 
+    if (dbInfo.connectionType === 'URI' && dbInfo.dbname && dbInfo.connectionString) return true; 
     // if database is connected by settings
     else {
       if (
-        !form.connectionDetails.host ||
-        !form.connectionDetails.port || 
-        !form.connectionDetails.database || 
-        !form.connectionDetails.username ||
-        !form.connectionDetails.password    
+        !dbInfo.connectionParams.host ||
+        !dbInfo.connectionParams.port || 
+        !dbInfo.connectionParams.database || 
+        !dbInfo.connectionParams.username ||
+        !dbInfo.connectionParams.password ||
+        !dbInfo.connectionParams.sslMode  
       ) return false;
-      if (typeof form.connectionDetails.port !== 'number') return false; 
+      if (typeof dbInfo.connectionParams.port !== 'number' || dbInfo.connectionParams.port < 0) return false; 
     }
     return true; 
   }

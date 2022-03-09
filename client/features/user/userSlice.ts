@@ -21,7 +21,7 @@ const initialState : UserState = {
   auth: {
     status: 'loaded',
     authRequestSent: false, 
-    isAuthenticated: true ////  <------------------------------------- CHANGE BACK TO FALSEEEEE
+    isAuthenticated: false ////  <------------------------------------- CHANGE BACK TO FALSEEEEE
   },
   userProfile: {
     id: null,
@@ -69,7 +69,7 @@ export const registerUser = createAsyncThunk(
   async (form: { name?: string, email: string, password: string }, thunkApi) => {
 
     try {
-      const response = await fetch('/api/user/signup', {
+      const response = await fetch('/api/user/new', {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -6,9 +6,9 @@ import Layout from './Layout';
 import { useSelector, useDispatch } from "react-redux";
 import { Database } from '../models/database';
 import { RootState } from '../features/store';
-import { NewDatabaseForm } from '../models/database';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { addDbThunk, deleteDb } from '../features/data/dataSlice';
+import { NewDatabaseRequestBody } from '../models/api';
 
 // -------- main component ---------- //
 const Databases = (props) => {  
@@ -19,7 +19,7 @@ const Databases = (props) => {
   
   const dispatch = useDispatch();
 
-  const handleDbAdd = (formData: NewDatabaseForm) => {
+  const handleDbAdd = (formData: NewDatabaseRequestBody) => {
     dispatch(addDbThunk(formData));
   }
 
@@ -32,9 +32,6 @@ const Databases = (props) => {
       <div className='content-box'>
         <nav className='card-header'>
           <h4>Databases</h4>
-          <div>
-            
-        </div>
         </nav>
       </div>
       <div>
@@ -43,7 +40,6 @@ const Databases = (props) => {
             <h4>My Databases</h4>
             <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
           </div>
-          
           {Object.values(databases).map((db : Database, i) => {
             return <DatabaseCard
               key={i}

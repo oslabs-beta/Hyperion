@@ -2,11 +2,11 @@
 export interface Database {
   id: number;
   port?: number;
+  connectionType: 'URI'|'CONNECTION_PARAMS';
   pgDatabaseName?: string;
-  label?: string;
+  label: string;
   sslMode?: string;
   queries: { [id: number] : Query };
-  tables: { [ id: number ] : Table };
   latency?: number;
 }
 
@@ -15,14 +15,10 @@ export interface Query {
   id: number;  // id in internal database
   label: string;
   queryString: string; 
-  params: Array<Array<string|number>>
-}
-
-export interface Table {
-  id: number;  // id in internal database
-  label: string;
-  tablesGenerated: boolean;
-  attributes: { [id: number] : Attribute }
+  params: Array<Array<string|number>>;
+  maxConnections?: number, 
+  throttle?: number, 
+  repeat?: number
 }
 
 export interface Attribute {
@@ -34,6 +30,17 @@ export interface Attribute {
 export interface DatabaseConstructor {
   id: number,
   label: string,
+  connectionType: 'URI'|'CONNECTION_PARAMS';
+  port?: number,
+  pgDatabaseName?: string,
+  sslMode?: string,
+  latency?: number,
+}
+
+export interface DatabaseConstructorParams {
+  id: number,
+  label: string,
+  connectionType: 'URI'|'CONNECTION_PARAMS';
   port?: number,
   pgDatabaseName?: string,
   sslMode?: string,
@@ -42,25 +49,18 @@ export interface DatabaseConstructor {
 
 
 
-export interface NewDatabaseForm {
-  dbInfo: {
-    name: string,
-    connectionType: 'URI'|'CONNECTION_PARAMS',
-  },
-  connectionType: 'URI'|'CONNECTION_PARAMS',
-  connectionString: string,
-  connectionDetails: {
-    host: string,
-    port: number,
-    database: string,
-    username: string, 
-    password: string,
-  }
+
+
+export interface NewQuery {
+  label: string,
+  databaseId: number, 
+  queryId: number, 
+  query: string,
+  params: Array<Array<string|number>>
 }
 
 export interface DatabaseReducerState {
   [databases: string] : { [ id: number ]: Database}
 };
-
 
 

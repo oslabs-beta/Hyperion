@@ -37,7 +37,6 @@ const Login = (props) => {
     if (email === '') { setErrorMessage('Username field was left empty'); return;  };
 
     const { payload } : any = await dispatch(loginUser({ email: email.trim(), password: password.trim() })); 
-    console.log('this is payload in handleLogin', payload)
     if (payload === true) {
       navigate('/dashboard');
     } else return alert('Incorrect login credentials');

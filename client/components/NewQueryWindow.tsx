@@ -52,6 +52,7 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
         <FormControl>
           <InputLabel htmlFor='label'>Label</InputLabel>
               <Input 
+
                 onChange={(e) => setLabel(e.target.value)}
                 id='label'
                 name='label'
@@ -61,12 +62,12 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
         <FormControl>
           <InputLabel htmlFor='input'>Query</InputLabel>
           <TextField 
+            helperText={`example query: SELECT * FROM users WHERE firstname=$1 AND lastname=$2` }
             onChange={(e) => setQuery(e.target.value)} 
             multiline 
             rows={10} 
             type='text' 
             id='input-field'
-            // maxRows={12} 
             name='input' />
         </FormControl>
         <div style={{display: 'flex', flexDirection: 'column', rowGap: '10px', marginTop: '10px'}}>
@@ -83,7 +84,7 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
                         type='text'
                         value={paramField}
                       />
-                      <FiTrash onClick={ () => { removeParamField(i) }} />
+                      <FiTrash onClick={() => { removeParamField(i) }} />
                   </div>
                 </FormControl>
               )

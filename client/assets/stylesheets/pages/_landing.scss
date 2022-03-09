@@ -7,20 +7,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-content: space-between;
 }
+
 .mr-auto{
     text-align: center; 
 }
 
 .top-navbar-custom {
   background-color:  variables.$primary-purple;
-  color: white;
-  display: flex; 
-  height: 100px;
-  width: 100%;
-  flex-direction: row;
+  // color: white;
+  // display: flex; 
+  // height: 100px;
+  // width: 100%;
+  // flex-direction: row;
   // justify-content: space-around;
-  align-items: center;
+  // align-items: center;
 }
 
 // TEAM STYLING 

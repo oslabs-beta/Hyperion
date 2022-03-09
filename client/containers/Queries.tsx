@@ -28,7 +28,7 @@ const Queries = (props) => {
   const [paramArr, setParamArray] = useState([]);
 
 
-  // ------------------- prop drilled methods to new query window --------
+  // ------------------- props drilled methods to new query window --------
   // adds a parameter field to new query window 
   const addParamField = () => {
     const newParamArr = JSON.parse(JSON.stringify(paramArr.concat('')));
@@ -41,9 +41,8 @@ const Queries = (props) => {
     else setParamArray(paramArr.splice(index, 1));
   }
 
-  const handleParamArrChange = (index:number, value: string) => {
-    // todo 
-    // const newArray = paramArray.concat(paramArr[index];
+  // changes the paramArray at the given index to the new value and resets the state 
+  const handleParamArrChange = (index: number, value: string) => {
     const newArr = JSON.parse(JSON.stringify(paramArr));
     newArr[index] = value; 
     setParamArray(newArr);
@@ -116,12 +115,10 @@ const Queries = (props) => {
           { dbId !== undefined && 
             Object.values(dbMap[dbId].queries).map((query: Query, i) => {
             return <QueryCard
-              label={'some random label'} // change this to the query label 
+              query={query}
+              // label={'some random label'} // change this to the query label 
               key={i} 
               deleteQueryFunc={handleDeleteQuery}
-              id={query.id} 
-              sqlQuery={query.queryString}
-              params={JSON.stringify(query.params)}
             />
           })}
         </div>
