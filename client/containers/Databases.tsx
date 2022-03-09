@@ -43,11 +43,12 @@ const Databases = (props) => {
           {Object.values(databases).map((db : Database, i) => {
             return <DatabaseCard
               key={i}
+              database={db}
               id={db.id}
               label={db.label}
               isConnected={true}
               deleteDbFunc={handleDbDelete}
-              database={db.pgDatabaseName} 
+              // database={db.pgDatabaseName} 
               port={db.port} 
               ssl={db.sslMode}
               latency = {db.latency}

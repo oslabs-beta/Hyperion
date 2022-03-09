@@ -8,17 +8,16 @@ const QueryCard = (props: Props) => {
 
   const { query, deleteQueryFunc } = props; 
   return (
-    <Card>
+    <Card className='query-card'>
       <div className='card-info-group'>
         <h5>Label</h5>
         <div>{query.label}</div>
       </div>
-      <div className='vl'/>
       <div className='card-info-group'>
         <h5>Query</h5>
         <div>{query.queryString}</div>
       </div>
-      <div className='vl'/>
+      {/* <div className='vl'/> */}
       <div className='card-info-group'>
         <h5>Parameters</h5>
         <div>{JSON.stringify(query.params)}</div>
@@ -26,7 +25,7 @@ const QueryCard = (props: Props) => {
       { 
         query.throttle && 
         <>
-          <div className='vl'/>
+          {/* <div className='vl'/> */}
           <div className='card-info-group'>
             <h5>Throttle</h5>
             <div>{query.throttle}</div>
@@ -36,7 +35,7 @@ const QueryCard = (props: Props) => {
       { 
         query.maxConnections && 
         <>
-        <div className='vl'/>
+        {/* <div className='vl'/> */}
         <div className='card-info-group'>
           <h5>Max Connections</h5>
           <div>{query.maxConnections}</div>
@@ -46,21 +45,23 @@ const QueryCard = (props: Props) => {
       { 
         query.repeat && 
         <>
-          <div className='vl'/>
+          {/* <div className='vl'/> */}
           <div className='card-info-group'>
             <h5>Repeat</h5>
             <div>{query.repeat}</div>
           </div>
         </>
       }
-      <Button 
-        onClick={() => {deleteQueryFunc(query.id)}} 
-        variant='outlined'
-        size='small' 
-        color='error'
-      >
-        Remove
-      </Button>
+      <div>
+        <Button 
+          onClick={() => {deleteQueryFunc(query.id)}} 
+          variant='outlined'
+          size='small' 
+          color='error'
+        >
+          Remove
+        </Button>
+      </div>
     </Card>
   )
 }
@@ -68,7 +69,8 @@ const QueryCard = (props: Props) => {
 
 const Card = styled.div`
   display: flex; 
-
+  align-items: center; 
+  justify-content: space-between; 
   .vl {
     border-left: 6px solid green;
     height: 500px;

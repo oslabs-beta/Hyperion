@@ -165,6 +165,7 @@ userController.authenticate = (req, res, next) => {
  * @returns 
  */
 userController.authorize = (req, res, next) => {
+  console.log('in userController authorize')
   if (!res.locals.userAuth.authenticated) {
     const err = {
       log: 'User not authorized',

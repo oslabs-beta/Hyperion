@@ -18,46 +18,13 @@ import { fetchExistingData } from './features/data/dataSlice';
 const App = () => {
   
   const user = useSelector((state: RootState) => { return state.user });
-  // const user = useSelector((state: RootState) => state.user.auth);
-  // fetch to get cookies and authenticate  
-    // if theyre authenticated we can update the database initail state
-  // useEffect(() => {
-  //   if (user.auth.isAuthenticated === false && user.auth.authRequestSent === false) {
-  //     fetch('/api/user/getinfo')
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         console.log(data);
-  //         authRequestSent(true);
-  //         if (data.authenticated === true) { 
-  //           authenticateUser();
-  //           setUserId(data.id);
-  //         } 
-  //       })
-  //       .catch(e => {
-  //         console.log(e)
-  //       })
-  //   }
-  // }, [])
-  // fetch('/api/user/getinfo')
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     authRequestSent(true);
-  //     if (data.authenticated === true) { 
-  //       authenticateUser();
-  //       setUserId(data.id);
-  //     } 
-  //   })
-  //   .catch(e => {
-  //     console.log(e)
-  //   })
+
 
   useEffect(() => {
     if (user.auth.isAuthenticated === true) {
       fetchExistingData();
     }
-
   }, [])
-
 
   const auth = { isAuthenticated: user.auth.isAuthenticated } 
  

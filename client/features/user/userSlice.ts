@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
+import { fetchExistingData } from '../data/dataSlice'
+
 
 // ---------------- initial state ---------------------------------------
 interface UserState {
@@ -49,7 +50,8 @@ export const userSlice = createSlice({
     })
     builder.addCase(loginUser.fulfilled, (state, action) => { 
       state.auth.status = 'loaded';
-      state.auth.isAuthenticated = true; }),
+      state.auth.isAuthenticated = true;
+    }),
     builder.addCase(loginUser.rejected, (state, action) => { 
       state.auth.status = 'loaded';
       state.auth.isAuthenticated = false;
@@ -91,6 +93,7 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   '/user/loginUser', 
   async (form: { email: string, password: string}, thunkApi) => {
+
     try {
       const response = await fetch('api/user/login', {
         method: 'POST',
@@ -102,7 +105,9 @@ export const loginUser = createAsyncThunk(
           }
         })
       })
-      if (response.status === 200) return thunkApi.fulfillWithValue(true);
+      if (response.status === 200)  {
+        return thunkApi.fulfillWithValue(true);
+      }
       return thunkApi.fulfillWithValue(false);
     } catch (e) {
       console.log('Error in loginUser', e.response);

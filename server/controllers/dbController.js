@@ -15,11 +15,10 @@ const dbController = {};
  * @returns next() 
  */
 dbController.addNewDb = (req, res, next) => {
-
-  const encryptedUri = encryptionModule.encryptString(req.body.connectionString, globalCache.get(res.locals.userAuth.userId));
+  const encryptedUri = encryptionModule.encryptString(req.body.dbInfo.connectionString, globalCache.get(res.locals.userAuth.userId));
   const queryString = 'INSERT INTO app.databases (user_id, database_name, connection_type) VALUES ($1, $2, $3) RETURNING _id;';
   const uriString = 'INSERT INTO app.uris (database_id, uri) VALUES ($1, $2)';
-  db.runQuery(queryString, [res.locals.userAuth.userId, req.body.dbInfo.name, req.body.connectionType])
+  db.runQuery(queryString, [res.locals.userAuth.userId, req.body.dbInfo.dbname, req.body.dbInfo.connectionType])
     .then(r => {
       console.log(`The new db id is ${r.rows[0]._id}`);
       res.locals.dbInfo = { id: r.rows[0]._id };

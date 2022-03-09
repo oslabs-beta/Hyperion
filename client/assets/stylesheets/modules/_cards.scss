@@ -9,6 +9,11 @@
   }
 }
 
+.query-card {
+  @extend .database-card;
+}
+
+
 .modal-container {
   @extend .content-box;
   position: fixed;

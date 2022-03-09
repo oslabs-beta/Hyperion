@@ -61,6 +61,9 @@ const Queries = (props) => {
   const handleNewQuery = (query: string, label: string) => {
     // if (dbId === undefined) return;
 
+    if (paramArr.length === 0) {
+      return dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: [[]] }))
+    }
     const params = [];
 
     for (let i = 0; i < paramArr.length; i++) {
@@ -74,7 +77,6 @@ const Queries = (props) => {
       }
       params.push(splitParams)
     }
-    console.log(params);
 
     dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: params }));
   }

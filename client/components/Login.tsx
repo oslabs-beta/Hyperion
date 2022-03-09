@@ -9,7 +9,7 @@ import { loginUser } from '../features/user/userSlice';
 import { Spinner } from 'react-bootstrap';
 import { CircularProgress } from '@mui/material';
 import { formatInputString } from '../utils/inputs';
-
+import { fetchExistingData } from '../features/data/dataSlice';
 // Login Component
 const Login = (props) => {
 
@@ -38,6 +38,7 @@ const Login = (props) => {
 
     const { payload } : any = await dispatch(loginUser({ email: email.trim(), password: password.trim() })); 
     if (payload === true) {
+      await dispatch(fetchExistingData());
       navigate('/dashboard');
     } else return alert('Incorrect login credentials');
   }

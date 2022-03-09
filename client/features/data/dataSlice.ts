@@ -108,15 +108,16 @@ export const fetchExistingData = createAsyncThunk(
 export const addDbThunk = createAsyncThunk(
   'data/addDb',
   async (formData: NewDatabaseRequestBody, thunkApi) => {
-    // UNCOMMENT FOR REAL IMPLEMENTATION
     try {
+      console.log("this is the form data for new database request body", formData)
       const settings = {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       };
 
-      const response = await fetch('/api/db/new', settings);
+      const response = await fetch('api/db/new', settings);
+      console.log('this is response in addDbThunk', response)
       if (response.status !== 200)  return thunkApi.rejectWithValue('Could not add database');
       else {
         const data: { id: number } = await response.json();
@@ -149,7 +150,7 @@ export const deleteDb = createAsyncThunk(
     console.log('reached deleteDb. heres the id passed in ', id)
     try {
       ////// UNCOMMENT FOR PRODUCTION 
-      const response = await fetch(`/api/db/delete`, {
+      const response = await fetch(`/api/db/remove`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dbInfo: { id: id }})
@@ -225,8 +226,7 @@ export const deleteQuery = createAsyncThunk(
   'data/deleteQuery', 
   async (queryInfo: {queryId: number, databaseId: number}, thunkApi) => {
     try {
-      // UNCOMMENT THIS OUT WHEN IN PRODUCTION
-      const response = await fetch('api/db/delete', {
+      const response = await fetch('api/query/remove', {
         method: 'DELETE', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ queryId : queryInfo.queryId })
