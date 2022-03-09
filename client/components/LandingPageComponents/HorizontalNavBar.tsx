@@ -52,8 +52,6 @@ const HorizontalNavBar = (props) => {
   );
 }
 
-//Styled Components 
-
 
 
 export default HorizontalNavBar

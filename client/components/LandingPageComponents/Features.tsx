@@ -10,6 +10,8 @@ const Features = (props) => {
   const handleSelect = (selectedIndex, e) => { setIndex(selectedIndex); };
 
   return (
+    <section id="features">
+      <h1>Features</h1>
     <Carousel activeIndex={index} onSelect={handleSelect}>
       <Carousel.Item>
         <img
@@ -44,6 +46,7 @@ const Features = (props) => {
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
+    </section>
   )
 };
     

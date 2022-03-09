@@ -2,7 +2,6 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 
 
-
 // const data = {
 //   queryResults: {
 //     explainAnalyzeResults: {
@@ -33,9 +32,9 @@ import Plot from 'react-plotly.js';
 // }
 
 
-const Chart = (props: Props) => {
+const LineChart = (props: Props) => {
+  const data = props.data; 
 
-  const data = props.data;
   const yExplain = data.queryResults.explainAnalyzeResults.resultsArray;
   const xExplain = yExplain.map((value, i) => { return i + 1} );
 
@@ -51,18 +50,16 @@ const Chart = (props: Props) => {
           name: 'Explain Analyze',
           type: 'scatter',
           mode: 'lines+markers',
-          line: { color: 'purple', width:2 },
+          line: { color: 'rgb(240, 89, 69)', width:2 },
         },
         {
           x: xActual,
           y: yActual,
           name: 'Actual',
           type: 'scatter', 
-          line: { color: 'blue', width:2 },
+          line: { color: 'rgb(163, 210, 202)', width:2 },
       }]}
       layout={{
-        width: 500, 
-        height: 400, 
         title: 'Query Runtime',
         xaxis: { 
           title: 'Test #',
@@ -81,9 +78,11 @@ const Chart = (props: Props) => {
         paper_bgcolor: 'white',
       }} 
     />
-  );
-}
 
+  
+    
+  );
+};
 
 
 interface Props {
@@ -116,6 +115,7 @@ interface Props {
     }
   }
 }
-export default Chart;
+
+export default LineChart;
   
   
