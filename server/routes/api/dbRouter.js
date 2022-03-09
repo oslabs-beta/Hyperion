@@ -17,12 +17,4 @@ dbRouter.post('/runtests', userController.authorize, dbController.connect, dbCon
   res.status(200).json(res.locals.testResults);
 });
 
-dbRouter.get('/getquerylist', userController.authorize, (req, res) => {
-  res.status(200).json(res.locals.dbInfo);
-});
-
-dbRouter.post('/testconnection', userController.authorize, dbController.connect, (req, res) => {
-  res.status(200).json(res.locals.testResults);
-});
-
 module.exports = dbRouter;
