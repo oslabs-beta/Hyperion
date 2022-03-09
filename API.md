@@ -43,7 +43,9 @@ JSON example using CONNECTION_PARAMS:
 Note: `connectionType` may only be `URI` or `CONNECTION_PARAMS`. The key `dbname` is the label for the database. The object returned will contain the id of the newly created database:
 ```JSON
 {
-  "dbId": 3
+  "dbInfo": {
+    "id": 5
+  }
 }
 ```
 
@@ -162,6 +164,11 @@ Will return the following in JSON format:
       "connectionString": "postgres://aws.com",
       "connectionParams": {
         "host": null,
+        "port": null,
+        "database": null,
+        "username": null,
+        "password": null,
+        "sslMode": null
       },
       "queries": [
         {
@@ -196,7 +203,11 @@ Will return the following in JSON format:
       "connectionString": "postgres://aws.com",
       "connectionParams": {
         "host": null,
-        ...
+        "port": null,
+        "database": null,
+        "username": null,
+        "password": null,
+        "sslMode": null
       },
       "queries": []
     },
