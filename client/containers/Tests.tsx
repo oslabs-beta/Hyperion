@@ -10,6 +10,7 @@ import { CircularProgress } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import LineChart  from '../components/Charts/RunTimeChart';
 import BoxPlot from '../components/Charts/BoxPlot';
+import LatencyChart from '../components/Charts/LatencyChart';
 
 const Tests = (props) => { 
 
@@ -76,6 +77,7 @@ const Tests = (props) => {
       }
       { testState.results.map((result, i) => { return <LineChart key={i} data={result} />})}
       <BoxPlot></BoxPlot>
+      <LatencyChart></LatencyChart>
     </Layout>
   )
 }

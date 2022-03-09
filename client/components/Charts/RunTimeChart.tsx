@@ -61,8 +61,6 @@ const LineChart = (props: Props) => {
           line: { color: 'rgb(163, 210, 202)', width:2 },
       }]}
       layout={{
-        width: 500, 
-        height: 400, 
         title: 'Query Runtime',
         xaxis: { 
           title: 'Test #',

@@ -73,11 +73,13 @@ return (
         xaxis: { 
             title: 'Test #',
             showgrid: false,
+            showline: true,
           },
         yaxis: { 
             title: 'Runtime (ms)',
             showgrid: false,
-            zeroline: false
+            zeroline: false,
+            showline: true,
           },
     }
 }
