@@ -14,15 +14,10 @@ const HorizontalNavBar = (props) => {
       expand="lg"
       className="top-navbar-custom"
     >
-      <Navbar.Brand>Hyperion</Navbar.Brand>
-      {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <LinkScroll to="features" smooth={true}>
             <span>Features</span>
-          </LinkScroll>
-          <LinkScroll to="community" smooth={true}>
-          <span>Community</span>
           </LinkScroll>
           <LinkScroll to="team" smooth={true}>
           <span>Team</span>
@@ -37,8 +32,6 @@ const HorizontalNavBar = (props) => {
       </Navbar.Collapse>
     </Navbar>
 )}
-
-//Styled Components 
 
 
 

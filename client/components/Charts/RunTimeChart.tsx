@@ -1,6 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import { runQueryAnalyze } from '../../server/models/dbModel';
+import { runQueryAnalyze } from '../../../server/models/dbModel';
 
 
 // const data = {
@@ -33,7 +33,8 @@ import { runQueryAnalyze } from '../../server/models/dbModel';
 // }
 
 
-const Chart = ({ data }) => {
+const LineChart = (props: Props) => {
+  const data = props.data; 
 
   const yExplain = data.queryResults.explainAnalyzeResults.resultsArray;
   const xExplain = yExplain.map((value, i) => { return i + 1} );
@@ -50,14 +51,14 @@ const Chart = ({ data }) => {
           name: 'Explain Analyze',
           type: 'scatter',
           mode: 'lines+markers',
-          line: { color: 'purple', width:2 },
+          line: { color: 'rgb(240, 89, 69)', width:2 },
         },
         {
           x: xActual,
           y: yActual,
           name: 'Actual',
           type: 'scatter', 
-          line: { color: 'blue', width:2 },
+          line: { color: 'rgb(163, 210, 202)', width:2 },
       }]}
       layout={{
         width: 500, 
@@ -80,9 +81,73 @@ const Chart = ({ data }) => {
         paper_bgcolor: 'white',
       }} 
     />
-  );
-}
 
-export default Chart;
+  
+    
+  );
+};
+
+
+interface Props {
+  data: {
+    queryResults: {
+      explainAnalyzeResults: {
+        resultsArray: Array<number>,
+        stats: {
+          min: number,
+          max: number,
+          mean: number,
+          median: number, 
+          stdDev: number, 
+          q1: number, 
+          q3, number,
+        }
+      }
+    },
+    testResults: {
+      resultsArray: Array<number>,
+      stats: {
+        min: number,
+        max: number,
+        mean: number,
+        median: number, 
+        stdDev: number, 
+        q1: number, 
+        q3, number,
+      }
+    }
+  }
+}
+// const data = {
+//   queryResults: {
+//     explainAnalyzeResults: {
+//       resultsArray: [0.1, 0.2, 0.3, 0.3, 0.3, .5],
+//       stats: {
+//         min: .1,
+//         max: .5, 
+//         mean: .35, 
+//         median: .3,
+//         stdDev: .05, 
+//         q1: .15,
+//         q3: .4
+//       }
+//     }
+//   }, 
+//   testResults: {
+//     resultsArray: [0.5, 0.6, 0.6, 0.7, 0.7],
+//     stats: {
+//       min: .3,
+//       max: .7, 
+//       mean: .45, 
+//       median: .3,
+//       stdDev: .05, 
+//       q1: .3,
+//       q3: .6
+//     }
+//   }
+// }
+
+
+export default LineChart;
   
   

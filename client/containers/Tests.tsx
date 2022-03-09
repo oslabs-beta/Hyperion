@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import Layout from './Layout';
 import TestConfigWindow from '../components/TestConfigWindow';
 import { connect, useSelector } from "react-redux";
-import LineGraph from '../components/LineGraph';
 import { Query, Database } from '../models/database';
 import { RootState } from '../features/store';
 import { runTest } from '../features/test/testSlice';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import Chart  from '../components/PlotlyGraph';
 import { CircularProgress } from '@mui/material';
 import { useDispatch } from 'react-redux';
+import LineChart  from '../components/Charts/RunTimeChart';
+import BoxPlot from '../components/Charts/BoxPlot';
 
 const Tests = (props) => { 
 
@@ -75,7 +74,8 @@ const Tests = (props) => {
           toggleWindowFunc={()=> { setModalVisible(!modalVisible) }}
         />
       }
-      { testState.results.map((result, i) => { return <Chart key={i} data={result} />})}
+      { testState.results.map((result, i) => { return <LineChart key={i} data={result} />})}
+      <BoxPlot></BoxPlot>
     </Layout>
   )
 }
