@@ -14,7 +14,7 @@ const Info = () => {
         </p>
       
       </div>
-      <img src={logo} alt="hyperion-logo" />
+      <img className= 'logo' src={logo} alt="hyperion-logo" />
     </section>
   )
 }

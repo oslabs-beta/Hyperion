@@ -16,15 +16,23 @@
 }
 
 .top-navbar-custom {
-  background-color:  rgb(28, 101, 140)
+  background-color:  rgb(28, 101, 140);
   // color: white;
   // display: flex; 
-  // height: 100px;
+  height: 110px;
   // width: 100%;
   // flex-direction: row;
   // justify-content: space-around;
   // align-items: center;
   // background-color: white;
+  .landing-logo{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 50px;
+  }
+  .nav-buttons{
+    font-size: 23px;
+    font-weight: lighter;
+  }
 }
 
 
@@ -56,7 +64,7 @@
   background-color:rgb(57, 138, 185);
   justify-content: space-around;
   margin: 10vh;
-  font-size: 24px;
+  font-size: 25px;
   right: 0;
   left: 0;
   min-height: 300px;
@@ -72,13 +80,18 @@
  }
 
  h1 {
-  font-size: 70px;
+  font-size: 90px;
   letter-spacing: 1px;
 }
 
 .description {
-  font-size: 0.7em;
+  font-size: 19px;
   // max-width: 70%;
+}
+
+.logo {
+  height: 325px;
+  width: auto;
 }
 
 .button-wrapper {
@@ -106,13 +119,16 @@
  #features {
 h1 {
   font-size: 3em;
+  font-family:sans-serif;
   letter-spacing: 0.5px;
   text-align: center;
-   color: black;
+   color: white;
    margin: 0;
-   background-color: rgb(238, 238, 238) ;
+   background-color:rgb(28, 101, 140) ;
    height: 110px;
    line-height: 110px;
+   opacity: .80;
+   font-weight: lighter;
    }      
  }
 
@@ -120,12 +136,16 @@ h1 {
 .team-wrapper {
     @media screen  {
       h1 {
+        font-size: 3em;
+        font-family:sans-serif;
         margin: 0.5em auto ;
         margin-bottom: 45px;
         text-align: center;
-        background-color: rgb(238, 238, 238) ;
+        background-color:rgb(28, 101, 140) ; 
+        color: white;
         height: 110px;
         line-height: 110px;
+        font-weight: lighter;
       }
       .team-container {
         display: flex;

@@ -32,18 +32,31 @@ const HorizontalNavBar = (props) => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
+          <div className ='landing-logo'>
             Hyperion
+          </div>
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
           </Typography>
           { auth.isAuthenticated === true ? 
-            <Button color="inherit" onClick={() => { logoutUser() }}>Logout</Button> 
+            <Button color="inherit" onClick={() => { logoutUser() }}>
+              <div className='nav-buttons'>
+                Logout
+              </div>
+              </Button> 
             :
-            <Button color="inherit" onClick={() => { navigate('/login')}}>Login</Button>        
+            <Button color="inherit" onClick={() => { navigate('/login')}}>
+              <div className='nav-buttons'>
+                Login
+              </div>
+              </Button>        
           }
           { !auth.isAuthenticated && 
-            <Button color="inherit" onClick={() => { navigate('/register')}}>Register</Button> 
+            <Button color="inherit" onClick={() => { navigate('/register')}}>
+              <div className='nav-buttons'>       
+                Register
+              </div>
+              </Button> 
           }
         </Toolbar>
       </AppBar>
