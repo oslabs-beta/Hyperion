@@ -4,7 +4,7 @@ import Plot from 'react-plotly.js';
 import { runQueryAnalyze } from '../../../server/models/dbModel';
 import { RunTestResponse } from '../../models/api';
  
-//props: Props 
+
 const BoxPlot = (props: Props) => {
 
   const data = props.data;

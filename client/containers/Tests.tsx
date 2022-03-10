@@ -16,21 +16,23 @@ import ChartGroup from '../components/Charts/ChartGroup';
 
 const Tests = (props) => { 
 
-  const testState = useSelector((state: RootState) => { return state.test });
-  const databases = useSelector((state: RootState) => { return state.data.databases });
-
-  const databaseArr = Object.values(databases);
+  // hooks 
   const dispatch = useDispatch()
 
+  // slice state 
+  const testState = useSelector((state: RootState) => { return state.test });
+  const databases = useSelector((state: RootState) => { return state.data.databases });
+  const databaseArr = Object.values(databases);
+    
+  // component level state 
   const [dbId, setDbId] = useState(databaseArr.length === 0 ? undefined : databaseArr[0].id );
   const [queryId, setQueryId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
 
-
+  // creates an array of ChartGroup elements based on the results stored in redux store 
   const generateChartsArray = () => {
     const output = [];
     if (!dbId) return;
-    console.log(testState)
     for (const [queryId, data] of Object.entries(testState.results)) {
       const databaseId = data.databaseId; 
       const chartGroup = <ChartGroup key={queryId} query={databases[databaseId].queries[queryId]} data={data.data} />
@@ -39,23 +41,18 @@ const Tests = (props) => {
     return output; 
   }
 
+  // handles the database select dropdown box changes to update state 
   const handleDbChange = (e) => {
-    console.log(e.target.value, 'in handleDbChange')
     if (e.target.value) setDbId(Number(e.target.value));
   }
 
+  // handles the query select dropdown box changes to update state 
   const handleQueryChange = (e) => {
-    if (e.target.value) {
-      setQueryId(Number(e.target.value));
-    }
+    if (e.target.value) { setQueryId(Number(e.target.value)); }
   }
 
+  // handles running the test 
   const handleRunTest = () => {
-    // validate that there was no mixup with database id and query id 
-    // if (!databases[dbId][queryId]) return null; 
-    console.log('this is databases[dbId]', databases[dbId])
-    
-
     if (!dbId || !queryId) return; 
     dispatch(runTest({ dbId: dbId, queryId: queryId }));
   }

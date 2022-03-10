@@ -71,14 +71,14 @@ export const registerUser = createAsyncThunk(
   async (form: { name?: string, email: string, password: string }, thunkApi) => {
 
     try {
-      const response = await fetch('/api/user/new', {
+      const response = await fetch('/api/user/signup', {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userInfo: {
-            name: form.name,
-            email: form.email,
-            password: form.password
+            name: form.name.trim(),
+            email: form.email.trim(),
+            password: form.password.trim()
           }
         })
       });
@@ -100,8 +100,8 @@ export const loginUser = createAsyncThunk(
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({
           userInfo: {
-            email: form.email,
-            password: form.password,
+            email: form.email.trim(),
+            password: form.password.trim(),
           }
         })
       })

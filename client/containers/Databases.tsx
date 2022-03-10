@@ -19,13 +19,12 @@ const Databases = (props) => {
   
   const dispatch = useDispatch();
 
-  const handleDbAdd = (formData: NewDatabaseRequestBody) => {
-    dispatch(addDbThunk(formData));
-  }
+  // invokes thunk function to make fetch request to server with formData, 
+  // on success, updates the state with new database 
+  const handleDbAdd = (formData: NewDatabaseRequestBody) => { dispatch(addDbThunk(formData)); }
 
-  const handleDbDelete = (id: number) => {
-    dispatch(deleteDb(id));
-  }
+  // invokes thunk function to delete database with given id on server database 
+  const handleDbDelete = (id: number) => { dispatch(deleteDb(id)); }
 
   return (
     <Layout>
@@ -64,11 +63,5 @@ const Databases = (props) => {
 
 
 
-const DatabaseGroup = styled.div`
-  // background-color: rgb(220, 220 ,220); 
-  // width: 100%;
-  // padding: 1em 2em;
-  // overflow-y: scroll;
-`;
 
 export default Databases;

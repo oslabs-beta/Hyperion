@@ -117,7 +117,6 @@ export const addDbThunk = createAsyncThunk(
       };
 
       const response = await fetch('api/db/new', settings);
-      console.log('this is response in addDbThunk', response)
       if (response.status !== 200)  return thunkApi.rejectWithValue('Could not add database');
       else {
         const data: { id: number } = await response.json();

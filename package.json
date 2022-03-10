@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/oslabs-beta/hyperion.git"
   },
-  "author": "Chloe Angel, Sankari Ayyaluru, Celene Chang, Nick Ozawa, Aram Paparian",
+  "author": "Chloe Angel, Sankari Ayyaluru, Celene Chang, Nick Ozawa",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/oslabs-beta/hyperion/issues"

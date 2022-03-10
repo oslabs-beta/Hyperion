@@ -59,9 +59,12 @@ const Queries = (props) => {
 
   // need error checking 
   const handleNewQuery = (query: string, label: string) => {
-    // if (dbId === undefined) return;
-
-
+    if (dbId === undefined) return;
+    if (query[query.length - 1] === ',') {
+      query = query.substring(0, query.length - 2); 
+    }
+    query = query.trim();
+    label = label.trim();
     console.log('heres the object being passed to addQuery dispatch: ',{ databaseId: dbId, query: query, label: label, params: [[]] })
     if (paramArr.length === 0) {
       return dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: [[]] }))
@@ -76,6 +79,9 @@ const Queries = (props) => {
       for (let i = 0; i < splitParams.length; i++) {
         // if it is a number, turn into a number
         if (isNum(splitParams[i])) splitParams[i] = Number(splitParams[i])
+        else {
+          splitParams[i] = splitParams[i].trim();
+        }
       }
       params.push(splitParams)
     }
