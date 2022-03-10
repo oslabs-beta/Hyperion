@@ -9,6 +9,8 @@ const generateCombinations = (paramsArray) => {
   // Return undefined if the input is not a 2D array
   if (!Array.isArray(paramsArray) || !Array.isArray(paramsArray[0])) return undefined;
 
+  if (paramsArray.length === 1 && !paramsArray[0].length) return [[]];
+
   const combinations = [];
 
   const generator = (i, arr) => {
