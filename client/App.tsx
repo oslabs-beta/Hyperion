@@ -8,11 +8,9 @@ import NotFound from './containers/NotFound';
 import Login from './components/Login';
 import SignUpForm from './components/SignUpForm';
 import PrivateRoute from './components/PrivateRoute';
-import { authenticateUser, setUserId, authRequestSent } from './features/user/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from './features/store';
 import LandingPage from './containers/LandingPage';
-import { useNavigate } from 'react-router-dom';
 import { fetchExistingData } from './features/data/dataSlice';
 
 const App = () => {

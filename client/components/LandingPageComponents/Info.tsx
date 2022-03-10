@@ -1,6 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import logo from '../../assets/images/Icon.png'
 
 const Info = () => { 
@@ -12,7 +10,6 @@ const Info = () => {
         <p className="description">
           An interactive tool that tests PostgresSQL query runtime.
         </p>
-      
       </div>
       <img className= 'logo' src={logo} alt="hyperion-logo" />
     </section>

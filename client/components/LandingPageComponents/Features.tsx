@@ -6,6 +6,7 @@ import runtestpage from '../../assets/appfeatures/runtestpage.jpg'
 
 
 const Features = (props) => {
+  
   const [index, setIndex] = useState(0);
   const handleSelect = (selectedIndex, e) => { setIndex(selectedIndex); };
 
@@ -42,7 +43,6 @@ const Features = (props) => {
         />
         <Carousel.Caption>
           <h3>Run Test</h3>
-          
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>

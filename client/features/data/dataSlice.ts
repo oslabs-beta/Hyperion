@@ -1,16 +1,12 @@
 
-import { create } from '@mui/material/styles/createTransitions';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { useParams } from 'react-router-dom';
 import { Database, NewQuery, Query } from '../../models/database';
 import { 
   NewDatabaseRequestBody,
   NewQueryRequestBody,
   GetUserInfoRequestResponse
 } from '../../models/api';
-// import { ThunkResponseBase } from '../../models/thunk';
 import { constructDatabase } from '../../utils/constructors';
-import thunk from 'redux-thunk';
 
 
 // ------------------------- initial state -------------
@@ -67,32 +63,15 @@ export const dataSlice = createSlice({
   }
 })
 
-/*
-
-export interface Database {
-  id: number;
-  port?: number;
-  pgDatabaseName?: string;
-  label?: string;
-  sslMode?: string;
-  queries: { [id: number] : Query };
-  tables: { [ id: number ] : Table };
-  latency?: number;
-}
-
-*/
-
 
 // ------------------------- thunk functions --------------
 
- // TODO: NEED TO ADD FULFILLED CASE FOR THIS 
 export const fetchExistingData = createAsyncThunk(
   'data/fetchExisting', 
   async (_: void, thunkApi) => {
     try {
       const data : GetUserInfoRequestResponse = await fetch('/api/user/getinfo', {
         method: 'GET',
-        // body: JSON.stringify({ userId: userId }) // check if this is right <-------------------------
       }).then(res => { 
         if (res.status !== 200) {
           throw new Error('Failed to get existing user data')
@@ -130,16 +109,6 @@ export const addDbThunk = createAsyncThunk(
         return db;
       }
     } catch(e) { return thunkApi.rejectWithValue(e.response.data); }
- 
-    // DELETE WHEN DONE TESTING
-    // const db = constructDatabase({
-    //   id: Math.floor(Math.random() * 10000),
-    //   port: formData.connectionDetails.port, 
-    //   pgDatabaseName: formData.connectionDetails.database,
-    //   label: formData.dbInfo.name
-    // })
-    // return db;
-    //////////////////////
   }
 )
 
@@ -148,7 +117,6 @@ export const deleteDb = createAsyncThunk(
   async (id: number, thunkApi) => {
     console.log('reached deleteDb. heres the id passed in ', id)
     try {
-      ////// UNCOMMENT FOR PRODUCTION 
       const response = await fetch(`/api/db/delete`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
@@ -156,11 +124,6 @@ export const deleteDb = createAsyncThunk(
       });
       if (response.status !== 200) return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
       else return id; 
-      ////////////////////////
-
-      // DELETE FOR PRODUCTION
-      // return id; 
-      ///////////////////////////
     }
     catch (e) {
       return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE')
@@ -168,7 +131,7 @@ export const deleteDb = createAsyncThunk(
   }
 )
 
-/// add query 
+
 export const addQuery = createAsyncThunk(
   'data/addQuery',
   async (queryInfo: { databaseId: number, query: string, label: string, params: Array<Array<string|number>> }, thunkApi) => {
@@ -184,6 +147,8 @@ export const addQuery = createAsyncThunk(
           repeat: 1
         }
       } 
+
+
       console.log('here is the request body being sent to api/query/new', requestBody)
       const response : any = await fetch('/api/query/new', {
         method: 'POST',
@@ -202,19 +167,6 @@ export const addQuery = createAsyncThunk(
         queryId: Number(data.queryId)  // might need to check on that 
       }
       return queryForStore; 
-    
-
-      // test purposes only
-      // const newQuery : NewQuery = {
-      //   label: queryInfo.label,
-      //   query: queryInfo.query,
-      //   databaseId: queryInfo.databaseId, 
-      //   queryId: Math.floor(Math.random() * 10000),
-      //   params: queryInfo.params
-      // }
-      // console.log(' this is the new query that will be stored in the store', newQuery)
-      // return newQuery; 
-      ///////////////////
     } catch (e) {
       console.log('error in addQuery')
       return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE');

@@ -31,7 +31,6 @@ const VerticalNavbar = (props) => {
     // on success, redirect to login page 
     if (isSuccess === true) { window.location.href = '/login' }
     else { 
-      // TODO: handle call failures to 
       alert('User could not be logged out');
     }
   }
@@ -54,7 +53,6 @@ const VerticalNavbar = (props) => {
         </div>
       </div>
       <ul className='user-links-group'>
-        {/* <Link className='link-no-decoration' to='/'>Home</Link> */}
         <div className='space'>
         <li><div onClick={() => { navigate('/')}}>Landing</div></li>
         </div>

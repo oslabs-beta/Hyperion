@@ -2,8 +2,6 @@ import React from 'react';
 import { Link as LinkScroll } from 'react-scroll';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,7 +11,6 @@ import { logoutUser } from '../../features/user/userSlice';
 import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../features/store';
-// import MenuIcon from '@mui/icons-material/Menu';
 
 
 const HorizontalNavBar = (props) => {
