@@ -38,8 +38,16 @@ const BoxPlot = (props: Props) => {
       },
       boxmean: 'sd'
     },
+    {
+      type: 'box', 
+      name: 'Actual',
+      y: actualResults.map((item, i) => { return item.queryTime }),
+      marker: {
+          color: 'rgb(224,86,86)'
+        },
+        boxmean: 'sd'
+      },
     ]}
-
     layout= {{
       title: 'Query Runtime Statistics',
       showgrid: false,
