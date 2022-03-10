@@ -29,7 +29,7 @@ const LinkContainer = styled.div`
   height: 2em;
   padding: 1em 2em;
   &:hover {
-    background-color: rgb(119, 87, 193);
+    background-color: rgb(57, 138, 185);
   }
 
   .link {

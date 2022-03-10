@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/images/Icon.png'
 
 const Info = () => { 
   return (
@@ -14,7 +14,7 @@ const Info = () => {
         </p>
       
       </div>
-      <img src={logo} alt="hyperion-logo" />
+      <img className= 'logo' src={logo} alt="hyperion-logo" />
     </section>
   )
 }

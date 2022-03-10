@@ -48,6 +48,7 @@ export const dataSlice = createSlice({
     builder.addCase(fetchExistingData.fulfilled, (state, action: PayloadAction<GetUserInfoRequestResponse>) => {
       const userData = action.payload; 
       userData.userData.forEach(db => {
+        console.log('cherie testing something: ', {db})
         const existingDb = constructDatabase({ id: db.dbId, label: db.dbName, connectionType: db.connectionType });
         db.queries.forEach(query => {
           const dbQuery : Query = {

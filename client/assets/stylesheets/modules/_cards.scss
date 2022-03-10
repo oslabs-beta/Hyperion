@@ -17,13 +17,13 @@
 .modal-container {
   @extend .content-box;
   position: fixed;
-  right: 0;
-  top: calc(100vh/4);
+  right: 30px;
+  top: 185px;
   height: 400px;
   overflow-y: scroll;
   border: 1px solid rgb(50, 50, 50);
   background-color: white;
-  box-shadow: 10px 5px 5px 5px darkgrey;
+  box-shadow: 5px 2px 2px 2px darkgrey;
   z-index: 1000;
 
 }
