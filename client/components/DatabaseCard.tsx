@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
+import { Database } from '../models/database';
 
 // component 
 const DatabaseCard = (props: Props) => {
@@ -24,25 +25,37 @@ const DatabaseCard = (props: Props) => {
           {label}
         </div>
         <div className='info-group-item'>
-          <h5>Database:</h5>
-          {database}
+          <h5>Connection Method:</h5>
+          {database.connectionType}
         </div>
         <div className='info-group-item'>
-          <h5>Port:</h5>
-          {port}
+          <h5>No. of Queries:</h5>
+          {Object.values(database.queries).length}
         </div>
-        <div className='info-group-item'>
-          <h5>SSL:</h5>
-          {ssl}
-        </div>
-        <div className='info-group-item'>
-          <h5>Latency:</h5>
-          {latency}
-        </div>
+        {
+          database.latency && 
+          <div className='info-group-item'>
+            <h5>Latency:</h5>
+            {database.latency}
+          </div>
+        }
+        {
+          database.sslMode && 
+          <div className='info-group-item'>
+            <h5>SSL:</h5>
+            {database.sslMode}
+          </div>
+        }
+        { database.port &&         
+          <div className='info-group-item'>
+            <h5>Port:</h5>
+            {database.port}
+          </div>
+        }
       </div>
       <div className='button-group'>
         { isConnected &&  <Button variant='text' size='small' disabled color='success'>Connected</Button> }
-        <Button onClick={() => {deleteDbFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
+        <Button onClick={() => {deleteDbFunc(database.id)}} variant='outlined' size='small' color='error'>Remove</Button>
       </div>
     </div>
   )
@@ -53,11 +66,12 @@ interface Props {
   deleteDbFunc: Function,
   label: string,
   isConnected?: boolean,
-  database: string,
+  // database: string,
   port: number,
   user?: string, 
   ssl?: string, 
-  latency: number
+  latency: number, 
+  database: Database
 }
 
 

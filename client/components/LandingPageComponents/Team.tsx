@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import cc from '../../assets/teampictures/cc.jpg'
 import sa from '../../assets/teampictures/sa.jpg'
+import ca from '../../assets/teampictures/ca.jpg'
+import no from '../../assets/teampictures/no.jpg'
 
 const Team = () => {
   const teamProfile = [
@@ -16,13 +18,13 @@ const Team = () => {
       name: 'Nick Ozawa',
       github: 'https://github.com/NAustinO',
       linkedIn: 'https://www.linkedin.com/in/nicholas-ozawa/',
-      // src: './assets/teampictures/Nick-Ozawa.jpeg',
+      src: no,
     },
     {
       name: 'Chloe Angel',
       github: 'https://github.com/chloeangl',
       linkedIn: 'https://www.linkedin.com/in/chloeangl/',
-      // src: './assets/teampictures/Chloe-Angel.jpeg',
+      src: ca,
     },
     {
       name: 'Celene Chang',
@@ -39,8 +41,6 @@ const Team = () => {
           <span>
             <img
               src={profile.src}
-              // alt={profile.name}
-              // className="actual-pic"
             />
           </span>
           <div className="team-profile-title">
@@ -61,7 +61,7 @@ const Team = () => {
 
   return (
     <div className="team-wrapper">
-      <h1 id="team">The Team</h1>
+      <h1 id="team">Team</h1>
       <div className="team-container">{profiles}</div>
     </div>
   );

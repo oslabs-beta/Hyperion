@@ -1,38 +1,151 @@
 @use '../base/variables';
+@import 'https://fonts.googleapis.com/css2?family=Work+Sans:wght@100&display=swap';
 
-// TOP NAV BAR STYLING 
 
 .landing-container {
   width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-content: space-between;
+  background-color: rgb(57, 138, 185);
 }
+
 .mr-auto{
     text-align: center; 
 }
 
-
 .top-navbar-custom {
-  background-color:  variables.$primary-purple;
-  color: white;
-  display: flex; 
-  height: 100px;
-  width: 100%;
-  flex-direction: row;
+  background-color:  rgb(28, 101, 140);
+  // color: white;
+  // display: flex; 
+  height: 110px;
+  // width: 100%;
+  // flex-direction: row;
   // justify-content: space-around;
-  align-items: center;
+  // align-items: center;
+  // background-color: white;
+  .landing-logo{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 50px;
+  }
+  .nav-buttons{
+    font-size: 23px;
+    font-weight: lighter;
+  }
 }
 
 
+// TOP NAV BAR STYLING 
+// .top-navbar-custom {
+//   background-color:  variables.$primary-purple;
+//   color: black;
+//   display: flex; 
+//   height: 100px;
+//   width: 100%;
+//   flex-direction: row;
+//   // justify-content: space-around;
+//   align-items: center;
+
+//   .mr-auto{
+//     text-align: center; 
+//   }
+// }
+
+.loginButton {
+  color: purple;
+}
+
+// INFO SECTION STYLING 
+#info {
+  display: flex;
+  align-items: center;
+  color: rgb(244,244,244);
+  background-color:rgb(57, 138, 185);
+  justify-content: space-around;
+  margin: 10vh;
+  font-size: 25px;
+  right: 0;
+  left: 0;
+  min-height: 300px;
+  height: 62vh;
+
+  @media screen  {
+      margin: 2em;
+      h1 {
+          margin-top: 1em;
+          font-size: 2em;
+          font-family: 'Work Sans', sans-serif;
+        }
+ }
+
+ h1 {
+  font-size: 90px;
+  letter-spacing: 1px;
+}
+
+.description {
+  font-size: 19px;
+  // max-width: 70%;
+}
+
+.logo {
+  height: 325px;
+  width: auto;
+}
+
+.button-wrapper {
+  display: flex;
+
+  button {
+    border-style: none;
+    border-radius: 5px;
+    margin: 20px;
+    width: 120px;
+    height: 40px;
+    color: black;
+    padding: 0 10px;
+    background-color: white;
+    a {
+      font-style: none;
+      color: black;
+      text-decoration: none;
+      padding-left: 10px;
+    }
+
+}}}
+
+// FEATURES SECTION STYLING 
+ #features {
+h1 {
+  font-size: 3em;
+  font-family:sans-serif;
+  letter-spacing: 0.5px;
+  text-align: center;
+   color: white;
+   margin: 0;
+   background-color:rgb(57, 138, 185) ;
+   height: 110px;
+   line-height: 110px;
+   opacity: .80;
+   font-weight: lighter;
+   }      
+ }
 
 // TEAM STYLING 
 .team-wrapper {
     @media screen  {
       h1 {
+        font-size: 3em;
+        font-family:sans-serif;
         margin: 0.5em auto ;
         margin-bottom: 45px;
         text-align: center;
+        background-color:rgb(57, 138, 185); ; 
+        color: white;
+        height: 110px;
+        line-height: 110px;
+        font-weight: lighter;
       }
       .team-container {
         display: flex;
@@ -60,7 +173,7 @@
         margin-bottom: 5%;
     
         .teamProfile {
-          color: black;
+          color: white;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -107,70 +220,7 @@
           }
         }
 
-    // INFO SECTION STYLING 
-      }
-      #info {
-        display: flex;
-        align-items: center;
-        color: black;
-        background-color: cadetblue;
-        justify-content: space-around;
-        margin: 10vh;
-        font-size: 24px;
-        right: 0;
-        left: 0;
-        min-height: 300px;
-        height: 62vh;
-
-        @media screen  {
-            margin: 2em;
-            h1 {
-                margin-top: 1em;
-                font-size: 2em;
-              }
-              .description {
-                max-width: 100% ;
-              }  
-
-              .button-wrapper {
-                flex-direction: column;
-                button {
-                  flex-grow: 1;
-                  margin: 0.5em 0 !important;
-                }
-              }
-       }
-
-       h1 {
-        font-size: 70px;
-        letter-spacing: 1px;
-      }
-
-      .description {
-        font-size: 0.7em;
-        max-width: 50%;
-      }
-
-      .button-wrapper {
-        display: flex;
     
-        button {
-          border-style: none;
-          border-radius: 5px;
-          margin: 20px;
-          width: 120px;
-          height: 40px;
-          color: black;
-          padding: 0 10px;
-          background-color: white;
-          a {
-            font-style: none;
-            color: black;
-            text-decoration: none;
-            padding-left: 10px;
-          }
+      }
+    
 
-      }}}
-
-       // FEATURES SECTION STYLING 
-      

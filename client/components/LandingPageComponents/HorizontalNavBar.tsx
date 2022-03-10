@@ -1,44 +1,78 @@
 import React from 'react';
 import { Link as LinkScroll } from 'react-scroll';
-import { Navbar, Nav, Form, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { Button } from '@mui/material';
+import { logoutUser } from '../../features/user/userSlice';
+import IconButton from '@mui/material/IconButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../features/store';
+
 
 const HorizontalNavBar = (props) => {
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = useSelector((state: RootState) => { return state.user.auth })
+
+  const handleLogout = async () => {
+    const { payload } : any = await dispatch(logoutUser());
+    const isSuccess : boolean = payload; 
+
+    // on success, redirect to login page 
+    if (isSuccess === true) { window.location.href = '/' }
+    else { 
+      // TODO: handle call failures to 
+      alert('User could not be logged out');
+    }
+  }
+
 
   return (
-    <Navbar 
-      bg="light"
-      expand="lg"
-      className="top-navbar-custom"
-    >
-      <Navbar.Brand>Hyperion</Navbar.Brand>
-      {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <LinkScroll to="features" smooth={true}>
-            <span>Features</span>
-          </LinkScroll>
-          <LinkScroll to="community" smooth={true}>
-          <span>Community</span>
-          </LinkScroll>
-          <LinkScroll to="team" smooth={true}>
-          <span>Team</span>
-          </LinkScroll>
-        </Nav>
-          <Form >
-            <LinkScroll to="download-title" smooth={true}>
-              <Button className="loginButton" onClick={() => navigate('/login')}>Login</Button>
-              <Button className="signUpButton" onClick={() => navigate('/register')}>Sign Up</Button>
-            </LinkScroll>
-          </Form>
-      </Navbar.Collapse>
-    </Navbar>
-)}
-
-//Styled Components 
+    <Box sx={{ flexGrow: 1 }} className='top-navbar-custom'>
+      <AppBar position="static" >
+        <Toolbar className='top-navbar-custom'>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+          <div className ='landing-logo'>
+            Hyperion
+          </div>
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          </Typography>
+          { auth.isAuthenticated === true ? 
+            <Button color="inherit" onClick={handleLogout}>
+              <div className='nav-buttons'>
+                Logout
+              </div>
+              </Button> 
+            :
+            <Button color="inherit" onClick={() => { navigate('/login')}}>
+              <div className='nav-buttons'>
+                Login
+              </div>
+              </Button>        
+          }
+          { !auth.isAuthenticated && 
+            <Button color="inherit" onClick={() => { navigate('/register')}}>
+              <div className='nav-buttons'>       
+                Register
+              </div>
+              </Button> 
+          }
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+}
 
 
 

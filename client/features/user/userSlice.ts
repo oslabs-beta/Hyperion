@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
+import { fetchExistingData } from '../data/dataSlice'
+
 
 // ---------------- initial state ---------------------------------------
-
-
 interface UserState {
   auth: {
     isAuthenticated: boolean,
@@ -23,7 +22,7 @@ const initialState : UserState = {
   auth: {
     status: 'loaded',
     authRequestSent: false, 
-    isAuthenticated: false
+    isAuthenticated: false ////  <------------------------------------- CHANGE BACK TO FALSEEEEE
   },
   userProfile: {
     id: null,
@@ -51,7 +50,8 @@ export const userSlice = createSlice({
     })
     builder.addCase(loginUser.fulfilled, (state, action) => { 
       state.auth.status = 'loaded';
-      state.auth.isAuthenticated = true; }),
+      state.auth.isAuthenticated = true;
+    }),
     builder.addCase(loginUser.rejected, (state, action) => { 
       state.auth.status = 'loaded';
       state.auth.isAuthenticated = false;
@@ -76,9 +76,9 @@ export const registerUser = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userInfo: {
-            name: form.name,
-            email: form.email,
-            password: form.password
+            name: form.name.trim(),
+            email: form.email.trim(),
+            password: form.password.trim()
           }
         })
       });
@@ -99,12 +99,14 @@ export const loginUser = createAsyncThunk(
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({
           userInfo: {
-            email: form.email,
-            password: form.password,
+            email: form.email.trim(),
+            password: form.password.trim(),
           }
         })
       })
-      if (response.status === 200) return thunkApi.fulfillWithValue(true);
+      if (response.status === 200)  {
+        return thunkApi.fulfillWithValue(true);
+      }
       return thunkApi.fulfillWithValue(false);
     } catch (e) {
       console.log('Error in loginUser', e.response);
@@ -117,6 +119,7 @@ export const logoutUser = createAsyncThunk(
   'user/logoutUser',
   async (param, thunkApi) => {
     try {
+      console.log('logging out user')
       const data = await fetch('api/user/logout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

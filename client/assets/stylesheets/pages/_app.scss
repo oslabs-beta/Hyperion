@@ -1,36 +1,48 @@
 @use '../base/mixins';
 @use '../base/variables';
+@import 'https://fonts.googleapis.com/css2?family=Work+Sans:wght@100&display=swap';
 
 .vertical-navbar {
-  background-color:  variables.$primary-purple;
+  background-color: rgb(28, 101, 140) ;
   display: flex; 
   height: 100vh;
-  width: 200px;
-  max-width: 200px;
+  width: 300px;
+  max-width: 300px;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   // overflow-y: scroll;
   color: rgb(240, 242, 243);
 
   .header {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 1.5em; 
+    font-family: 'Work Sans', sans-serif;
+    font-size: 4em; 
     font-weight: 600;
   }
-  .user-links-group {
-    font-size: 10pt;
-    padding: 0;
+
+  .app-links-group {
+    font-size: 18pt;
     list-style-type: none;
-    
+    .space{
+      padding:20px;
+    }
+  }
+  .user-links-group {
+    font-size: 16pt;
+    padding: 100px;
+    list-style-type: none;
   }
   li {
     text-decoration: none;
   }
+  .space{
+    padding:20px;
+  }
 }
 
 .app-dropdown {
-  width: 150px;
+  width: 200px;
+  height: 30px;
 }
 
 
@@ -43,7 +55,6 @@
     @include mixins.flexCenter(column);
     width: 200px;
     height: 200px;
-    background-color: red;
   }
 }
 
@@ -82,8 +93,11 @@
   }
 }
 
-
-
 .link-no-decoration {
   text-decoration: none;
+}
+
+
+.query-box {
+  overflow-x: scroll;
 }

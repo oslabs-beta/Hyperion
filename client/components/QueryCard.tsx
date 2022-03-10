@@ -1,58 +1,57 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from '@mui/material';
+import { Query } from '../models/database';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import { Typography } from '@mui/material';
 
 
-const QueryCard = ({ id, label, deleteQueryFunc, sqlQuery }) => {
+const QueryCard = (props: Props) => {
 
-return (
-    <StyledCard>
-      <div className='info-group'>
-        <div className='info-group-item'>
-          <h5>SQL Query:</h5>
-          {sqlQuery}
-        </div>
-      </div>
-      <div className='button-group'>
-        <Button onClick={() => {deleteQueryFunc(id)}} variant='outlined' size='small' color='error'>Remove</Button>
-      </div>  
-    </StyledCard>
-  )
+  const { query, deleteQueryFunc } = props; 
+
+    return (
+    <Card sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+          Label
+        </Typography>
+        <Typography variant="h5" component="div">
+          {query.label}
+        </Typography>
+        <Typography variant="body2">
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Query String 
+            <br/>
+            { query.queryString }
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Parameters
+            <br/>
+            { JSON.stringify(query.params) }
+          </Typography>
+        </Typography>
+      </CardContent>
+      <CardActions dir=''>
+        {/* <Button size="small">Edit</Button>  */}
+        <Button 
+          onClick={() => {deleteQueryFunc(query.id)}} 
+          variant='outlined'
+          size='small' 
+          color='error'
+        >
+          Remove
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }
 
-const StyledCard = styled.div`
-  display: flex; 
-  flex-direction: column; 
-  border: 1.5px solid black;
-  row-gap: 10px;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  margin-right: 150px;
-  margin-left: 80px;
-  padding: 10em 5em;
-  border-radius: 40px;
-  background-color: rgb(250, 250, 250);
+interface Props {
+  query: Query, 
+  deleteQueryFunc: Function, 
+}
 
-  .info-group {
-      display: flex; 
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
-
-    .info-group-item {
-      display: flex; 
-      flex-direction: column; 
-    }
-    .info-group-item > h5 {
-      margin: 0px;
-    }
-
-  .button-group {
-    display: flex; 
-    justify-content: right; 
-    column-gap: 5px;
-  }
-`;
-
-  export default QueryCard
+export default QueryCard

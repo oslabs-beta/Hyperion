@@ -1,19 +1,34 @@
 @use '../base/variables';
 @use '../framework/layouts';
 
-.database-card {
-  @extend .content-box;
-  .header {
-    display: flex; 
-    justify-content: space-between;
-  }
-}
+// .database-card {
+//   @extend .content-box;
+//   .header {
+//     display: flex; 
+//     justify-content: space-between;
+//   }
+// }
+
+// .query-card {
+//   @extend .database-card;
+// }
+
 
 .modal-container {
   @extend .content-box;
   position: fixed;
-  right: 0;
-  top: calc(100vh/4);
-  height: 400px;
+  right: 30px;
+  top: 185px;
+  height: 50vh;
   overflow-y: scroll;
+  border: 1px solid rgb(50, 50, 50);
+  background-color: white;
+  box-shadow: 5px 2px 2px 2px darkgrey;
+  z-index: 1000;
+
+}
+
+.new-query-window {
+  height: 700px;
+  width: 400px;
 }

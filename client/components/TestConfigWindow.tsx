@@ -5,13 +5,15 @@ import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import { RootState } from '../features/store';
-        
+import { AiOutlineClose } from 'react-icons/ai';       
+
 const TestConfigWindow = (props: Props) => {
 
   const {
     runTestHandler,
     changeDbHandler, 
     changeQueryHandler,
+    toggleWindowFunc, 
     dbId, 
     queryId,
     databases
@@ -19,9 +21,12 @@ const TestConfigWindow = (props: Props) => {
 
   return (
     <StyledContainer className='modal-container'>
-      <div>Test Configuration Window</div>
+      <AiOutlineClose style={{ alignSelf: 'flex-end', justifySelf: 'start' }} onClick={toggleWindowFunc} />
+      <div style ={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>Test Configuration</div>  
+      </div>
       <h3>Select Database</h3>
-      <select value={dbId} onChange={() => { changeDbHandler() }}>
+      <select value={dbId} onChange={(e) => { changeDbHandler(e) }}>
         { Object.values(databases).map((db : Database, i) => {
           return (
             <option label={db.label} key={i} value={db.id}>
@@ -31,7 +36,8 @@ const TestConfigWindow = (props: Props) => {
         })}
       </select>
       <h3>Select Query</h3>
-      <select value={queryId} onChange={() => { changeQueryHandler() }}>
+      <select value={queryId} onChange={(e) => { changeQueryHandler(e)} }>
+        <option value={null}></option>
         { dbId !== undefined && Object.values(databases[dbId].queries).map((query : Query, i) => {
           return (
             <option key={i} value={query.id}>
@@ -42,7 +48,7 @@ const TestConfigWindow = (props: Props) => {
       </select>
       <Button 
         type='submit' 
-        onClick={() => { runTestHandler()}} 
+        onClick={() => { runTestHandler() }} 
         size='small' 
         variant='contained'
       >
@@ -56,6 +62,7 @@ interface Props {
   runTestHandler: Function;
   changeDbHandler: Function;
   changeQueryHandler: Function;
+  toggleWindowFunc: any; 
   dbId: number;
   queryId: number;
   databases: {[id: number]: Database};
@@ -65,7 +72,7 @@ interface Props {
 const StyledContainer = styled.div`
   display: flex; 
   flex-direction: column; 
-  justify-content: center;
+  justify-content: space-between;
   border-left: 1px solid black;
 `;
 

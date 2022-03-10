@@ -7,6 +7,7 @@ import { registerUser } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../features/store';
 import { CircularProgress } from '@mui/material';
+import { validateEmail } from '../utils/inputs';
 
 const SignUpForm = (props: Props) => {
 
@@ -17,14 +18,14 @@ const SignUpForm = (props: Props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [helperText, setHelperText] = useState({ name: '', email: '', password: ''})
+
   // user state 
   const user = useSelector((state: RootState) => state.user );
 
   // hooks 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  
 
   // register user handler function 
   const handleRegister = async () => {
@@ -51,6 +52,13 @@ const SignUpForm = (props: Props) => {
   }, [name, email, password, confirmPassword])
 
 
+  useEffect(() => {
+    if (email === '') return; 
+    if (validateEmail(email) === false) { setHelperText({ ...helperText, email: 'Not a valid email'})}
+    else setHelperText({ ...helperText, email: ''})
+  }, [email])
+
+
   return (
     <div className='login-signup-area'>
       <form action="" className='login-signup-box'>
@@ -59,7 +67,7 @@ const SignUpForm = (props: Props) => {
           <TextField onChange={(e) => { setName(e.target.value) }} label="Name"/>
         </label>
         <label htmlFor="email" className='login-signup-label'>
-          <TextField type='email' onChange={(e) => { setEmail(e.target.value) }} label="Email"/>
+          <TextField helperText={helperText.email} type='email' onChange={(e) => { setEmail(e.target.value) }} label="Email"/>
         </label>
         <label htmlFor="password" className='login-signup-label'>
           <TextField 
