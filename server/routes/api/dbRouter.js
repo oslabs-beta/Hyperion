@@ -8,11 +8,11 @@ dbRouter.post('/new', userController.authorize, dbController.addNewDb, (req, res
   res.status(200).json(res.locals.dbInfo);
 });
 
-dbRouter.delete('/remove', userController.authorize, dbController.removeDb, (req, res) => {
+dbRouter.delete('/delete', userController.authorize, dbController.removeDb, (req, res) => {
   res.status(200).json(res.locals.dbInfo);
 });
 
-dbRouter.post('/runtests', userController.authorize, dbController.connect, dbController.verifyTLS, dbController.runQueryTests, (req, res) => {
+dbRouter.post('/runtests', userController.authorize, dbController.connect, dbController.runQueryTests, (req, res) => {
   res.status(200).json(res.locals.testResults);
 });
 

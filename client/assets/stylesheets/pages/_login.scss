@@ -1,0 +1,54 @@
+@use '../base/functions';
+@use '../base/mixins';
+@use '../framework/layouts';
+
+.login-signup-area {
+  @include mixins.flexCenter(column);
+  height: 100vh;
+}
+
+.login-signup-box {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  margin:50px 50px 0;
+  width: 25%;
+  border: 1px solid rgba(24, 63, 161, 0.3);
+  border-radius: 5px;
+  padding: 15px; 
+  align-items: center;
+}
+
+.login-signup-label {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.login-signup-header {
+  font-family: 'Notable', sans-serif;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+};
+
+.loginButton{
+  margin-right: -750px;
+  width: 90px;
+  height: 40px;
+  background-color: white;
+  font-size: 1.2em;
+  border-radius: 5px;
+  float: right;
+}
+
+.signUpButton{
+  margin-right: -850px;
+  width: 90px;
+  height: 40px;
+  background-color: white;
+  font-size: 1.2em;
+  border-radius: 5px;
+  float: right;
+}

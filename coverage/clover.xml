@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1646727937089" clover="3.2.0">
+  <project timestamp="1646727937090" name="All files">
+    <metrics statements="91" coveredstatements="91" conditionals="38" coveredconditionals="38" methods="17" coveredmethods="17" elements="146" coveredelements="146" complexity="0" loc="91" ncloc="91" packages="1" files="5" classes="5"/>
+    <file name="encryptionModule.js" path="/Users/celenechang/Documents/Codesmith/OSP/hyperion/server/controllers/encryptionModule.js">
+      <metrics statements="40" coveredstatements="40" conditionals="18" coveredconditionals="18" methods="2" coveredmethods="2"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="11" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="21" count="11" type="cond" truecount="4" falsecount="0"/>
+      <line num="22" count="9" type="cond" truecount="4" falsecount="0"/>
+      <line num="24" count="6" type="stmt"/>
+      <line num="29" count="6" type="stmt"/>
+      <line num="30" count="6" type="stmt"/>
+      <line num="31" count="6" type="stmt"/>
+      <line num="32" count="6" type="stmt"/>
+      <line num="34" count="6" type="stmt"/>
+      <line num="35" count="6" type="stmt"/>
+      <line num="36" count="6" type="stmt"/>
+      <line num="37" count="6" type="stmt"/>
+      <line num="39" count="6" type="stmt"/>
+      <line num="40" count="6" type="stmt"/>
+      <line num="41" count="6" type="stmt"/>
+      <line num="42" count="6" type="stmt"/>
+      <line num="44" count="6" type="stmt"/>
+      <line num="53" count="1" type="stmt"/>
+      <line num="55" count="7" type="cond" truecount="4" falsecount="0"/>
+      <line num="56" count="5" type="cond" truecount="4" falsecount="0"/>
+      <line num="60" count="4" type="stmt"/>
+      <line num="61" count="4" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+      <line num="66" count="3" type="stmt"/>
+      <line num="68" count="3" type="stmt"/>
+      <line num="69" count="3" type="stmt"/>
+      <line num="70" count="3" type="stmt"/>
+      <line num="71" count="3" type="stmt"/>
+      <line num="73" count="3" type="stmt"/>
+      <line num="75" count="3" type="stmt"/>
+      <line num="76" count="3" type="stmt"/>
+      <line num="77" count="3" type="stmt"/>
+      <line num="78" count="3" type="stmt"/>
+      <line num="80" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="82" count="2" type="stmt"/>
+      <line num="85" count="1" type="stmt"/>
+    </file>
+    <file name="generateCombinations.js" path="/Users/celenechang/Documents/Codesmith/OSP/hyperion/server/controllers/generateCombinations.js">
+      <metrics statements="10" coveredstatements="10" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="10" count="5" type="cond" truecount="4" falsecount="0"/>
+      <line num="12" count="4" type="stmt"/>
+      <line num="14" count="4" type="stmt"/>
+      <line num="15" count="24" type="cond" truecount="2" falsecount="0"/>
+      <line num="16" count="9" type="stmt"/>
+      <line num="17" count="20" type="stmt"/>
+      <line num="22" count="4" type="stmt"/>
+      <line num="24" count="4" type="stmt"/>
+      <line num="27" count="1" type="stmt"/>
+    </file>
+    <file name="globalCache.js" path="/Users/celenechang/Documents/Codesmith/OSP/hyperion/server/controllers/globalCache.js">
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="20" count="4" type="stmt"/>
+      <line num="28" count="1" type="stmt"/>
+      <line num="29" count="2" type="stmt"/>
+      <line num="37" count="1" type="stmt"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="41" count="1" type="stmt"/>
+    </file>
+    <file name="statsController.js" path="/Users/celenechang/Documents/Codesmith/OSP/hyperion/server/controllers/statsController.js">
+      <metrics statements="22" coveredstatements="22" conditionals="8" coveredconditionals="8" methods="7" coveredmethods="7"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="15" count="5" type="cond" truecount="4" falsecount="0"/>
+      <line num="16" count="26" type="cond" truecount="2" falsecount="0"/>
+      <line num="19" count="19" type="stmt"/>
+      <line num="20" count="3" type="stmt"/>
+      <line num="21" count="3" type="stmt"/>
+      <line num="22" count="19" type="stmt"/>
+      <line num="23" count="3" type="stmt"/>
+      <line num="24" count="22" type="stmt"/>
+      <line num="25" count="3" type="stmt"/>
+      <line num="28" count="3" type="stmt"/>
+      <line num="29" count="9" type="stmt"/>
+      <line num="30" count="9" type="stmt"/>
+      <line num="31" count="9" type="stmt"/>
+      <line num="32" count="9" type="cond" truecount="2" falsecount="0"/>
+      <line num="33" count="3" type="stmt"/>
+      <line num="36" count="3" type="stmt"/>
+      <line num="37" count="3" type="stmt"/>
+      <line num="38" count="3" type="stmt"/>
+      <line num="40" count="3" type="stmt"/>
+      <line num="51" count="1" type="stmt"/>
+    </file>
+    <file name="tlsModule.js" path="/Users/celenechang/Documents/Codesmith/OSP/hyperion/server/controllers/tlsModule.js">
+      <metrics statements="10" coveredstatements="10" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="14" count="6" type="stmt"/>
+      <line num="16" count="6" type="stmt"/>
+      <line num="18" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="19" count="3" type="cond" truecount="4" falsecount="0"/>
+      <line num="20" count="2" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
+      <line num="25" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

@@ -8,6 +8,21 @@ const testObject = {
   aNumber: -756392653,
   anObject: {hi: 'hello world'}
 };
+const invalidJSON = 'test';
+
+test('checks the type and length of the arguments', () => {
+  expect(encryptionModule.encryptString(3, testPassword)).toBeUndefined();
+  expect(encryptionModule.encryptString(testString, 6)).toBeUndefined();
+  expect(encryptionModule.encryptString('', testPassword)).toBeUndefined();
+  expect(encryptionModule.encryptString(testString, '')).toBeUndefined();
+
+  expect(encryptionModule.decryptString(3, testPassword)).toBeUndefined();
+  expect(encryptionModule.decryptString(testString, 6)).toBeUndefined();
+  expect(encryptionModule.decryptString('', testPassword)).toBeUndefined();
+  expect(encryptionModule.encryptString(testString, '')).toBeUndefined();
+
+  expect(encryptionModule.encryptString(testString, testPassword)).not.toBeUndefined();
+});
 
 test('encrypted string is different from the original string', () => {
   const encryptedString = encryptionModule.encryptString(testString, testPassword);
@@ -22,8 +37,14 @@ test('encrypt then decrypt a string successfully', () => {
 
 test('cannot decrypt string with wrong password', () => {
   const encryptedString = encryptionModule.encryptString(testString, testPassword);
-  const decryptString = () => encryptionModule.decryptString(encryptedString, 'otherpassword');
-  expect(() => decryptString()).toThrow();
+  const decryptedString = encryptionModule.decryptString(encryptedString, 'otherpassword');
+  expect(decryptedString).toBeUndefined();
+});
+
+test('cannot decrypt non-JSON input', () => {
+  let encryptedString = encryptionModule.encryptString(testString, testPassword);
+  const decryptedString = encryptionModule.decryptString(encryptedString.slice(20), testPassword);
+  expect(decryptedString).toBeUndefined();
 });
 
 test('encrypt then decrypt an object serialized with JSON.stringify / JSON.parse', () => {

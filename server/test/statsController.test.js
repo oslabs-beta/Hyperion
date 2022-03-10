@@ -16,7 +16,7 @@ describe('stats test', () => {
     });
   });
 
-  it('handles an even array', () =>{
+  it('handles an even array', () => {
     arr = [48, 52, 57, 61, 64, 72, 76, 77, 81, 85];
     expect(calculateStats(arr)).toEqual({
       "min": 48, 
@@ -27,5 +27,28 @@ describe('stats test', () => {
       "q1": 58, 
       "q3": 76.75
     });
+  });
+
+  it('handles small arrays', () => {
+    arr = [5];
+    expect(calculateStats(arr)).toEqual({
+      "min": 5, 
+      "max": 5, 
+      "mean": 5, 
+      "median": 5, 
+      "stdDev": NaN, 
+      "q1": 5, 
+      "q3": 5
+    });
+  });
+
+  it('handles empty arrays', () => {
+    arr = [];
+    expect(calculateStats(arr)).toBeUndefined();
+  });
+
+  it('handles arrays with different types', () => {
+    arr = [3, 4, 5, 'a', 8];
+    expect(calculateStats(arr)).toBeUndefined();
   });
 });

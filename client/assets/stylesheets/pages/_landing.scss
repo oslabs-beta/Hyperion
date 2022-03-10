@@ -1,0 +1,226 @@
+@use '../base/variables';
+@import 'https://fonts.googleapis.com/css2?family=Work+Sans:wght@100&display=swap';
+
+
+.landing-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-between;
+  background-color: rgb(57, 138, 185);
+}
+
+.mr-auto{
+    text-align: center; 
+}
+
+.top-navbar-custom {
+  background-color:  rgb(28, 101, 140);
+  // color: white;
+  // display: flex; 
+  height: 110px;
+  // width: 100%;
+  // flex-direction: row;
+  // justify-content: space-around;
+  // align-items: center;
+  // background-color: white;
+  .landing-logo{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 50px;
+  }
+  .nav-buttons{
+    font-size: 23px;
+    font-weight: lighter;
+  }
+}
+
+
+// TOP NAV BAR STYLING 
+// .top-navbar-custom {
+//   background-color:  variables.$primary-purple;
+//   color: black;
+//   display: flex; 
+//   height: 100px;
+//   width: 100%;
+//   flex-direction: row;
+//   // justify-content: space-around;
+//   align-items: center;
+
+//   .mr-auto{
+//     text-align: center; 
+//   }
+// }
+
+.loginButton {
+  color: purple;
+}
+
+// INFO SECTION STYLING 
+#info {
+  display: flex;
+  align-items: center;
+  color: rgb(244,244,244);
+  background-color:rgb(57, 138, 185);
+  justify-content: space-around;
+  margin: 10vh;
+  font-size: 25px;
+  right: 0;
+  left: 0;
+  min-height: 300px;
+  height: 62vh;
+
+  @media screen  {
+      margin: 2em;
+      h1 {
+          margin-top: 1em;
+          font-size: 2em;
+          font-family: 'Work Sans', sans-serif;
+        }
+ }
+
+ h1 {
+  font-size: 90px;
+  letter-spacing: 1px;
+}
+
+.description {
+  font-size: 19px;
+  // max-width: 70%;
+}
+
+.logo {
+  height: 325px;
+  width: auto;
+}
+
+.button-wrapper {
+  display: flex;
+
+  button {
+    border-style: none;
+    border-radius: 5px;
+    margin: 20px;
+    width: 120px;
+    height: 40px;
+    color: black;
+    padding: 0 10px;
+    background-color: white;
+    a {
+      font-style: none;
+      color: black;
+      text-decoration: none;
+      padding-left: 10px;
+    }
+
+}}}
+
+// FEATURES SECTION STYLING 
+ #features {
+h1 {
+  font-size: 3em;
+  font-family:sans-serif;
+  letter-spacing: 0.5px;
+  text-align: center;
+   color: white;
+   margin: 0;
+   background-color:rgb(57, 138, 185) ;
+   height: 110px;
+   line-height: 110px;
+   opacity: .80;
+   font-weight: lighter;
+   }      
+ }
+
+// TEAM STYLING 
+.team-wrapper {
+    @media screen  {
+      h1 {
+        font-size: 3em;
+        font-family:sans-serif;
+        margin: 0.5em auto ;
+        margin-bottom: 45px;
+        text-align: center;
+        background-color:rgb(57, 138, 185); ; 
+        color: white;
+        height: 110px;
+        line-height: 110px;
+        font-weight: lighter;
+      }
+      .team-container {
+        display: flex;
+        flex-direction: row;
+        .teamProfile {
+          h4 {
+            padding-top: 0.5em;
+            font-size: 1.3em;
+          }
+          .team-links {
+            justify-content: space-around ;
+            svg {
+              width: 28px;
+            }
+          }
+        }
+      }
+    }}
+
+    .team-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        align-content: center;
+        margin-bottom: 5%;
+    
+        .teamProfile {
+          color: white;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+    
+          .team-icon {
+            border-radius: 60%;
+            border: 10px solid transparent;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+    
+            .actual-pic {
+              display: none;
+            }
+    
+    
+            img {
+              border-radius: 50%;
+              height: 10em;
+              width: 10em;
+              z-index: 2;
+            }
+    
+            h4 {
+              text-align: center;
+            }
+    
+          }
+    
+          .team-links {
+            padding: 1%;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+            svg:hover {
+              color: black;
+            }
+          }
+        }
+
+    
+      }
+    
+

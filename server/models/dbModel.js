@@ -50,21 +50,18 @@ db.runQueryAnalyze = async (queryText, params, pool = defaultPool) => {
     await client.query('BEGIN');
     const init = Date.now();
     let res = await client.query(`${getClockTime} ${queryText} ${getClockTime}`);
-    const end = Date.now();
+
     await client.query('ROLLBACK');
     /* === QUERY END === */
 
     /* String manipulation */
-    timing.totalTime = Number.parseInt(end - init);
+
     const queryStart = Number.parseFloat(res[0].rows[0].clock_timestamp.slice(17).slice(0, -3));
     const queryEnd = Number.parseFloat(res[2].rows[0].clock_timestamp.slice(17).slice(0, -3));
     if (queryStart > queryEnd) throw new Error('Timing issue, please try again');
     timing.queryTime = Number.parseFloat(((queryEnd - queryStart) * 1000).toFixed(2));
-    timing.querytext = queryText;
-    timing.params = params;
     timing.method = 'QUERY';
-    timing.startTimestamp = new Date(init);
-    timing.endTimestamp = new Date(end);
+    timing.timeStamp = new Date(init);
 
     // return object
     return timing;
@@ -87,21 +84,17 @@ db.runExplainAnalyze = async (queryText, params, pool = defaultPool) => {
     await client.query('BEGIN');
     const init = Date.now();
     let res = await client.query(`EXPLAIN ANALYZE ${queryText}`, params);
-    const end = Date.now();
+
     await client.query('ROLLBACK');
     /* === QUERY END === */
 
     /* String manipulation */
     const queryPlan = res.rows.slice(-2);
-    timing.totalTime = Number.parseInt(end - init);
-    timing.planningTime = parseFloat(parseFloat(queryPlan[0]['QUERY PLAN'].slice(15, -3)).toFixed(2));
-    timing.executionTime = parseFloat(parseFloat(queryPlan[1]['QUERY PLAN'].slice(16, -3)).toFixed(2));
-    timing.queryTime = parseFloat((timing.planningTime + timing.executionTime).toFixed(2));
-    timing.querytext = queryText;
-    timing.params = params;
-    timing.method = 'EXPLAIN ANALYZE';
-    timing.startTimestamp = new Date(init);
-    timing.endTimestamp = new Date(end);
+    let planningTime = parseFloat(parseFloat(queryPlan[0]['QUERY PLAN'].slice(15, -3)).toFixed(2));
+    let executionTime = parseFloat(parseFloat(queryPlan[1]['QUERY PLAN'].slice(16, -3)).toFixed(2));
+    timing.queryTime = parseFloat((planningTime + executionTime).toFixed(2));
+    timing.method = 'EXPLAIN';
+    timing.timeStamp = new Date(init);
 
     // return object
     return timing;

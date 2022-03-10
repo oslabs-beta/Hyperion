@@ -12,6 +12,8 @@ queryRouter.delete('/remove', userController.authorize, queryController.removeQu
   res.status(200).json(res.locals.queryInfo);
 });
 
-// specify db id, return all queries associated with that db (dependent on user)
+queryRouter.patch('/update', userController.authorize, queryController.updateQuery, (req, res) => {
+  res.status(200).json(res.locals.queryInfo);
+});
 
 module.exports = queryRouter;

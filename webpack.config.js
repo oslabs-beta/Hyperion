@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
 const { env } = require('process');
 
 module.exports = {
@@ -13,6 +15,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'views', 'index.html'),
     }),
+    new NodePolyfillPlugin()
   ],
   module: {
     rules: [
@@ -27,17 +30,26 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
         use: ['file-loader'],
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /node_modules/,
+        use: 'ify-loader',
+      },
     ],
   },
   resolve: {
-    extensions: ['', '.jsx', '.js'],
+    extensions: ['', '.jsx', '.js', '.tsx', '.ts'],
   },
   devServer: {
     historyApiFallback: true, 
