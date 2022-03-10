@@ -40,16 +40,30 @@ const VerticalNavbar = (props) => {
     <div className='vertical-navbar'>
       <div className='header'>Hyperion</div>
       <div className='app-links-group'>
-        <NavbarLink icon={ICONS.dashboard} displayText='Dashboard' linkPath='/dashboard'/> 
+        <div className='space'> 
+        <NavbarLink icon={ICONS.dashboard} displayText='Home' linkPath='/dashboard'/> 
+        </div>
+        <div className='space'>
         <NavbarLink icon={ICONS.database} displayText='Databases' linkPath='/database'/> 
+        </div>
+        <div className='space'>
         <NavbarLink icon={ICONS.queries} displayText='Queries' linkPath='/queries'/> 
+        </div>
+        <div className='space'>
         <NavbarLink icon={ICONS.tests} displayText='Run Tests' linkPath='/tests'/> 
+        </div>
       </div>
       <ul className='user-links-group'>
         {/* <Link className='link-no-decoration' to='/'>Home</Link> */}
+        <div className='space'>
         <li><div onClick={() => { navigate('/')}}>Home</div></li>
+        </div>
+        <div className='space'>
         <li><div onClick={handleLogout}>Logout</div></li>
+        </div>
+        <div className='space'>
         <li><div onClick={() => { navigate('/')}}>About</div></li>
+        </div>
       </ul>
     </div>
   )

@@ -71,7 +71,7 @@ export const registerUser = createAsyncThunk(
   async (form: { name?: string, email: string, password: string }, thunkApi) => {
 
     try {
-      const response = await fetch('/api/user/new', {
+      const response = await fetch('/api/user/signup', {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

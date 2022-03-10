@@ -1,5 +1,5 @@
 @use '../base/variables';
-
+@import 'https://fonts.googleapis.com/css2?family=Work+Sans:wght@100&display=swap';
 
 
 .landing-container {
@@ -8,6 +8,7 @@
   flex-direction: column;
   justify-content: center;
   justify-content: space-between;
+  background-color: rgb(57, 138, 185);
 }
 
 .mr-auto{
@@ -15,7 +16,7 @@
 }
 
 .top-navbar-custom {
-  background-color:  variables.$primary-purple;
+  background-color:  rgb(28, 101, 140)
   // color: white;
   // display: flex; 
   // height: 100px;
@@ -52,7 +53,7 @@
   display: flex;
   align-items: center;
   color: rgb(244,244,244);
-  background-color:rgb(94, 170, 168);
+  background-color:rgb(57, 138, 185);
   justify-content: space-around;
   margin: 10vh;
   font-size: 24px;
@@ -66,17 +67,7 @@
       h1 {
           margin-top: 1em;
           font-size: 2em;
-        }
-        .description {
-          max-width: 100% ;
-        }  
-
-        .button-wrapper {
-          flex-direction: column;
-          button {
-            flex-grow: 1;
-            margin: 0.5em 0 !important;
-          }
+          font-family: 'Work Sans', sans-serif;
         }
  }
 
@@ -87,7 +78,7 @@
 
 .description {
   font-size: 0.7em;
-  max-width: 70%;
+  // max-width: 70%;
 }
 
 .button-wrapper {
@@ -114,12 +105,14 @@
 // FEATURES SECTION STYLING 
  #features {
 h1 {
-   font-size: 3em;
-   padding-bottom: 4vh;
-   text-align: center;
-   letter-spacing: 0.5px;
+  font-size: 3em;
+  letter-spacing: 0.5px;
+  text-align: center;
    color: black;
    margin: 0;
+   background-color: rgb(238, 238, 238) ;
+   height: 110px;
+   line-height: 110px;
    }      
  }
 
@@ -130,6 +123,9 @@ h1 {
         margin: 0.5em auto ;
         margin-bottom: 45px;
         text-align: center;
+        background-color: rgb(238, 238, 238) ;
+        height: 110px;
+        line-height: 110px;
       }
       .team-container {
         display: flex;

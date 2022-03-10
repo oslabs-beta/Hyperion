@@ -40,7 +40,7 @@ export interface DatabaseConstructor {
 export interface DatabaseConstructorParams {
   id: number,
   label: string,
-  connectionType: 'URI'|'CONNECTION_PARAMS';
+  connectionType?: 'URI'|'CONNECTION_PARAMS';
   port?: number,
   pgDatabaseName?: string,
   sslMode?: string,

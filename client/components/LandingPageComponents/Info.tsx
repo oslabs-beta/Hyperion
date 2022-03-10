@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/images/Icon.png'
 
 const Info = () => { 
   return (
