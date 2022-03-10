@@ -53,7 +53,7 @@ queryController.removeQuery = (req, res, next) => {
 
 
 queryController.updateQuery = (req, res, next) =>{
-
+  return next();
 };
 
 module.exports = queryController;

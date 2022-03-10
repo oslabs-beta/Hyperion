@@ -1,5 +1,6 @@
 const db = require('../models/dbModel.js');
 const generateCombinations = require('./generateCombinations');
+const statsController = require('./statsController');
 const encryptionModule = require('./encryptionModule');
 const globalCache = require('./globalCache');
 const { Pool } = require('pg');
@@ -96,8 +97,7 @@ dbController.connect = (req, res, next) => {
   and q._id = $2`, [res.locals.userAuth.userId, req.body.queryId])
     .then(results => {
       if (!results.rows.length) return next('No result');
-      const { _id, db_id, query_name} = results.rows[0];
-      const { queryString, queryParams, throttle, repeat } = results.rows[0].query;
+      const { db_id } = results.rows[0];
 
       // retrieve the db id from body
       const dbId = db_id;
@@ -119,26 +119,21 @@ dbController.connect = (req, res, next) => {
         } 
         const encryptedUri = r2.rows[0].uri;
         console.log(uid);
-        console.log(globalCache.get(uid));
+
         const URI = encryptionModule.decryptString(encryptedUri, globalCache.get(uid));
         console.log(URI);
 
         // connect to the pool
         const pool = new Pool({
           connectionString: URI,
-          connectionTimeoutMillis: 10000,
           max: 1,
-          query_timeout: 10000,
-          statement_timeout: 10000,
-          idleTimeoutMillis: 30000,
           ssl: { 
             rejectUnauthorized: false, 
-            // set default to require to confer protection from eavesdropping
-            sslmode: 'require' 
           }
         });
         // return a pool object
-        return pool.query('SELECT $1;', [1])
+        console.log('ESTABLISHING CONNECTIONS');
+        return pool.query('SELECT 1;')
           .then(() => {
             console.log(`Connection established`)
             res.locals.dbInfo = { pool };
@@ -176,12 +171,14 @@ dbController.runQueryTests = (req, res, next) => {
       if (!results.rows.length) return next('No result');
       console.log(results.rows);
       const { queryString, queryParams, throttle, repeat } = JSON.parse(results.rows[0].query);
-
+      console.log(queryString, queryParams, throttle, repeat)
       const promisesArray = [];
       if (throttle < 0 || repeat < 1) return next('Incorrect parameters');
       let waitUntil = Date.now() - throttle;
       // get all the combinations of parameters
       const combinations = generateCombinations(queryParams);
+      console.log('combinations: ', combinations);
+      
 
       // logic to send a query to the user's database
       const sendQuery = (params, queryFunc) => {
@@ -214,7 +211,11 @@ dbController.runQueryTests = (req, res, next) => {
         Promise.all(promisesArray)
         .then(arr => {
           // Sort the results by starting timestamp in ascending order
-          res.locals.testResults = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
+          console.log(arr);
+          res.locals.testResults = {
+            summaryStats: statsController.calculateStats(arr.map(element => element.queryTime)),
+            testData: arr.sort((a, b) => a.startTimestamp - b.startTimestamp)
+          }; 
           return next();
         })
         .catch(e => next(e));
