@@ -179,9 +179,9 @@ export const addQuery = createAsyncThunk(
         query: {
           queryString: queryInfo.query, 
           queryParams: queryInfo.params, 
-          // maxConnections: ''
-          // throttle: 
-          // repeat: 
+          maxConnections: 1,
+          throttle: 50, 
+          repeat: 1
         }
       } 
       console.log('here is the request body being sent to api/query/new', requestBody)

@@ -5,6 +5,8 @@ import { RunTestResponse } from '../../models/api';
 
 const LatencyChart = (props: Props) => {
   const data = props.data;
+
+  
   const explainAnalyzeResults = data.testData.filter((response) => { response.method === 'EXPLAIN'});
   const actualResults = data.testData.filter((response) => { response.method === 'QUERY' });
 

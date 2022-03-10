@@ -36,12 +36,15 @@ const Queries = (props) => {
 
   const databases = Object.values(useSelector((state: RootState) => state.data.databases));
 
+
   const dispatch = useDispatch();
 
   // state --------
   const [dbId, setDbId] = useState(databases.length === 0 ? undefined : databases[0].id );
   const [newWindowVisible, setNewWindowVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  console.log('this is databases from queries', databases, 'this is current dbId', dbId)
 
   // an array of strings that will need to be parsed later
   const [paramArr, setParamArray] = useState([]);
@@ -67,13 +70,12 @@ const Queries = (props) => {
     setParamArray(newArr);
   }
 
-  // need error checking 
   const handleDeleteQuery = (queryId: number) => {
     dispatch(deleteQuery({ queryId: queryId, databaseId: dbId }));
   }
 
   // need error checking 
-  const handleNewQuery = (query: string, label: string) => {
+  const handleNewQuery = async (query: string, label: string) => {
     console.log(dbId)
     if (dbId === undefined) return;
     
@@ -82,7 +84,6 @@ const Queries = (props) => {
     if (query[query.length - 1] !== ';') query = query.concat(';');
     query = query.trim();
     label = label.trim();
-    console.log('heres the object being passed to addQuery dispatch: ',{ databaseId: dbId, query: query, label: label, params: [[]] })
     if (paramArr.length === 0) {
       return dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: [[]] }))
     }
@@ -108,16 +109,12 @@ const Queries = (props) => {
       params.push(splitParams)
     }
 
-    dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: params }));
+    await dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: params }));
   }
 
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  }
+  const handleCloseModal = () => { setModalVisible(false); }
 
-  const handleOpenModal = () => {
-    setModalVisible(true)
-  }
+  const handleOpenModal = () => { setModalVisible(true) }
   
   // called when the an option from the database dropdown selector is chosen
   const handleDbChange = (e) => {   

@@ -56,7 +56,7 @@ const VerticalNavbar = (props) => {
       <ul className='user-links-group'>
         {/* <Link className='link-no-decoration' to='/'>Home</Link> */}
         <div className='space'>
-        <li><div onClick={() => { navigate('/')}}>Home</div></li>
+        <li><div onClick={() => { navigate('/')}}>Landing</div></li>
         </div>
         <div className='space'>
         <li><div onClick={handleLogout}>Logout</div></li>

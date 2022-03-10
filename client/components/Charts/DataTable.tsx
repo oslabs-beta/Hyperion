@@ -13,6 +13,7 @@ const DataTable = (props: Props) => {
 
   const data = props.data; 
 
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -39,19 +40,27 @@ const DataTable = (props: Props) => {
           <TableCell>{data.summaryStats.min}</TableCell>
           <TableCell>{data.summaryStats.max}</TableCell>
         </TableRow>
-          {/* { rows.map((row) => { return (
-            <TableRow key={row.test}>
-              <TableCell component='th' scope='row'>{row.test}</TableCell>
-              <TableCell> {row.mean}</TableCell>
-              <TableCell> {row.median}</TableCell>
-              <TableCell>{row.stdDev}</TableCell>
-              <TableCell>{row.q1}</TableCell>
-              <TableCell>{row.q3}</TableCell>
-              <TableCell>{row.min}</TableCell>
-              <TableCell>{row.max}</TableCell>
-            </TableRow>
-            )
-          })} */}
+        {/* <TableRow key='explain'>
+          <TableCell component='th' scope='row'>Explain Analyze Result</TableCell>
+          <TableCell>{mean goes here}</TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+        </TableRow>
+        <TableRow key='test'>
+          <TableCell component='th' scope='row'>Explain Analyze Result</TableCell>
+          <TableCell>{mean goes here}</TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+        </TableRow>
+          */}
         </TableBody>
       </Table>
     </TableContainer> 

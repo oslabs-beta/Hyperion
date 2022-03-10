@@ -18,9 +18,7 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
   const handleSubmit = (e) => {
     // prevents automatic reload of page
     e.preventDefault();
-
     const isValidInput = validateInput(query, label);
-
     if (isValidInput === false) return;
     newQueryFunc(formatInputString(query), formatInputString(label));
   }

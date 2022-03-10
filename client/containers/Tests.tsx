@@ -56,7 +56,8 @@ const Tests = (props) => {
     if (!dbId || !queryId) return; 
     
     console.log('in handle run test')
-    dispatch(runTest({ dbId: dbId, queryId: queryId }));
+    
+    dispatch(runTest({ query: databases[dbId].queries[queryId], dbId: dbId, queryId: queryId }));
   }
 
   return (

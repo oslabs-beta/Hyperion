@@ -7,9 +7,23 @@ const LineChart = (props: Props) => {
 
   const data = props.data; 
 
-  const explainAnalyzeResults = data.testData.filter((response) => { response.method === 'EXPLAIN'});
-  const actualResults = data.testData.filter((response) => { response.method === 'QUERY' });
+  const filter = (array, string) => {
+    const output = [];
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].method === string) {
+        output.push(array[i]);
+      }
+    }
+    return output; 
+  }
+  
+  console.log('data before filter', data.testData)
+  const explainAnalyzeResults = filter(data.testData, 'EXPLAIN');
+  const actualResults = filter(data.testData, 'QUERY');
+  // const explainAnalyzeResults = data.testData.filter((response) => { response.method === 'EXPLAIN'});
+  // const actualResults = data.testData.filter((response) => { response.method === 'QUERY' });
 
+  console.log('explain analyze results', explainAnalyzeResults, 'actual results', actualResults)
   return (
     <Plot
       data={[

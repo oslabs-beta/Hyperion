@@ -8,6 +8,8 @@ import { RunTestResponse } from '../../models/api';
 const BoxPlot = (props: Props) => {
 
   const data = props.data;
+  console.log(data);
+
   const explainAnalyzeResults = data.testData.filter((response) => { response.method === 'EXPLAIN'});
   const actualResults = data.testData.filter((response) => { response.method === 'QUERY' });
 
@@ -16,23 +18,29 @@ const BoxPlot = (props: Props) => {
     data={[
     {
     type: 'box', 
-    name: 'Actual',
-    y: actualResults.map((item) => { return item.queryTime }),
+    name: 'Summary Stats',
+    y: [
+      data.summaryStats.min,
+      data.summaryStats.q1,
+      data.summaryStats.median,
+      data.summaryStats.q3,
+      data.summaryStats.max
+    ],
     marker: {
         color: 'rgb(163, 210, 202)'
       },
       boxmean: 'sd'
     },
     
-    {
-    type: 'box', 
-    name: 'Explain Analyze',
-    y: explainAnalyzeResults.map((item) => { return item.queryTime }),
-    marker: {
-        color: 'rgb(240, 89, 69)',
-      },
-      boxmean: 'sd'
-    },
+    // {
+    // type: 'box', 
+    // name: 'Explain Analyze',
+    // y: explainAnalyzeResults.map((item) => { return item.queryTime }),
+    // marker: {
+    //     color: 'rgb(240, 89, 69)',
+    //   },
+    //   boxmean: 'sd'
+    // },
     ]}
 
     layout= {{

@@ -170,7 +170,6 @@ dbController.runQueryTests = (req, res, next) => {
   and q._id = $2`, [res.locals.userAuth.userId, queryId])
     .then(results => {
       if (!results.rows.length) return next('No result');
-      console.log(results.rows);
       const { queryString, queryParams, throttle, repeat } = JSON.parse(results.rows[0].query);
       console.log(queryString, queryParams, throttle, repeat)
       const promisesArray = [];
@@ -178,9 +177,7 @@ dbController.runQueryTests = (req, res, next) => {
       let waitUntil = Date.now() - throttle;
       // get all the combinations of parameters
       const combinations = generateCombinations(queryParams);
-      console.log('combinations: ', combinations);
       
-
       // logic to send a query to the user's database
       const sendQuery = (params, queryFunc) => {
         if (throttle === 0) { //if there is no throttle, send request immediately
@@ -188,7 +185,6 @@ dbController.runQueryTests = (req, res, next) => {
             .then(r => r)
             .catch(() => null));
         } 
-        console.log('in sendQuery')
         // if there is a throttle, queue and delay the request
         const delay = Math.max(0, waitUntil - Date.now());
         setTimeout(() => 

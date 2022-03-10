@@ -46,7 +46,7 @@ export interface NewQueryRequestBody {
     queryParams: Array<Array<string|number>>,
     maxConnections?: number, 
     throttle?: number, 
-    repeat?: boolean
+    repeat?: number
   }
 }
 

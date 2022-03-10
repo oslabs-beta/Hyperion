@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { query } from 'express';
 import { RunTestResponse } from '../../models/api';
 import { Query } from '../../models/database';
 
@@ -37,8 +38,9 @@ export const testSlice = createSlice({
 
 export const runTest = createAsyncThunk(
   '/test/run', 
-  async (testForm: { dbId: number, queryId: number}, thunkApi) => {
+  async (testForm: { query: Query, dbId: number, queryId: number}, thunkApi) => {
     try {
+
       const data : RunTestResponse = await fetch('api/db/runtests', {
         headers: { 'Content-Type': 'application/json'},
         method: 'POST',
