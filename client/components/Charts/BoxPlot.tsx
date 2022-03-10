@@ -34,7 +34,7 @@ const BoxPlot = (props: Props) => {
     name: 'Explain Analyze',
     y: explainAnalyzeResults.map((item, i) => { return item.queryTime }),
     marker: {
-        color: 'rgb(163, 210, 202)'
+        color: 'rgb(224,86,86)'
       },
       boxmean: 'sd'
     },
@@ -43,7 +43,7 @@ const BoxPlot = (props: Props) => {
       name: 'Actual',
       y: actualResults.map((item, i) => { return item.queryTime }),
       marker: {
-          color: 'rgb(224,86,86)'
+          color: 'rgb(163, 210, 202)'
         },
         boxmean: 'sd'
       },
