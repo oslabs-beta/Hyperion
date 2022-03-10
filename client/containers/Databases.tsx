@@ -55,7 +55,10 @@ const Databases = (props) => {
         </div>
       </div>
       { modalVisible  && 
-        <NewDatabaseWindow toggleWindowFunc={() => { setModalVisible(!modalVisible) }} addDbFunc={handleDbAdd}/>
+        <NewDatabaseWindow 
+        toggleWindowFunc={() => { setModalVisible(!modalVisible) }} 
+        addDbFunc={handleDbAdd}
+        />
       }
     </Layout>
   )

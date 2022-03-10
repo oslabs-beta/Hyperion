@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import NewQueryWindow from '../components/NewQueryWindow';
 import QueryCard from '../components/QueryCard';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import Layout from './Layout';
 import { useSelector, useDispatch } from 'react-redux';
 import { Database, Query } from '../models/database';
 import { AiOutlinePlusCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
-import ReactCSSTransitionGroup from 'react-transition-group'; // ES6
-import Button from '@mui/material/Button';
 import { addQuery, deleteQuery } from '../features/data/dataSlice';
 import { RootState } from '../features/store';
 import { isNum } from '../utils/inputs';
@@ -28,14 +26,10 @@ const style = {
   p: 4,
 };
 
-
-
 const Queries = (props) => {
-  // TODO  --- on each submission of form, delete allt eh values from the input fields 
   const dbMap = useSelector((state: RootState) => state.data.databases);
 
   const databases = Object.values(useSelector((state: RootState) => state.data.databases));
-
 
   const dispatch = useDispatch();
 

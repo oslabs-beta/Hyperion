@@ -35,7 +35,7 @@ const QueryCard = (props: Props) => {
         </Typography>
       </CardContent>
       <CardActions dir=''>
-        <Button size="small">Edit</Button> 
+        {/* <Button size="small">Edit</Button>  */}
         <Button 
           onClick={() => {deleteQueryFunc(query.id)}} 
           variant='outlined'

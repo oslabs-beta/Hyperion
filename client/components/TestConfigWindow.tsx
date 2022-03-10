@@ -72,7 +72,6 @@ interface Props {
 const StyledContainer = styled.div`
   display: flex; 
   flex-direction: column; 
-
   justify-content: space-between;
   border-left: 1px solid black;
 `;

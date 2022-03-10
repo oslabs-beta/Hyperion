@@ -41,8 +41,6 @@ const Team = () => {
           <span>
             <img
               src={profile.src}
-              // alt={profile.name}
-              // className="actual-pic"
             />
           </span>
           <div className="team-profile-title">

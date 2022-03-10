@@ -93,7 +93,6 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   '/user/loginUser', 
   async (form: { email: string, password: string}, thunkApi) => {
-
     try {
       const response = await fetch('api/user/login', {
         method: 'POST',
