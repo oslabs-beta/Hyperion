@@ -20,7 +20,7 @@ const ChartGroup = (props: Props) => {
         <div>{JSON.stringify(props.query.params)}</div>
       </div>
       <LineChart data={props.data} />
-      <LatencyChart data={props.data}/>
+      {/* <LatencyChart data={props.data}/> */}
       <BoxPlot data={props.data}/>
       <DataTable data={props.data}/>
     </Container>

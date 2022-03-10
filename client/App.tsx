@@ -19,7 +19,6 @@ const App = () => {
   
   const user = useSelector((state: RootState) => { return state.user });
 
-
   useEffect(() => {
     if (user.auth.isAuthenticated === true) {
       fetchExistingData();
@@ -31,12 +30,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* change this to dashboard later  */}
         <Route path='/' element={<LandingPage/>} />
         <Route path='login' element={<Login/>} />
         <Route path='register' element={<SignUpForm/>} />
         <Route path='about' element={<div>About</div>} />
-        {/* TRY TO MAKE THE PRIVATE ROUTES NESTED WITHIN AN /APP ENDPOINT */}
         <Route element={<PrivateRoute auth={auth}/>}>
           <Route path='dashboard' element={<Dashboard/>}/>
           <Route path='queries' element={<Queries/>}/>

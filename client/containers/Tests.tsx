@@ -29,9 +29,11 @@ const Tests = (props) => {
 
   const generateChartsArray = () => {
     const output = [];
-    for (const [queryId, data] of Object.entries(testState)) {
+    if (!dbId) return;
+    console.log(testState)
+    for (const [queryId, data] of Object.entries(testState.results)) {
       const databaseId = data.databaseId; 
-      const chartGroup = <ChartGroup key={queryId} query={databases[databaseId].queries[queryId]} data={data} />
+      const chartGroup = <ChartGroup key={queryId} query={databases[databaseId].queries[queryId]} data={data.data} />
       output.push(chartGroup);
     }
     return output; 
@@ -52,7 +54,7 @@ const Tests = (props) => {
     // validate that there was no mixup with database id and query id 
     // if (!databases[dbId][queryId]) return null; 
     console.log('this is databases[dbId]', databases[dbId])
-    console.log('in the run test handler')
+    
 
     if (!dbId || !queryId) return; 
     dispatch(runTest({ dbId: dbId, queryId: queryId }));
@@ -88,7 +90,7 @@ const Tests = (props) => {
         />
       }
       {/* generates the charts and returns the components  */}
-      { generateChartsArray().map(chart => { return chart; }) }
+      { generateChartsArray() }
     </Layout>
   )
 }

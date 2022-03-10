@@ -2,59 +2,28 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 import { RunTestResponse } from '../../models/api';
 
-// const data = {
-//   queryResults: {
-//     explainAnalyzeResults: {
-//       resultsArray: [0.1, 0.2, 0.3, 0.3, 0.3, .5],
-//       stats: {
-//         min: .1,
-//         max: .5, 
-//         mean: .35, 
-//         median: .3,
-//         stdDev: .05, 
-//         q1: .15,
-//         q3: .4
-//       }
-//     }
-//   }, 
-//   testResults: {
-//     resultsArray: [0.5, 0.6, 0.6, 0.7, 0.7],
-//     stats: {
-//       min: .3,
-//       max: .7, 
-//       mean: .45, 
-//       median: .3,
-//       stdDev: .05, 
-//       q1: .3,
-//       q3: .6
-//     }
-//   }
-// }
-
 
 const LineChart = (props: Props) => {
+
   const data = props.data; 
 
-  const yExplain = data.queryResults.explainAnalyzeResults.resultsArray;
-  const xExplain = yExplain.map((value, i) => { return i + 1} );
-
-  const yActual = data.testResults.resultsArray; 
-  const xActual = yActual.map((value, i) => { return i + 1 });
+  const explainAnalyzeResults = data.testData.filter((response) => { response.method === 'EXPLAIN'});
+  const actualResults = data.testData.filter((response) => { response.method === 'QUERY' });
 
   return (
     <Plot
       data={[
         {
-          x: xExplain,
-          y: yExplain,
+          x: explainAnalyzeResults.map((item, index) => { return index + 1 }),
+          y: explainAnalyzeResults.map((item, i) => { return item.queryTime }),
           name: 'Explain Analyze',
           type: 'scatter',
           mode: 'lines+markers',
-          line: { color: 'rgb(240, 89, 69)', width:2 },
+          line: { color: 'rgb(240, 89, 69)', width: 2 },
         },
         {
-          x: xActual,
-          y: yActual,
+          x: actualResults.map((item, index) => { return index + 1}),
+          y: actualResults.map((item) => { return item.queryTime }),
           name: 'Actual',
           type: 'scatter', 
           line: { color: 'rgb(163, 210, 202)', width:2 },

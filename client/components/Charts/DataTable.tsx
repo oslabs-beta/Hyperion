@@ -9,50 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import { RunTestResponse } from '../../models/api';
 
 
-const props = {
-    data : {
-      queryResults: {
-        explainAnalyzeResults: {
-          resultsArray: [0.1, 0.15, 0.3, 0.3, 0.4],
-          latency: [0.1, 0.15, 0.3, 0.3, 0.4],
-          stats: {
-            min: .1,
-            max: .5, 
-            mean: .35, 
-            median: .3,
-            stdDev: .05, 
-            q1: .15,
-            q3: .4
-          }
-        }
-      }, 
-      testResults: {
-        resultsArray: [0.2, 0.25, 0.4, 0.5, 0.7],
-        latency: [0.2, 0.25, 0.4, 0.5, 0.7],
-        stats: {
-          min: .3,
-          max: .5, 
-          mean: .45, 
-          median: .3,
-          stdDev: .05, 
-          q1: .2,
-          q3: .5
-        }
-      }
-    }
-  }
-
-
-
-
 const DataTable = (props: Props) => {
-  function createData(test, mean, median, stdDev, q1,q3,min,max) {
-    return {test,mean, median, stdDev, q1,q3,min,max}
-  }
 
-  const rows = [
-    createData(1,props.data.testResults.stats.mean, props.data.testResults.stats.median, props.data.testResults.stats.stdDev, props.data.testResults.stats.q1, props.data.testResults.stats.q3, props.data.testResults.stats.min, props.data.testResults.stats.max)
-  ]
+  const data = props.data; 
 
   return (
     <TableContainer component={Paper}>
@@ -70,7 +29,17 @@ const DataTable = (props: Props) => {
           </TableRow>   
         </TableHead>
         <TableBody>
-          { rows.map((row) => { return (
+        <TableRow key='Test Result'>
+          <TableCell component='th' scope='row'>Test Result</TableCell>
+          <TableCell> {data.summaryStats.mean}</TableCell>
+          <TableCell> {data.summaryStats.median}</TableCell>
+          <TableCell>{data.summaryStats.stdDev}</TableCell>
+          <TableCell>{data.summaryStats.q1}</TableCell>
+          <TableCell>{data.summaryStats.q3}</TableCell>
+          <TableCell>{data.summaryStats.min}</TableCell>
+          <TableCell>{data.summaryStats.max}</TableCell>
+        </TableRow>
+          {/* { rows.map((row) => { return (
             <TableRow key={row.test}>
               <TableCell component='th' scope='row'>{row.test}</TableCell>
               <TableCell> {row.mean}</TableCell>
@@ -82,7 +51,7 @@ const DataTable = (props: Props) => {
               <TableCell>{row.max}</TableCell>
             </TableRow>
             )
-          })}
+          })} */}
         </TableBody>
       </Table>
     </TableContainer> 

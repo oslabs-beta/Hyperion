@@ -52,37 +52,6 @@ export const runTest = createAsyncThunk(
   
       return thunkApi.rejectWithValue(e.response.data);
     }
-
-
-    // const data = {
-    //   queryResults: {
-    //     explainAnalyzeResults: {
-    //       resultsArray: [0.1, 0.2, 0.3, 0.3, 0.3, .5],
-    //       stats: {
-    //         min: .1,
-    //         max: .5, 
-    //         mean: .35, 
-    //         median: .3,
-    //         stdDev: .05, 
-    //         q1: .15,
-    //         q3: .4
-    //       }
-    //     }
-    //   }, 
-    //   testResults: {
-    //     resultsArray: [0.5, 0.6, 0.6, 0.7, 0.7],
-    //     stats: {
-    //       min: .3,
-    //       max: .7, 
-    //       mean: .45, 
-    //       median: .3,
-    //       stdDev: .05, 
-    //       q1: .3,
-    //       q3: .6
-    //     }
-    //   }
-    // }
-
   }
 )
 export const {} = testSlice.actions;

@@ -7,16 +7,6 @@ export const formatInputString = (input: String) => {
   return input.trim();
 }
  
-/**
- * NEED TO COMPLETE 
- * @param input 
- * @returns 
- */
-export const formatNumberInput = (input: number) => {
-  return input; 
-}
-
-
 
 /**
  * 
@@ -30,6 +20,11 @@ export const isNum = (input: string) : boolean => {
 }
 
 
+/**
+ * 
+ * @param email 
+ * @returns boolean indicating whether the email argument is a valid email 
+ */
 export const validateEmail = (email: string): boolean => {
   const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return regexp.test(email);

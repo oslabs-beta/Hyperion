@@ -76,10 +76,10 @@ export interface RunTestResponse {
   }, 
   testData: Array<{
     queryTime: number, 
-    method: 'explainAnalyze' | 'test'
+    method: 'EXPLAIN' | 'QUERY',
+    timestamp: Date
   }>
 }
-
 
 export interface UserSignupBody {
   userInfo: {
