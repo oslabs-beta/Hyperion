@@ -7,23 +7,13 @@ queryController.addNewQuery = (req, res, next) => {
 
   // read request body
   const userId = res.locals.userAuth.userId;
-  const { dbId, queryName, query } = req.body;
-
-  // input validation
-  console.log('req.body in addNewQuery controller',req.body);
-  if (typeof dbId !== 'number') return next(new Error());
-  if (typeof queryName !== 'string') return next(new Error());
-  if (typeof query !== 'object') return next(new Error());
-  const { queryString, queryParams } = query;
-  if (typeof queryString !== 'string') return next(new Error());
-  if (!Array.isArray(queryParams) || !Array.isArray(queryParams[0])) return next(new Error());
 
   // verify that the user is authorized for this database id
   // stringify query object then insert into database
   const q = 'INSERT INTO app.queries (db_id, query_name, query) VALUES ($1, $2, $3) RETURNING _id;';
-  const params = [dbId, queryName, JSON.stringify(query)];
+  const params = [req.body.dbId, req.body.queryName, JSON.stringify(req.body.query)];
 
-  authentication.hasDbPermission(userId, dbId)
+  authentication.hasDbPermission(userId, req.body.dbId)
     .then(authorized => {
       if (!authorized) return Promise.reject('Unauthorized');
       return db.runQuery(q, params);

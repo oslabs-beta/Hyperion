@@ -1,6 +1,5 @@
 const express = require('express');
 const dbController = require('../../controllers/dbController');
-const tlsModule = require('../../controllers/tlsModule');
 const userController = require('../../controllers/userController');
 
 const dbRouter = express.Router();
@@ -9,7 +8,7 @@ dbRouter.post('/new', userController.authorize, dbController.addNewDb, (req, res
   res.status(200).json(res.locals.dbInfo);
 });
 
-dbRouter.delete('/remove', userController.authorize, dbController.removeDb, (req, res) => {
+dbRouter.delete('/delete', userController.authorize, dbController.removeDb, (req, res) => {
   res.status(200).json(res.locals.dbInfo);
 });
 
