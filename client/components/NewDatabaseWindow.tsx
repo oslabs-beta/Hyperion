@@ -176,6 +176,7 @@ const StyledWindow = styled.div`
   padding: .5em 1em; 
   display: flex;
   flex-direction: column; 
+  justify-content: space-between;
   row-gap: 1.5em;
   overflow-y: scroll;
   .new-db-form {

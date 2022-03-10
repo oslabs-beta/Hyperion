@@ -48,7 +48,6 @@ export const dataSlice = createSlice({
     builder.addCase(fetchExistingData.fulfilled, (state, action: PayloadAction<GetUserInfoRequestResponse>) => {
       const userData = action.payload; 
       userData.userData.forEach(db => {
-        console.log('cherie testing something: ', {db})
         const existingDb = constructDatabase({ id: db.dbId, label: db.dbName, connectionType: db.connectionType });
         db.queries.forEach(query => {
           const dbQuery : Query = {
@@ -150,7 +149,7 @@ export const deleteDb = createAsyncThunk(
     console.log('reached deleteDb. heres the id passed in ', id)
     try {
       ////// UNCOMMENT FOR PRODUCTION 
-      const response = await fetch(`/api/db/remove`, {
+      const response = await fetch(`/api/db/delete`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dbInfo: { id: id }})
@@ -232,6 +231,7 @@ export const deleteQuery = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ queryId : queryInfo.queryId })
       })
+      console.log('response from deleteQuery,', response)
       if (response.status !== 200) return thunkApi.rejectWithValue('SOME ERROR MESSAGE HERE');
       else return { databaseId: queryInfo.databaseId, queryId: queryInfo.queryId };
     }

@@ -37,7 +37,7 @@ const Databases = (props) => {
         <div className='content-box database-group'>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h4>My Databases</h4>
-            <AiOutlinePlusCircle  onClick={() => { setModalVisible(!modalVisible) }}/>
+            <AiOutlinePlusCircle size={25} onClick={() => { setModalVisible(!modalVisible) }}/>
           </div>
           {Object.values(databases).map((db : Database, i) => {
             return <DatabaseCard

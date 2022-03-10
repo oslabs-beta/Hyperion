@@ -12,7 +12,6 @@ queryController.addNewQuery = (req, res, next) => {
   // stringify query object then insert into database
   const q = 'INSERT INTO app.queries (db_id, query_name, query) VALUES ($1, $2, $3) RETURNING _id;';
   const params = [req.body.dbId, req.body.queryName, JSON.stringify(req.body.query)];
-
   authentication.hasDbPermission(userId, req.body.dbId)
     .then(authorized => {
       if (!authorized) return Promise.reject('Unauthorized');

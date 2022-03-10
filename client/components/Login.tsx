@@ -53,10 +53,8 @@ const Login = (props) => {
 
   useEffect(() => {
     if (email === '') return; 
-    console.log('is valid email', email, validateEmail(email))
     if (validateEmail(email) === false) { setHelperText({ ...helperText, email: 'Not a valid email'})}
     else setHelperText({ ...helperText, email: ''})
-    console.log('new state', helperText)
   }, [email])
 
   return (

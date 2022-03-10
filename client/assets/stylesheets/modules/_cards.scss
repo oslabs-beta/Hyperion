@@ -19,11 +19,16 @@
   position: fixed;
   right: 30px;
   top: 185px;
-  height: 400px;
+  height: 50vh;
   overflow-y: scroll;
   border: 1px solid rgb(50, 50, 50);
   background-color: white;
   box-shadow: 5px 2px 2px 2px darkgrey;
   z-index: 1000;
 
+}
+
+.new-query-window {
+  height: 700px;
+  width: 400px;
 }

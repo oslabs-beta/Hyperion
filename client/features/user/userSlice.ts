@@ -120,6 +120,7 @@ export const logoutUser = createAsyncThunk(
   'user/logoutUser',
   async (param, thunkApi) => {
     try {
+      console.log('logging out user')
       const data = await fetch('api/user/logout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

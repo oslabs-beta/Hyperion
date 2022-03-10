@@ -106,6 +106,7 @@ dbController.connect = (req, res, next) => {
       // verify that the db belongs to the user account making the request
       db.runQuery(`SELECT FROM app.databases WHERE _id = $1 AND user_id = $2`, [dbId, uid])
       .then(r => {
+        console.log('this is r in dbController.connect', r)
         if (!r.rows.length) {
           console.log('Invalid database or credentials')
           return next('Invalid database or credentials');
@@ -163,7 +164,7 @@ dbController.runQueryTests = (req, res, next) => {
   const pool = res.locals.dbInfo.pool;
   const { queryId } = req.body;
 
-  console.log([res.locals.userAuth.userId, queryId]);
+  // console.log([res.locals.userAuth.userId, queryId]);
 
   db.runQuery(`select 
   q._id, q.db_id, q.query_name, q.query
@@ -182,7 +183,7 @@ dbController.runQueryTests = (req, res, next) => {
       let waitUntil = Date.now() - throttle;
       // get all the combinations of parameters
       const combinations = generateCombinations(queryParams);
-
+      console.log('this is the combinations in runQUeryTests', combinations)
       // logic to send a query to the user's database
       const sendQuery = (params, queryFunc) => {
         if (throttle === 0) { //if there is no throttle, send request immediately
@@ -190,6 +191,7 @@ dbController.runQueryTests = (req, res, next) => {
             .then(r => r)
             .catch(() => null));
         } 
+        console.log('in sendQuery')
         // if there is a throttle, queue and delay the request
         const delay = Math.max(0, waitUntil - Date.now());
         setTimeout(() => 
@@ -215,6 +217,7 @@ dbController.runQueryTests = (req, res, next) => {
         .then(arr => {
           // Sort the results by starting timestamp in ascending order
           res.locals.testResults = arr.sort((a, b) => a.startTimestamp - b.startTimestamp);
+          console.log(' in send results, about to return next ')
           return next();
         })
         .catch(e => next(e));
@@ -223,11 +226,12 @@ dbController.runQueryTests = (req, res, next) => {
       // Outer loop to repeat the tests if requested
       for (let i = 0; i < repeat; i++) {
         for (const params of combinations) {
+          console.log('in outer loop of run tests. this is params', params)
           // Test the query for this combination of parameters
           queueRequestPair(params);
         }
         if (i + 1 === repeat) { // once all the requests have been sent/queued, queue Promise.all
-          if (throttle === 0) sendResults();
+          if (throttle === 0) sendResults(); // NICK: might need to add return here 
           else setTimeout(sendResults, Math.max(0, waitUntil - Date.now()));
         } 
       }

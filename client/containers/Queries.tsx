@@ -5,12 +5,30 @@ import styled, { keyframes } from 'styled-components';
 import Layout from './Layout';
 import { useSelector, useDispatch } from 'react-redux';
 import { Database, Query } from '../models/database';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlinePlusCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import ReactCSSTransitionGroup from 'react-transition-group'; // ES6
 import Button from '@mui/material/Button';
 import { addQuery, deleteQuery } from '../features/data/dataSlice';
 import { RootState } from '../features/store';
 import { isNum } from '../utils/inputs';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 
 const Queries = (props) => {
   // TODO  --- on each submission of form, delete allt eh values from the input fields 
@@ -23,6 +41,7 @@ const Queries = (props) => {
   // state --------
   const [dbId, setDbId] = useState(databases.length === 0 ? undefined : databases[0].id );
   const [newWindowVisible, setNewWindowVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   // an array of strings that will need to be parsed later
   const [paramArr, setParamArray] = useState([]);
@@ -53,16 +72,14 @@ const Queries = (props) => {
     dispatch(deleteQuery({ queryId: queryId, databaseId: dbId }));
   }
 
-  // -------------------------------------------------
-
-
-
   // need error checking 
   const handleNewQuery = (query: string, label: string) => {
+    console.log(dbId)
     if (dbId === undefined) return;
-    if (query[query.length - 1] === ',') {
-      query = query.substring(0, query.length - 2); 
-    }
+    
+
+    // adds a semicolon if it is not there already 
+    if (query[query.length - 1] !== ';') query = query.concat(';');
     query = query.trim();
     label = label.trim();
     console.log('heres the object being passed to addQuery dispatch: ',{ databaseId: dbId, query: query, label: label, params: [[]] })
@@ -73,7 +90,12 @@ const Queries = (props) => {
 
     for (let i = 0; i < paramArr.length; i++) {
       // one placedholder value of params in string form 
-      const stringParams: string = paramArr[i];
+      let stringParams: string = paramArr[i];
+
+      // remove the trailing comma if there is one 
+      if (stringParams[stringParams.length - 1] === ',') {
+        stringParams = stringParams.substring(0, stringParams.length - 2); 
+      }
       // the same string params as an array
       const splitParams: Array<any> = stringParams.split(',');
       for (let i = 0; i < splitParams.length; i++) {
@@ -89,7 +111,14 @@ const Queries = (props) => {
     dispatch(addQuery({ databaseId: dbId, query: query, label: label, params: params }));
   }
 
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  }
 
+  const handleOpenModal = () => {
+    setModalVisible(true)
+  }
+  
   // called when the an option from the database dropdown selector is chosen
   const handleDbChange = (e) => {   
     if (e.target.value) setDbId(e.target.value);
@@ -97,7 +126,7 @@ const Queries = (props) => {
 
   return (
     <Layout>
-      <div className='content-box'>
+      <div className='content-box' onClick={handleCloseModal}>
         <nav className='card-header'>
           <h4>Queries</h4>
           <div>
@@ -120,7 +149,10 @@ const Queries = (props) => {
         <div className='content-box database-group'>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <h4>My Queries</h4>
-            <AiOutlinePlusCircle  onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
+            <div style={{display: 'flex', columnGap: '20px'}}>
+              <AiOutlineQuestionCircle size={25} onClick={handleOpenModal} />
+              <AiOutlinePlusCircle size={25} onClick={() => { setNewWindowVisible(!newWindowVisible) }}/>
+            </div>
           </div>
           { dbId !== undefined && 
             Object.values(dbMap[dbId].queries).map((query: Query, i) => {
@@ -143,6 +175,31 @@ const Queries = (props) => {
         handleChange={handleParamArrChange}
         /> 
       }
+      <Modal 
+        open={modalVisible}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h4" component="h2">
+            How to add a new query 
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            1. Click on the plus sign on the right of the screen. A modal will appear. <br/>
+            2. Input in a label, or how the query will be referred to<br/>
+              - ie. 'People between some height range'<br/>
+            3. Input the query with/without placeholders in PostgreSQL $ placeholder format. <a href='https://www.postgresql.org/docs/9.1/sql-prepare.html'>Postgres Docs</a><br/>
+              - There is no need to add parentheses or a semicolon at the end of the query <br/>
+              - Example: SELECT * FROM people WHERE height {'<'} {'$1'} AND height {'>'} {'$2'} <br/>
+            4. If you have not placed any placeholders, you can put this on the next page<br/>
+            5. If you have chosen to add parameter placeholders, click on the add parameter field for each placeholder field you have in your query. 
+              - Here you will enter each value in the field with commas indicating separate parameters for the given placeholder <br/>
+              - Example: first box: 30, 25, 100 second field: 2, 15, 30
+            5. When you are done, click the add query button to save
+          </Typography>
+        </Box>
+      </Modal>
     </Layout>
   )
 }

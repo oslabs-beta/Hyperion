@@ -20,30 +20,27 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
     e.preventDefault();
 
     const isValidInput = validateInput(query, label);
-    
-    if (!isValidInput) return;
-    // TODO clean the input fields 
+    console.log(query, label)
+    console.log(isValidInput)
+    if (isValidInput === false) return;
 
     // clear input fields 
-    e.target.input.value = '';
-    e.target.label.value = '';
+    // e.target.input.value = '';
+    // e.target.label.value = '';
     
-    if (isValidInput) {
-      newQueryFunc(formatInputString(query), formatInputString(label));
-    }
+
+    console.log('running new query func')
+    newQueryFunc(formatInputString(query), formatInputString(label));
   }
 
 
-  // TODO validate the query input
   const validateInput = (query: string, label: string) : boolean => {
-    if (!query || !label) {
-      return false;
-    }
+    if (!query || !label) return false;
     return true; 
   }
 
   return (
-    <div className='modal-container'>
+    <Container className='modal-container new-query-window'>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h4>Add Query</h4> 
         <AiOutlineClose onClick={toggleCloseFunc} />
@@ -52,7 +49,6 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
         <FormControl>
           <InputLabel htmlFor='label'>Label</InputLabel>
               <Input 
-
                 onChange={(e) => setLabel(e.target.value)}
                 id='label'
                 name='label'
@@ -60,15 +56,15 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
               />
         </FormControl>
         <FormControl>
-          <InputLabel htmlFor='input'>Query</InputLabel>
-          <TextField 
-            helperText={`example query: SELECT * FROM users WHERE firstname=$1 AND lastname=$2` }
-            onChange={(e) => setQuery(e.target.value)} 
-            multiline 
-            rows={10} 
-            type='text' 
-            id='input-field'
-            name='input' />
+            <TextField 
+              label='Query'
+              helperText={`example query: SELECT * FROM users WHERE firstname=$1 AND lastname=$2` }
+              onChange={(e) => setQuery(e.target.value)} 
+              multiline 
+              rows={10} 
+              type='text' 
+              id='input-field'
+              name='query' />
         </FormControl>
         <div style={{display: 'flex', flexDirection: 'column', rowGap: '10px', marginTop: '10px'}}>
           {
@@ -78,6 +74,7 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
                   <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'center' }}>
                     <InputLabel htmlFor='label'>{`$${i+1} placeholder values`}</InputLabel>
                       <Input 
+                        style={{width: '75%'}}
                         onChange={(e) => handleChange(i, e.target.value)}
                         id='label'
                         name={`#${i+1} placeholder`}
@@ -97,14 +94,22 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
         </div>
         <Button type='submit' size='small' variant='contained'>Submit</Button>
       </StyledForm>
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  display: flex; 
+  flex-direction: column;
+  row-gap: 20px; 
+  justify-content; space-evenly;
+`;
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  row-gap: 20px;
 `;
 
 

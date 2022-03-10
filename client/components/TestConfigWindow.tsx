@@ -37,6 +37,7 @@ const TestConfigWindow = (props: Props) => {
       </select>
       <h3>Select Query</h3>
       <select value={queryId} onChange={(e) => { changeQueryHandler(e)} }>
+        <option value={null}></option>
         { dbId !== undefined && Object.values(databases[dbId].queries).map((query : Query, i) => {
           return (
             <option key={i} value={query.id}>
@@ -71,7 +72,8 @@ interface Props {
 const StyledContainer = styled.div`
   display: flex; 
   flex-direction: column; 
-  justify-content: center;
+
+  justify-content: space-between;
   border-left: 1px solid black;
 `;
 

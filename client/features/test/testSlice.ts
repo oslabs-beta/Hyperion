@@ -44,9 +44,14 @@ export const runTest = createAsyncThunk(
         method: 'POST',
         body: JSON.stringify({ queryId: testForm.queryId }),
       }).then(res => { 
-        if (res.status !== 200) throw new Error('Failure to run test');
+        if (res.status !== 200)  { 
+          console.log(' error in runTest. Status was not 200')
+          throw new Error('Failure to run test');
+        }
+        console.log('received response from runTest')
         return res.json();
       });
+      console.log('no error in runTest, status was 200 ')
       return { databaseId: testForm.dbId, queryId: testForm.queryId, response: data};
     } catch (e) {
   

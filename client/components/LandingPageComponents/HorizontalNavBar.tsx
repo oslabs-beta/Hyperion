@@ -11,15 +11,28 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import { logoutUser } from '../../features/user/userSlice';
 import IconButton from '@mui/material/IconButton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../features/store';
 // import MenuIcon from '@mui/icons-material/Menu';
 
 
 const HorizontalNavBar = (props) => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => { return state.user.auth })
+
+  const handleLogout = async () => {
+    const { payload } : any = await dispatch(logoutUser());
+    const isSuccess : boolean = payload; 
+
+    // on success, redirect to login page 
+    if (isSuccess === true) { window.location.href = '/' }
+    else { 
+      // TODO: handle call failures to 
+      alert('User could not be logged out');
+    }
+  }
+
 
   return (
     <Box sx={{ flexGrow: 1 }} className='top-navbar-custom'>
@@ -39,7 +52,7 @@ const HorizontalNavBar = (props) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           </Typography>
           { auth.isAuthenticated === true ? 
-            <Button color="inherit" onClick={() => { logoutUser() }}>
+            <Button color="inherit" onClick={handleLogout}>
               <div className='nav-buttons'>
                 Logout
               </div>
