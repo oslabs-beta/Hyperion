@@ -1,0 +1,22 @@
+// base 
+@use './base/variables.scss';
+@use './base/mixins.scss';
+@use './base/functions.scss';
+
+// pages 
+@use './pages/core';
+@use './pages/login';
+@use './pages/app';
+@use './pages/landing';
+
+
+// framework 
+@use './framework/layouts';
+
+
+// modules 
+@use './modules/cards';
+@use './modules/headers';
+
+// bootstrap 
+@import "~bootstrap/scss/bootstrap"; // this causes all other styling to be changed 

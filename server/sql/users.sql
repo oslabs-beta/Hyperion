@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS app.users (
+  _id           SERIAL PRIMARY KEY, 
+  email         VARCHAR(500) UNIQUE NOT NULL,
+  name          VARCHAR(255) NOT NULL,
+  pwd           VARCHAR(255) NOT NULL,
+  created_at    TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

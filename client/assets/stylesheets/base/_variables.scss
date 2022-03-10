@@ -1,0 +1,29 @@
+/*
+Do not include anything but variables, function declarations and other SASS features in your _variables.scss file. 
+If you include actual CSS, it will duplicate this CSS across every file you import the variables into.
+*/
+
+$global-background-color: rgb(38, 38, 38);
+
+$app-background-color: rgb(220, 220 ,220); 
+
+$primary-purple: rgb(60, 44, 83); 
+$primary-purple-dark: hex(#341c56);
+$primary-purple-light: hex(#8f70b3);
+
+$content-background-color: rgb(240, 242, 243);
+
+$error: rgb(234, 65, 58);
+
+$media-breakpoints: (
+  "phone": 300px,
+  "tablet": 500px, 
+  "laptop": 1000px,
+);
+
+$font-weights: (
+  "light": 200,
+  "regular": 400, 
+  "bold": 700, 
+  "xbold": 800
+);
