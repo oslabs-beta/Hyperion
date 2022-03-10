@@ -165,6 +165,7 @@ userController.authenticate = (req, res, next) => {
  * @returns 
  */
 userController.authorize = (req, res, next) => {
+  console.log('AUTHORIZE!')
   if (!res.locals.userAuth.authenticated) {
     const err = {
       log: 'User not authorized',
@@ -173,6 +174,8 @@ userController.authorize = (req, res, next) => {
     }
     return next(err);
   }
+  console.log(globalCache.get(res.locals.userAuth.userId));
+  console.log(res.locals.userAuth.userId);
   if (!globalCache.get(res.locals.userAuth.userId)) {
     const err = {
       log: 'Error: Please log in again',
