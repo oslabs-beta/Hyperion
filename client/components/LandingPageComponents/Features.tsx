@@ -20,7 +20,7 @@ const Features = (props) => {
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>Select Database </h3>
+          <h3>Connect Database </h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -31,7 +31,7 @@ const Features = (props) => {
         />
 
         <Carousel.Caption>
-          <h3>Run Queries</h3>
+          <h3>Add Queries</h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>

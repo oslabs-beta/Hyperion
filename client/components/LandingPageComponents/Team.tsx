@@ -4,6 +4,7 @@ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import cc from '../../assets/teampictures/cc.jpg'
 import sa from '../../assets/teampictures/sa.jpg'
 import ca from '../../assets/teampictures/ca.jpg'
+import no from '../../assets/teampictures/no.jpg'
 
 const Team = () => {
   const teamProfile = [
@@ -17,7 +18,7 @@ const Team = () => {
       name: 'Nick Ozawa',
       github: 'https://github.com/NAustinO',
       linkedIn: 'https://www.linkedin.com/in/nicholas-ozawa/',
-      // src: './assets/teampictures/Nick-Ozawa.jpeg',
+      src: no,
     },
     {
       name: 'Chloe Angel',
