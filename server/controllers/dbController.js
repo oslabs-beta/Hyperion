@@ -211,7 +211,7 @@ dbController.runQueryTests = (req, res, next) => {
           // Sort the results by starting timestamp in ascending order
           console.log(arr);
           res.locals.testResults = {
-            summaryStats: statsController.calculateStats(arr.map(element => element.queryTime)),
+            summaryStats: statsController.calculateStats(arr.filter(e => !!e).map(element => element.queryTime)),
             testData: arr.sort((a, b) => a.startTimestamp - b.startTimestamp)
           }; 
           return next();
