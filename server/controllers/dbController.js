@@ -209,7 +209,6 @@ dbController.runQueryTests = (req, res, next) => {
         Promise.all(promisesArray)
         .then(arr => {
           // Sort the results by starting timestamp in ascending order
-          console.log(arr);
           res.locals.testResults = {
             summaryStats: statsController.calculateStats(arr.filter(e => !!e).map(element => element.queryTime)),
             testData: arr.sort((a, b) => a.startTimestamp - b.startTimestamp)
@@ -222,7 +221,6 @@ dbController.runQueryTests = (req, res, next) => {
       // Outer loop to repeat the tests if requested
       for (let i = 0; i < repeat; i++) {
         for (const params of combinations) {
-          console.log('in outer loop of run tests. this is params', params)
           // Test the query for this combination of parameters
           queueRequestPair(params);
         }
