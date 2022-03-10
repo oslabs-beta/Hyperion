@@ -20,16 +20,8 @@ const NewQueryWindow = ({ newQueryFunc, toggleCloseFunc, paramArray, addParamFie
     e.preventDefault();
 
     const isValidInput = validateInput(query, label);
-    console.log(query, label)
-    console.log(isValidInput)
+
     if (isValidInput === false) return;
-
-    // clear input fields 
-    // e.target.input.value = '';
-    // e.target.label.value = '';
-    
-
-    console.log('running new query func')
     newQueryFunc(formatInputString(query), formatInputString(label));
   }
 
